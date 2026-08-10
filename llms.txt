@@ -8,6 +8,8 @@
 - [North star and non-goals](docs/wiki/NORTH_STAR.md)
 - [Ontology](docs/wiki/ONTOLOGY.md)
 - [Region model and precedence](docs/wiki/REGION_MODEL.md)
+- [Prompt and schema versions](docs/wiki/PROMPT_SCHEMA.md)
+- [Privacy and data sent](docs/wiki/PRIVACY.md)
 - [Roadmap and feature gates](docs/wiki/ROADMAP.md)
 - [Architecture decisions](docs/wiki/adr/)
 
@@ -17,4 +19,3 @@
 - [Domain model](src/domain/)
 - [Analysis](src/analysis/)
 - [Tests](test/)
-

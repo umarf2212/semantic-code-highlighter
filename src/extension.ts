@@ -7,6 +7,7 @@ import type {
   CodeClassifier
 } from "./domain/classification";
 import type { CodeRegion } from "./domain/code-region";
+import { OpenAIClassifier } from "./llm/openai-classifier";
 import { DecorationManager } from "./visualization/decoration-manager";
 
 const SUPPORTED_LANGUAGE_IDS = new Set([
@@ -22,12 +23,42 @@ interface DocumentAnalysis {
   result: ClassificationResult;
 }
 
+const OPENAI_API_KEY_SECRET = "semanticCode.openaiApiKey";
+
 export function activate(context: vscode.ExtensionContext): void {
   const extractor = new TypeScriptRegionExtractor();
-  const classifier: CodeClassifier = new LocalHeuristicClassifier();
+  const localClassifier: CodeClassifier = new LocalHeuristicClassifier();
   const decorations = new DecorationManager();
   const analyses = new Map<string, DocumentAnalysis>();
   let sessionVisible = true;
+
+  const classifierFor = async (document: vscode.TextDocument): Promise<CodeClassifier> => {
+    const configuration = vscode.workspace.getConfiguration(
+      "semanticCode",
+      document.uri
+    );
+    const provider = configuration.get<"local" | "openai">("provider", "local");
+    if (provider === "local") {
+      return localClassifier;
+    }
+
+    let apiKey = await context.secrets.get(OPENAI_API_KEY_SECRET);
+    if (apiKey === undefined) {
+      const action = await vscode.window.showWarningMessage(
+        "OpenAI classification needs an API key. It will be stored in VS Code SecretStorage, never in this repository.",
+        "Set API Key"
+      );
+      if (action === "Set API Key") {
+        await vscode.commands.executeCommand("semanticCode.setOpenAIKey");
+        apiKey = await context.secrets.get(OPENAI_API_KEY_SECRET);
+      }
+    }
+    if (apiKey === undefined) {
+      throw new Error("No OpenAI API key is configured.");
+    }
+    const model = configuration.get<string>("model", "gpt-5.4-nano");
+    return new OpenAIClassifier({ apiKey, model });
+  };
 
   const applyToVisibleEditors = (uri?: vscode.Uri): void => {
     for (const editor of vscode.window.visibleTextEditors) {
@@ -66,6 +97,7 @@ export function activate(context: vscode.ExtensionContext): void {
     const version = document.version;
     const regions = extractor.extract(document.uri.fsPath, sourceCode);
     const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+    const classifier = await classifierFor(document);
     const result = await classifier.classify({
       filePath: workspaceFolder
         ? vscode.workspace.asRelativePath(document.uri, false)
@@ -97,14 +129,19 @@ export function activate(context: vscode.ExtensionContext): void {
         await vscode.window.showWarningMessage("Open a source file before analyzing it.");
         return;
       }
-      await vscode.window.withProgress(
-        {
-          location: vscode.ProgressLocation.Notification,
-          title: "Mapping code responsibilities",
-          cancellable: false
-        },
-        async () => analyzeDocument(editor.document, editor)
-      );
+      try {
+        await vscode.window.withProgress(
+          {
+            location: vscode.ProgressLocation.Notification,
+            title: "Mapping code responsibilities",
+            cancellable: false
+          },
+          async () => analyzeDocument(editor.document, editor)
+        );
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        await vscode.window.showErrorMessage(`Semantic Code analysis failed: ${message}`);
+      }
     }),
     vscode.commands.registerCommand("semanticCode.clearAnalysis", () => {
       analyses.clear();
@@ -117,6 +154,23 @@ export function activate(context: vscode.ExtensionContext): void {
         `Semantic Code responsibility map ${sessionVisible ? "shown" : "hidden"}`,
         1800
       );
+    }),
+    vscode.commands.registerCommand("semanticCode.setOpenAIKey", async () => {
+      const apiKey = await vscode.window.showInputBox({
+        title: "Semantic Code: OpenAI API Key",
+        prompt: "Stored securely by VS Code and used only when the OpenAI provider is selected.",
+        placeHolder: "sk-...",
+        password: true,
+        ignoreFocusOut: true
+      });
+      if (apiKey !== undefined && apiKey.trim().length > 0) {
+        await context.secrets.store(OPENAI_API_KEY_SECRET, apiKey.trim());
+        await vscode.window.showInformationMessage("OpenAI API key stored in VS Code SecretStorage.");
+      }
+    }),
+    vscode.commands.registerCommand("semanticCode.forgetOpenAIKey", async () => {
+      await context.secrets.delete(OPENAI_API_KEY_SECRET);
+      await vscode.window.showInformationMessage("OpenAI API key removed from VS Code SecretStorage.");
     }),
     vscode.window.onDidChangeVisibleTextEditors(() => {
       applyToVisibleEditors();
@@ -147,4 +201,3 @@ export function activate(context: vscode.ExtensionContext): void {
 export function deactivate(): void {
   // VS Code disposes everything registered through the extension context.
 }
-

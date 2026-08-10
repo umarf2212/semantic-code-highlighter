@@ -28,7 +28,9 @@
     "onLanguage:typescriptreact",
     "onCommand:semanticCode.analyzeCurrentFile",
     "onCommand:semanticCode.clearAnalysis",
-    "onCommand:semanticCode.toggleVisualization"
+    "onCommand:semanticCode.toggleVisualization",
+    "onCommand:semanticCode.setOpenAIKey",
+    "onCommand:semanticCode.forgetOpenAIKey"
   ],
   "contributes": {
     "commands": [
@@ -44,6 +46,14 @@
       {
         "command": "semanticCode.toggleVisualization",
         "title": "Semantic Code: Toggle Visualization"
+      },
+      {
+        "command": "semanticCode.setOpenAIKey",
+        "title": "Semantic Code: Set OpenAI API Key"
+      },
+      {
+        "command": "semanticCode.forgetOpenAIKey",
+        "title": "Semantic Code: Forget OpenAI API Key"
       }
     ],
     "menus": {
@@ -63,6 +73,26 @@
           "default": true,
           "scope": "resource",
           "description": "Show responsibility background bands after a file has been analyzed."
+        },
+        "semanticCode.provider": {
+          "type": "string",
+          "enum": [
+            "local",
+            "openai"
+          ],
+          "enumDescriptions": [
+            "Immediate, private, deterministic heuristics with lower semantic accuracy.",
+            "Opt-in cloud classification using structured outputs and a key held in VS Code SecretStorage."
+          ],
+          "default": "local",
+          "scope": "resource",
+          "description": "Classifier used when analysis is explicitly run."
+        },
+        "semanticCode.model": {
+          "type": "string",
+          "default": "gpt-5.4-nano",
+          "scope": "resource",
+          "description": "OpenAI model used by the openai provider. The model must support structured outputs."
         },
         "semanticCode.opacity": {
           "type": "number",
@@ -112,7 +142,9 @@
     "package": "node esbuild.mjs --production"
   },
   "dependencies": {
-    "typescript": "^5.9.3"
+    "openai": "^7.4.0",
+    "typescript": "^5.9.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",

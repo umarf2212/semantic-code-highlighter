@@ -11,6 +11,7 @@ This directory is the version-controlled source of truth for product intent and 
 5. [Prompt and Schema Versions](PROMPT_SCHEMA.md)
 6. [Privacy and Data Sent](PRIVACY.md)
 7. [Cache Invalidation](CACHE.md)
-8. [Architecture Decision Records](adr/)
+8. [User Experience Decisions](UX.md)
+9. [Architecture Decision Records](adr/)
 
 Future branches add privacy, prompt/schema, cache, evaluation, and user-experience pages when those systems become real. Documentation must describe shipped behavior, not speculative machinery.

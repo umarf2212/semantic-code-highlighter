@@ -42,20 +42,24 @@ export class OpenAIClassifier implements CodeClassifier {
     let retryReason: string | undefined;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       const messages = buildClassificationMessages(request, retryReason);
-      const response = await this.client.responses.parse({
-        model: this.model,
-        store: false,
-        input: [
-          { role: "system", content: messages.system },
-          { role: "user", content: messages.user }
-        ],
-        text: {
-          format: zodTextFormat(
-            classificationPayloadSchema,
-            "semantic_code_classification"
-          )
-        }
-      });
+      request.signal?.throwIfAborted();
+      const response = await this.client.responses.parse(
+        {
+          model: this.model,
+          store: false,
+          input: [
+            { role: "system", content: messages.system },
+            { role: "user", content: messages.user }
+          ],
+          text: {
+            format: zodTextFormat(
+              classificationPayloadSchema,
+              "semantic_code_classification"
+            )
+          }
+        },
+        request.signal === undefined ? undefined : { signal: request.signal }
+      );
       if (response.output_parsed === null) {
         throw new Error("OpenAI returned no classification payload.");
       }

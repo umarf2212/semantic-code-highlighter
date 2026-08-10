@@ -7,6 +7,7 @@ export interface ClassificationRequest {
   sourceCode: string;
   regions: CodeRegion[];
   projectContext: ProjectContext;
+  signal?: AbortSignal;
 }
 
 export interface ClassifiedRegion {

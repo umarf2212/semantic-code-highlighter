@@ -29,6 +29,12 @@ interface DocumentAnalysis {
   result: ClassificationResult;
 }
 
+interface AnalysisOutcome {
+  cacheHit: boolean;
+  classifiedRegionCount: number;
+  responsibilityCount: number;
+}
+
 const OPENAI_API_KEY_SECRET = "semanticCode.openaiApiKey";
 const OPENAI_DISCLOSURE_KEY = "semanticCode.openaiDisclosureAccepted.v1";
 
@@ -92,8 +98,10 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const analyzeDocument = async (
     document: vscode.TextDocument,
+    progress: vscode.Progress<{ message?: string; increment?: number }>,
+    signal: AbortSignal,
     targetEditor?: vscode.TextEditor
-  ): Promise<void> => {
+  ): Promise<AnalysisOutcome | undefined> => {
     if (!SUPPORTED_LANGUAGE_IDS.has(document.languageId)) {
       await vscode.window.showWarningMessage(
         "Semantic Code Highlighter currently supports JavaScript and TypeScript files."
@@ -101,6 +109,8 @@ export function activate(context: vscode.ExtensionContext): void {
       return;
     }
 
+    signal.throwIfAborted();
+    progress.report({ message: "Checking source safety…", increment: 10 });
     const configuration = vscode.workspace.getConfiguration(
       "semanticCode",
       document.uri
@@ -118,7 +128,15 @@ export function activate(context: vscode.ExtensionContext): void {
       return;
     }
     const version = document.version;
+    progress.report({ message: "Finding semantic regions…", increment: 20 });
     const regions = extractor.extract(document.uri.fsPath, sourceCode);
+    signal.throwIfAborted();
+    if (regions.length === 0) {
+      await vscode.window.showInformationMessage(
+        "Semantic Code found no meaningful regions in this file."
+      );
+      return;
+    }
     const maxRegions = configuration.get<number>("maxRegions", 220);
     if (regions.length > maxRegions) {
       await vscode.window.showWarningMessage(
@@ -136,7 +154,8 @@ export function activate(context: vscode.ExtensionContext): void {
       projectContext: {
         workspaceRoot: workspaceFolder?.uri.fsPath ?? "",
         language: document.languageId
-      }
+      },
+      signal
     };
     const provider = configuration.get<"local" | "openai">("provider", "local");
     const model = configuration.get<string>("model", "gpt-5.4-nano");
@@ -147,6 +166,7 @@ export function activate(context: vscode.ExtensionContext): void {
     const cacheKey = createAnalysisCacheKey(request, identity);
     const cacheEnabled = configuration.get<boolean>("cacheEnabled", true);
     let result = cacheEnabled ? await cache.get(cacheKey) : undefined;
+    const cacheHit = result !== undefined;
 
     if (result === undefined) {
       if (provider === "openai") {
@@ -163,22 +183,41 @@ export function activate(context: vscode.ExtensionContext): void {
           await context.workspaceState.update(OPENAI_DISCLOSURE_KEY, true);
         }
       }
+      progress.report({ message: provider === "openai" ? "Classifying with OpenAI…" : "Classifying locally…", increment: 35 });
       const classifier = await classifierFor(document);
       result = await classifier.classify(request);
+      signal.throwIfAborted();
       if (cacheEnabled) {
         await cache.set(cacheKey, result);
       }
+    } else {
+      progress.report({ message: "Using unchanged cached analysis…", increment: 35 });
     }
 
     if (document.version !== version) {
       return;
     }
+    signal.throwIfAborted();
     analyses.set(document.uri.toString(), { version, regions, result });
     sessionVisible = true;
     if (targetEditor !== undefined) {
       decorations.apply(targetEditor, regions, result);
     }
     applyToVisibleEditors(document.uri);
+    progress.report({ message: "Rendering responsibility map…", increment: 35 });
+
+    const minimumConfidence = configuration.get<number>("minimumConfidence", 0.5);
+    const visibleClassifications = result.regions.filter(
+      ({ confidence, responsibility }) =>
+        responsibility !== "unknown" && confidence >= minimumConfidence
+    );
+    return {
+      cacheHit,
+      classifiedRegionCount: visibleClassifications.length,
+      responsibilityCount: new Set(
+        visibleClassifications.map(({ responsibility }) => responsibility)
+      ).size
+    };
   };
 
   context.subscriptions.push(
@@ -190,15 +229,40 @@ export function activate(context: vscode.ExtensionContext): void {
         return;
       }
       try {
-        await vscode.window.withProgress(
+        const outcome = await vscode.window.withProgress(
           {
             location: vscode.ProgressLocation.Notification,
             title: "Mapping code responsibilities",
-            cancellable: false
+            cancellable: true
           },
-          async () => analyzeDocument(editor.document, editor)
+          async (progress, token) => {
+            const abortController = new AbortController();
+            const cancellation = token.onCancellationRequested(() => {
+              abortController.abort();
+            });
+            try {
+              return await analyzeDocument(
+                editor.document,
+                progress,
+                abortController.signal,
+                editor
+              );
+            } finally {
+              cancellation.dispose();
+            }
+          }
         );
+        if (outcome !== undefined) {
+          vscode.window.setStatusBarMessage(
+            `Semantic Code: ${outcome.classifiedRegionCount} regions across ${outcome.responsibilityCount} responsibilities${outcome.cacheHit ? " (cached)" : ""}`,
+            4000
+          );
+        }
       } catch (error) {
+        if (isAbortError(error)) {
+          vscode.window.setStatusBarMessage("Semantic Code analysis cancelled", 1800);
+          return;
+        }
         const message = error instanceof Error ? error.message : String(error);
         await vscode.window.showErrorMessage(`Semantic Code analysis failed: ${message}`);
       }
@@ -206,6 +270,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand("semanticCode.clearAnalysis", () => {
       analyses.clear();
       decorations.clearAll();
+      vscode.window.setStatusBarMessage("Semantic Code visible analysis cleared", 1800);
     }),
     vscode.commands.registerCommand("semanticCode.clearCache", async () => {
       await cache.clear();
@@ -216,7 +281,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand("semanticCode.toggleVisualization", async () => {
       sessionVisible = !sessionVisible;
       applyToVisibleEditors();
-      await vscode.window.setStatusBarMessage(
+      vscode.window.setStatusBarMessage(
         `Semantic Code responsibility map ${sessionVisible ? "shown" : "hidden"}`,
         1800
       );
@@ -260,10 +325,21 @@ export function activate(context: vscode.ExtensionContext): void {
         decorations.reloadConfiguration();
         applyToVisibleEditors();
       }
+    }),
+    vscode.window.onDidChangeActiveColorTheme(() => {
+      decorations.reloadConfiguration();
+      applyToVisibleEditors();
     })
   );
 }
 
 export function deactivate(): void {
   // VS Code disposes everything registered through the extension context.
+}
+
+function isAbortError(error: unknown): boolean {
+  return (
+    (error instanceof DOMException && error.name === "AbortError") ||
+    (error instanceof Error && /abort|cancel/i.test(`${error.name} ${error.message}`))
+  );
 }

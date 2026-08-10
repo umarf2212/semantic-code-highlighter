@@ -18,6 +18,7 @@ export class LocalHeuristicClassifier implements CodeClassifier {
   readonly version = "1";
 
   async classify(request: ClassificationRequest): Promise<ClassificationResult> {
+    request.signal?.throwIfAborted();
     const preliminary = new Map<string, HeuristicClassification>();
     for (const region of request.regions) {
       preliminary.set(region.id, classifyRegion(region, request.filePath));
@@ -53,6 +54,8 @@ export class LocalHeuristicClassifier implements CodeClassifier {
         explanation: classification.explanation
       };
     });
+
+    request.signal?.throwIfAborted();
 
     return {
       filePath: request.filePath,

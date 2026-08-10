@@ -12,6 +12,11 @@ import type {
   CodeClassifier
 } from "./domain/classification";
 import type { CodeRegion } from "./domain/code-region";
+import {
+  RESPONSIBILITIES,
+  RESPONSIBILITY_METADATA,
+  type Responsibility
+} from "./domain/responsibility";
 import { OpenAIClassifier } from "./llm/openai-classifier";
 import { CLASSIFICATION_PROMPT_VERSION } from "./llm/classification-prompt";
 import { DecorationManager } from "./visualization/decoration-manager";
@@ -35,6 +40,10 @@ interface AnalysisOutcome {
   responsibilityCount: number;
 }
 
+interface ResponsibilityQuickPickItem extends vscode.QuickPickItem {
+  responsibility?: Responsibility;
+}
+
 const OPENAI_API_KEY_SECRET = "semanticCode.openaiApiKey";
 const OPENAI_DISCLOSURE_KEY = "semanticCode.openaiDisclosureAccepted.v1";
 
@@ -45,6 +54,7 @@ export function activate(context: vscode.ExtensionContext): void {
   const cache = new WorkspaceAnalysisCache(context.workspaceState);
   const analyses = new Map<string, DocumentAnalysis>();
   let sessionVisible = true;
+  let focusedResponsibility: Responsibility | undefined;
 
   const classifierFor = async (document: vscode.TextDocument): Promise<CodeClassifier> => {
     const configuration = vscode.workspace.getConfiguration(
@@ -91,7 +101,12 @@ export function activate(context: vscode.ExtensionContext): void {
       ) {
         decorations.clear(editor);
       } else {
-        decorations.apply(editor, analysis.regions, analysis.result);
+        decorations.apply(
+          editor,
+          analysis.regions,
+          analysis.result,
+          focusedResponsibility
+        );
       }
     }
   };
@@ -201,7 +216,7 @@ export function activate(context: vscode.ExtensionContext): void {
     analyses.set(document.uri.toString(), { version, regions, result });
     sessionVisible = true;
     if (targetEditor !== undefined) {
-      decorations.apply(targetEditor, regions, result);
+      decorations.apply(targetEditor, regions, result, focusedResponsibility);
     }
     applyToVisibleEditors(document.uri);
     progress.report({ message: "Rendering responsibility map…", increment: 35 });
@@ -284,6 +299,37 @@ export function activate(context: vscode.ExtensionContext): void {
       vscode.window.setStatusBarMessage(
         `Semantic Code responsibility map ${sessionVisible ? "shown" : "hidden"}`,
         1800
+      );
+    }),
+    vscode.commands.registerCommand("semanticCode.focusResponsibility", async () => {
+      const items: ResponsibilityQuickPickItem[] = [
+        {
+          label: "$(eye) Show all responsibilities",
+          description: "Clear the active lens"
+        },
+        ...RESPONSIBILITIES.filter(
+          (responsibility) => responsibility !== "unknown" && responsibility !== "mixed"
+        ).map((responsibility) => ({
+          label: RESPONSIBILITY_METADATA[responsibility].label,
+          description: RESPONSIBILITY_METADATA[responsibility].description,
+          responsibility
+        }))
+      ];
+      const selected = await vscode.window.showQuickPick(items, {
+        title: "Focus the responsibility map",
+        placeHolder: "Show only one semantic responsibility"
+      });
+      if (selected === undefined) {
+        return;
+      }
+      focusedResponsibility = selected.responsibility;
+      sessionVisible = true;
+      applyToVisibleEditors();
+      vscode.window.setStatusBarMessage(
+        focusedResponsibility === undefined
+          ? "Semantic Code lens cleared"
+          : `Semantic Code lens: ${RESPONSIBILITY_METADATA[focusedResponsibility].label}`,
+        2400
       );
     }),
     vscode.commands.registerCommand("semanticCode.setOpenAIKey", async () => {

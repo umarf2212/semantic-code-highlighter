@@ -29,6 +29,7 @@
     "onCommand:semanticCode.analyzeCurrentFile",
     "onCommand:semanticCode.clearAnalysis",
     "onCommand:semanticCode.clearCache",
+    "onCommand:semanticCode.focusResponsibility",
     "onCommand:semanticCode.toggleVisualization",
     "onCommand:semanticCode.setOpenAIKey",
     "onCommand:semanticCode.forgetOpenAIKey"
@@ -53,6 +54,11 @@
         "title": "Semantic Code: Toggle Visualization"
       },
       {
+        "command": "semanticCode.focusResponsibility",
+        "title": "Semantic Code: Focus Responsibility Lens",
+        "icon": "$(filter)"
+      },
+      {
         "command": "semanticCode.setOpenAIKey",
         "title": "Semantic Code: Set OpenAI API Key"
       },
@@ -66,6 +72,11 @@
         {
           "command": "semanticCode.analyzeCurrentFile",
           "group": "navigation@20",
+          "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
+        },
+        {
+          "command": "semanticCode.focusResponsibility",
+          "group": "navigation@21",
           "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
         }
       ]

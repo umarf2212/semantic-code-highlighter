@@ -14,9 +14,10 @@ Analysis is manual, cancellable, and progress-labelled. A compact status-bar mes
 - Low-confidence and unknown regions remain normal editor background.
 - Hover shows a human label, qualitative confidence, short rationale, and region breadcrumb.
 - Toggle is instant and never invokes a classifier.
+- The responsibility lens can show one category at a time without re-analysis;
+  choosing “Show all” restores the complete map.
 - Any content edit clears the old map immediately; rerun is explicit.
 
 ## Failure behavior
 
 Unsupported, protected, oversized, overly complex, or regionless files produce an actionable message and no decoration. Provider, key, network, and validation failures leave the editor unchanged. Cancellation is quiet apart from a short status message.
-

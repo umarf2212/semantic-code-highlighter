@@ -11,13 +11,14 @@
 
 ## High-value follow-ups
 
-1. Responsibility lens that dims non-selected responsibilities
-2. Bounded, explicit workspace analysis
-3. Opt-in analyze-on-open
-4. Lightweight file responsibility statistics
-5. Richer project context and alternate providers
+1. Bounded, explicit workspace analysis
+2. Opt-in analyze-on-open
+3. Lightweight file responsibility statistics
+4. Richer project context and alternate providers
+
+The responsibility lens shipped immediately after the core map because it directly
+supports navigation and requires no additional source transmission.
 
 ## Deferred until evidence justifies them
 
 Architecture maps, dependency navigation, smells, Git awareness, test awareness, runtime traces, configurable ontologies, and additional languages. These require their own usability evidence and may not weaken the file-level map.
-

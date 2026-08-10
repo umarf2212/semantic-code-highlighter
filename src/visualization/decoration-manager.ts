@@ -10,6 +10,7 @@ import {
 } from "../domain/responsibility";
 import { colorWithOpacity } from "./color";
 import { buildResponsibilitySpans } from "./line-map";
+import { filterSpansForLens } from "./responsibility-lens";
 
 const DECORATED_RESPONSIBILITIES = RESPONSIBILITIES.filter(
   (responsibility) => responsibility !== "unknown"
@@ -28,14 +29,18 @@ export class DecorationManager implements vscode.Disposable {
   apply(
     editor: vscode.TextEditor,
     regions: CodeRegion[],
-    result: ClassificationResult
+    result: ClassificationResult,
+    focusedResponsibility?: Responsibility
   ): void {
     const configuration = vscode.workspace.getConfiguration(
       "semanticCode",
       editor.document.uri
     );
     const minimumConfidence = configuration.get<number>("minimumConfidence", 0.5);
-    const spans = buildResponsibilitySpans(regions, result, minimumConfidence);
+    const spans = filterSpansForLens(
+      buildResponsibilitySpans(regions, result, minimumConfidence),
+      focusedResponsibility
+    );
     const regionById = new Map(regions.map((region) => [region.id, region]));
     const classificationById = new Map(
       result.regions.map((classified) => [classified.regionId, classified])
@@ -152,4 +157,3 @@ function regionBreadcrumb(region: CodeRegion, regionById: Map<string, CodeRegion
 function escapeInlineCode(value: string): string {
   return value.replaceAll("`", "\\`");
 }
-

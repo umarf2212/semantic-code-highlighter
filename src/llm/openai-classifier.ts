@@ -23,14 +23,19 @@ export interface OpenAIClassifierOptions {
 }
 
 export class OpenAIClassifier implements CodeClassifier {
-  readonly id = "openai";
+  readonly id: string;
   readonly version = CLASSIFICATION_PROMPT_VERSION;
   private readonly client: OpenAI;
   private readonly model: string;
 
   constructor(options: OpenAIClassifierOptions) {
+    this.id = OpenAIClassifier.idFor(options.model);
     this.client = options.client ?? new OpenAI({ apiKey: options.apiKey, timeout: 60_000 });
     this.model = options.model;
+  }
+
+  static idFor(model: string): string {
+    return `openai:${model}`;
   }
 
   async classify(request: ClassificationRequest): Promise<ClassificationResult> {
@@ -58,7 +63,7 @@ export class OpenAIClassifier implements CodeClassifier {
         return validateClassificationPayload(
           response.output_parsed,
           request,
-          `${this.id}:${this.model}:${this.version}`
+          `${this.id}:${this.version}`
         );
       } catch (error) {
         if (!(error instanceof ClassificationValidationError) || attempt === 1) {
@@ -70,4 +75,3 @@ export class OpenAIClassifier implements CodeClassifier {
     throw new Error("OpenAI classification failed validation.");
   }
 }
-

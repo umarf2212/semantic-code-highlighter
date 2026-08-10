@@ -10,6 +10,7 @@
 - [Region model and precedence](docs/wiki/REGION_MODEL.md)
 - [Prompt and schema versions](docs/wiki/PROMPT_SCHEMA.md)
 - [Privacy and data sent](docs/wiki/PRIVACY.md)
+- [Cache invalidation](docs/wiki/CACHE.md)
 - [Roadmap and feature gates](docs/wiki/ROADMAP.md)
 - [Architecture decisions](docs/wiki/adr/)
 

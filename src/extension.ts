@@ -2,12 +2,18 @@ import * as vscode from "vscode";
 
 import { LocalHeuristicClassifier } from "./analysis/local-classifier";
 import { TypeScriptRegionExtractor } from "./analysis/region-extractor";
+import { DefaultSourceFilter } from "./analysis/source-filter";
+import {
+  createAnalysisCacheKey,
+  WorkspaceAnalysisCache
+} from "./cache/analysis-cache";
 import type {
   ClassificationResult,
   CodeClassifier
 } from "./domain/classification";
 import type { CodeRegion } from "./domain/code-region";
 import { OpenAIClassifier } from "./llm/openai-classifier";
+import { CLASSIFICATION_PROMPT_VERSION } from "./llm/classification-prompt";
 import { DecorationManager } from "./visualization/decoration-manager";
 
 const SUPPORTED_LANGUAGE_IDS = new Set([
@@ -24,11 +30,13 @@ interface DocumentAnalysis {
 }
 
 const OPENAI_API_KEY_SECRET = "semanticCode.openaiApiKey";
+const OPENAI_DISCLOSURE_KEY = "semanticCode.openaiDisclosureAccepted.v1";
 
 export function activate(context: vscode.ExtensionContext): void {
   const extractor = new TypeScriptRegionExtractor();
   const localClassifier: CodeClassifier = new LocalHeuristicClassifier();
   const decorations = new DecorationManager();
+  const cache = new WorkspaceAnalysisCache(context.workspaceState);
   const analyses = new Map<string, DocumentAnalysis>();
   let sessionVisible = true;
 
@@ -93,12 +101,33 @@ export function activate(context: vscode.ExtensionContext): void {
       return;
     }
 
+    const configuration = vscode.workspace.getConfiguration(
+      "semanticCode",
+      document.uri
+    );
     const sourceCode = document.getText();
+    const maxFileSizeKb = configuration.get<number>("maxFileSizeKb", 256);
+    const sourceDecision = new DefaultSourceFilter(maxFileSizeKb * 1024).evaluate(
+      document.uri.fsPath,
+      sourceCode
+    );
+    if (!sourceDecision.allowed) {
+      await vscode.window.showWarningMessage(
+        `Semantic Code did not analyze this file: ${sourceDecision.reason ?? "excluded by the source filter"}`
+      );
+      return;
+    }
     const version = document.version;
     const regions = extractor.extract(document.uri.fsPath, sourceCode);
+    const maxRegions = configuration.get<number>("maxRegions", 220);
+    if (regions.length > maxRegions) {
+      await vscode.window.showWarningMessage(
+        `Semantic Code found ${regions.length} regions, above the configured limit of ${maxRegions}. Raise semanticCode.maxRegions or analyze a smaller file.`
+      );
+      return;
+    }
     const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
-    const classifier = await classifierFor(document);
-    const result = await classifier.classify({
+    const request = {
       filePath: workspaceFolder
         ? vscode.workspace.asRelativePath(document.uri, false)
         : document.uri.fsPath,
@@ -108,7 +137,38 @@ export function activate(context: vscode.ExtensionContext): void {
         workspaceRoot: workspaceFolder?.uri.fsPath ?? "",
         language: document.languageId
       }
-    });
+    };
+    const provider = configuration.get<"local" | "openai">("provider", "local");
+    const model = configuration.get<string>("model", "gpt-5.4-nano");
+    const identity =
+      provider === "openai"
+        ? { id: OpenAIClassifier.idFor(model), version: CLASSIFICATION_PROMPT_VERSION }
+        : localClassifier;
+    const cacheKey = createAnalysisCacheKey(request, identity);
+    const cacheEnabled = configuration.get<boolean>("cacheEnabled", true);
+    let result = cacheEnabled ? await cache.get(cacheKey) : undefined;
+
+    if (result === undefined) {
+      if (provider === "openai") {
+        const accepted = context.workspaceState.get<boolean>(OPENAI_DISCLOSURE_KEY, false);
+        if (!accepted) {
+          const action = await vscode.window.showWarningMessage(
+            "OpenAI analysis sends this file's source code, relative path, and AST region metadata to OpenAI. The request uses store: false; obvious secrets and generated files are filtered.",
+            { modal: true },
+            "Analyze and Remember"
+          );
+          if (action !== "Analyze and Remember") {
+            return;
+          }
+          await context.workspaceState.update(OPENAI_DISCLOSURE_KEY, true);
+        }
+      }
+      const classifier = await classifierFor(document);
+      result = await classifier.classify(request);
+      if (cacheEnabled) {
+        await cache.set(cacheKey, result);
+      }
+    }
 
     if (document.version !== version) {
       return;
@@ -146,6 +206,12 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand("semanticCode.clearAnalysis", () => {
       analyses.clear();
       decorations.clearAll();
+    }),
+    vscode.commands.registerCommand("semanticCode.clearCache", async () => {
+      await cache.clear();
+      analyses.clear();
+      decorations.clearAll();
+      await vscode.window.showInformationMessage("Semantic Code cached analysis cleared.");
     }),
     vscode.commands.registerCommand("semanticCode.toggleVisualization", async () => {
       sessionVisible = !sessionVisible;

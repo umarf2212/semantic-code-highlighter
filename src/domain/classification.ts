@@ -28,3 +28,7 @@ export interface CodeClassifier {
   classify(request: ClassificationRequest): Promise<ClassificationResult>;
 }
 
+export interface ClassifierIdentity {
+  readonly id: string;
+  readonly version: string;
+}

@@ -28,6 +28,7 @@
     "onLanguage:typescriptreact",
     "onCommand:semanticCode.analyzeCurrentFile",
     "onCommand:semanticCode.clearAnalysis",
+    "onCommand:semanticCode.clearCache",
     "onCommand:semanticCode.toggleVisualization",
     "onCommand:semanticCode.setOpenAIKey",
     "onCommand:semanticCode.forgetOpenAIKey"
@@ -41,7 +42,11 @@
       },
       {
         "command": "semanticCode.clearAnalysis",
-        "title": "Semantic Code: Clear Analysis"
+        "title": "Semantic Code: Clear Visible Analysis"
+      },
+      {
+        "command": "semanticCode.clearCache",
+        "title": "Semantic Code: Clear Cached Analysis"
       },
       {
         "command": "semanticCode.toggleVisualization",
@@ -109,6 +114,28 @@
           "maximum": 1,
           "scope": "resource",
           "description": "Hide classifications below this confidence threshold."
+        },
+        "semanticCode.cacheEnabled": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Reuse classifications when source, classifier, ontology, prompt, and relevant project context are unchanged."
+        },
+        "semanticCode.maxFileSizeKb": {
+          "type": "integer",
+          "default": 256,
+          "minimum": 16,
+          "maximum": 2048,
+          "scope": "resource",
+          "description": "Maximum source file size eligible for analysis."
+        },
+        "semanticCode.maxRegions": {
+          "type": "integer",
+          "default": 220,
+          "minimum": 20,
+          "maximum": 1000,
+          "scope": "resource",
+          "description": "Maximum AST regions eligible for one classification request."
         },
         "semanticCode.colors": {
           "type": "object",

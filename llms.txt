@@ -1,0 +1,20 @@
+# Semantic Code Highlighter
+
+> Experimental VS Code extension that maps source code responsibilities with subtle, non-overlapping background bands.
+
+## Canonical LLM-readable documentation
+
+- [Wiki index](docs/wiki/README.md)
+- [North star and non-goals](docs/wiki/NORTH_STAR.md)
+- [Ontology](docs/wiki/ONTOLOGY.md)
+- [Region model and precedence](docs/wiki/REGION_MODEL.md)
+- [Roadmap and feature gates](docs/wiki/ROADMAP.md)
+- [Architecture decisions](docs/wiki/adr/)
+
+## Repository entry points
+
+- [Extension activation](src/extension.ts)
+- [Domain model](src/domain/)
+- [Analysis](src/analysis/)
+- [Tests](test/)
+

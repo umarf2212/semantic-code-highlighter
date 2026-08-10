@@ -2,7 +2,7 @@
 
 All notable changes to Semantic Code Highlighter are documented here.
 
-## 0.1.0 — Unreleased
+## 0.1.0 — 2026-08-11 (Pre-release)
 
 ### Core map
 

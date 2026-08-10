@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title description">
+  <title id="title">Semantic Code Highlighter icon</title>
+  <description id="description">Code brackets surrounding five horizontal responsibility bands.</description>
+  <rect x="18" y="18" width="220" height="220" rx="48" fill="#202020"/>
+  <rect x="18.75" y="18.75" width="218.5" height="218.5" rx="47.25" fill="none" stroke="#454545" stroke-width="1.5"/>
+  <polygon points="77,63 43,128 77,193 89,187 59,128 89,69" fill="#f2f2f2"/>
+  <polygon points="179,63 213,128 179,193 167,187 197,128 167,69" fill="#f2f2f2"/>
+  <g>
+    <rect x="87" y="73" width="82" height="17" rx="8.5" fill="#2e7d32"/>
+    <rect x="87" y="96" width="58" height="17" rx="8.5" fill="#f9a825"/>
+    <rect x="87" y="119" width="76" height="17" rx="8.5" fill="#1565c0"/>
+    <rect x="87" y="142" width="66" height="17" rx="8.5" fill="#00838f"/>
+    <rect x="87" y="165" width="84" height="17" rx="8.5" fill="#ad1457"/>
+  </g>
+</svg>

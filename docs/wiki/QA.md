@@ -11,7 +11,8 @@ Run from the repository root:
 ```sh
 npm run check
 npm test
-npm run package
+npm run compile
+npm run package:vsix
 ```
 
 The suite covers region extraction, hierarchy, classification validation, line ownership, low-confidence shielding, cache identity, source filtering, project context, concurrency, and provider adapters.
@@ -21,7 +22,7 @@ The suite covers region extraction, hierarchy, classification validation, line o
 1. Open this repository in VS Code and press `F5`.
 2. Open `test/fixtures/demo-workspace/order-service.ts` in the development host.
 3. Run **Semantic Code: Analyze Current File**.
-4. Confirm that validation, calculation, external I/O, transformation, and data areas use subtle, mutually exclusive whole-line bands.
+4. Confirm that validation, business-logic/calculation, external I/O, transformation, and data areas use subtle, mutually exclusive whole-line bands.
 5. Focus **External I/O** with the responsibility lens, then restore all responsibilities.
 6. Toggle the map off and on from the status bar. Both the provider and map state must remain visible.
 7. Edit the file once. Stale decoration must disappear until the file is analyzed again.
@@ -34,4 +35,4 @@ Use this pass to look for over-coloring and under-coloring, not just crashes. Am
 
 ## Manual provider checks
 
-OpenAI checks require a user-supplied key in VS Code SecretStorage. Before release, verify the first-send disclosure, cancellation before transmission, `store: false`, structured-output validation, sequential workspace requests, cache reuse, provider/model identity, and failure behavior. Never put a test key in repository settings, fixtures, logs, screenshots, or issue reports.
+OpenAI checks require a user-supplied key in VS Code SecretStorage. Before release, verify the first-send disclosure, cancellation both before dispatch and in flight, `store: false`, structured-output validation and retry, sequential workspace requests, cache reuse without persisted model rationale, provider/model identity, and failure behavior. Never put a test key in repository settings, fixtures, logs, screenshots, or issue reports.

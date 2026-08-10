@@ -1,4 +1,4 @@
-export const REGION_MODEL_VERSION = "1";
+export const REGION_MODEL_VERSION = "2";
 
 export const CODE_REGION_TYPES = [
   "imports",
@@ -35,4 +35,3 @@ export interface CodeRegion {
   name?: string;
   parentId?: string;
 }
-

@@ -1,6 +1,6 @@
 # Region Model and Visual Precedence
 
-Region model version: `1`
+Region model version: `2`
 
 The TypeScript compiler AST determines ranges and hierarchy. Classification never invents line numbers.
 
@@ -24,6 +24,14 @@ AST ranges may overlap, but rendered background spans must not. The visualizer f
 Unknown and below-threshold child regions still own their structural lines but emit
 no decoration. A classified parent cannot bleed through and make those uncertain
 lines look known.
+
+One-line inline callbacks are the narrow exception to structural shielding. When an
+unknown callback, or an unknown descendant inside its one-line body, shares that
+line with an evidenced one-line containing statement, the statement owns the
+indivisible whole line, provided every callback crossed in a nested chain is also
+unknown. A specifically classified below-threshold callback still shields the line,
+as do callbacks against parent functions or other broad regions; multi-line
+uncertain children remain uncolored.
 
 Confidence below the configured threshold is not rendered. Above that threshold,
 all categories use one fixed subtle opacity; qualitative confidence belongs on

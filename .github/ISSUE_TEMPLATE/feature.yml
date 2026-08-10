@@ -1,0 +1,41 @@
+name: Feature proposal
+description: Propose a convenience improvement grounded in code-reading usability.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: reading_problem
+    attributes:
+      label: Code-reading problem
+      description: What slows someone down while navigating an unfamiliar file?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_flow
+    attributes:
+      label: Proposed user flow
+      description: Describe the smallest interaction that would solve the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: core_impact
+    attributes:
+      label: Effect on the core map
+      description: Explain why this will not obscure, delay, or reduce trust in responsibility backgrounds.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or evaluation plan
+      description: How would we know this is more convenient than the current behavior?
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy impact
+      options:
+        - label: I described any new source collection, persistence, or transmission above, or the proposal adds none.
+          required: true

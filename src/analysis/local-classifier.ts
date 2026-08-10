@@ -15,13 +15,21 @@ interface HeuristicClassification {
 
 export class LocalHeuristicClassifier implements CodeClassifier {
   readonly id = "local";
-  readonly version = "3";
+  readonly version = "4";
 
   async classify(request: ClassificationRequest): Promise<ClassificationResult> {
     request.signal?.throwIfAborted();
     const preliminary = new Map<string, HeuristicClassification>();
+    const regionById = new Map(request.regions.map((region) => [region.id, region]));
     for (const region of request.regions) {
-      preliminary.set(region.id, classifyRegion(region, request.filePath));
+      preliminary.set(
+        region.id,
+        classifyRegion(
+          region,
+          request.filePath,
+          ancestorSemanticNames(region, regionById)
+        )
+      );
     }
 
     const final = new Map(preliminary);
@@ -65,11 +73,17 @@ export class LocalHeuristicClassifier implements CodeClassifier {
   }
 }
 
-function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassification {
+function classifyRegion(
+  region: CodeRegion,
+  filePath: string,
+  ancestorEvidence: string
+): HeuristicClassification {
   const source = region.source.toLowerCase();
-  const name = (region.name ?? "").toLowerCase();
+  const semanticSource = semanticWords(region.source);
+  const name = semanticWords(region.name ?? "");
   const path = filePath.toLowerCase();
-  const evidence = `${path}\n${name}\n${source}`;
+  const directEvidence = `${name}\n${semanticSource}`;
+  const evidence = `${path}\n${directEvidence}`;
 
   if (["interface", "type", "enum"].includes(region.type)) {
     return classification("data", 0.98, "Declares a data shape or value set.");
@@ -91,8 +105,8 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
     );
   }
   if (
-    /\b(assert|validate|validation|invalid|isvalid|required|guard|unauthori[sz]ed|forbidden|precondition)\b/.test(
-      evidence
+    /\b(assert|validate|validation|invalid|isvalid|is\s+valid|required|guard|unauthori[sz]ed|forbidden|precondition)\b/.test(
+      directEvidence
     ) ||
     /throw\s+new\s+\w*error/.test(source) ||
     /\b(zod|joi|yup)\b.*\b(parse|validate)\b/.test(source)
@@ -105,9 +119,11 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
   }
   if (
     /\b(fetch|axios|got|request)\s*[.(]/.test(source) ||
-    /\b(prisma|repository|database|db|redis|queue|s3|firestore)\b/.test(source) ||
+    /\b(prisma|repository|database|db|redis|queue|s3|firestore)\b/.test(
+      semanticSource
+    ) ||
     /\b(readfile|writefile|appendfile|send|publish|enqueue|dequeue)\s*\(/.test(source) ||
-    /\.(find|findone|findmany|query|execute|save|insert|update|delete)\s*\(/.test(source)
+    /\b(?:cp|child_process|childprocess)\s*\.\s*exec\s*\(/.test(source)
   ) {
     return classification(
       "external_io",
@@ -116,12 +132,13 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
     );
   }
   if (
-    /\b(map|normalize|seriali[sz]e|deseriali[sz]e|transform|convert|todto|fromdto|hydrate)\w*\b/.test(
-      evidence
+    /\b(map|normalize|seriali[sz]e|deseriali[sz]e|transform|convert|todto|fromdto|to\s+dto|from\s+dto|hydrate)\w*\b/.test(
+      directEvidence
     ) ||
     /\.(map|flatmap|reduce)\s*\(/.test(source) ||
     /json\.(parse|stringify)\s*\(/.test(source) ||
-    /\.(exec|positionat)\s*\(/.test(source)
+    /\b(?:regex|regexp|pattern|matcher)\w*\s*\.\s*exec\s*\(/.test(source) ||
+    /\.positionat\s*\(/.test(source)
   ) {
     return classification(
       "transformation",
@@ -130,11 +147,8 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
     );
   }
   if (
-    /(^|[/._-])(config|infra|adapter|middleware|bootstrap|server|router|provider)([/._-]|$)/.test(
-      path
-    ) ||
     /\b(config|configure|setup|initialize|bootstrap|middleware|router|container|provider|adapter|connection)\b/.test(
-      evidence
+      directEvidence
     ) ||
     /\b(process\.env|createclient|createserver)\b/.test(source) ||
     /\bvscode\.(window|workspace|commands|languages|debug|extensions|env)\b/.test(source) ||
@@ -151,7 +165,6 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
     );
   }
   if (
-    /(^|[/._-])(util|utils|helpers?)([/._-]|$)/.test(path) ||
     /\b(util|helper|format|slug|clamp|memoize|debounce|throttle)\b/.test(name) ||
     /\b(settimeout|cleartimeout|setinterval|clearinterval|queuemicrotask)\s*\(/.test(source)
   ) {
@@ -162,10 +175,77 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
     );
   }
   if (
-    /(^|[/._-])(domain|services?|use-?cases?|workflows?)([/._-]|$)/.test(path) ||
-    /\b(calculate|pricing|price|total|discount|eligib\w*|order|invoice|payment|checkout|cart|balance|quota|policy|approve|reject)\w*\b/.test(
-      evidence
+    /\b(calculate|pricing|price|total|discount|eligib\w*|invoice|payment|checkout|cart|balance|quota|policy|approve|reject)\w*\b/.test(
+      `${name}\n${semanticSource}`
     )
+  ) {
+    return classification(
+      "business_logic",
+      0.76,
+      "Implements an evidenced domain decision, calculation, or workflow step."
+    );
+  }
+  if (
+    /\b(assert|validate|validation|invalid|isvalid|is\s+valid|required|guard|unauthori[sz]ed|forbidden|precondition)\b/.test(
+      ancestorEvidence
+    )
+  ) {
+    return classification(
+      "validation",
+      0.76,
+      "Belongs to an enclosing validation responsibility."
+    );
+  }
+  if (
+    /\b(config|configure|setup|initialize|bootstrap|middleware|router|provider|adapter|connection|telemetry)\b/.test(
+      ancestorEvidence
+    )
+  ) {
+    return classification(
+      "infrastructure",
+      0.72,
+      "Belongs to an enclosing platform or configuration responsibility."
+    );
+  }
+  if (/\b(util|helper|format|slug|clamp|memoize|debounce|throttle)\b/.test(ancestorEvidence)) {
+    return classification(
+      "utility",
+      0.72,
+      "Belongs to an enclosing reusable helper responsibility."
+    );
+  }
+  if (
+    /\b(map|normalize|seriali[sz]e|deseriali[sz]e|transform|convert|to\s+dto|from\s+dto|hydrate)\b/.test(
+      ancestorEvidence
+    )
+  ) {
+    return classification(
+      "transformation",
+      0.72,
+      "Belongs to an enclosing data-transformation responsibility."
+    );
+  }
+  if (/(^|[/._-])(util|utils|helpers?)([/._-]|$)/.test(path)) {
+    return classification(
+      "utility",
+      0.76,
+      "Appears in an explicitly named utility or helper module."
+    );
+  }
+  if (
+    /(^|[/._-])(config|infra|adapter|middleware|bootstrap|server|router|provider)([/._-]|$)/.test(
+      path
+    )
+  ) {
+    return classification(
+      "infrastructure",
+      0.76,
+      "Appears in an explicitly named platform or configuration module."
+    );
+  }
+  if (
+    /(^|[/._-])(domain|services?|use-?cases?|workflows?)([/._-]|$)/.test(path) ||
+    /\border\w*\b/.test(evidence)
   ) {
     return classification(
       "business_logic",
@@ -229,4 +309,30 @@ function unknownClassification(): HeuristicClassification {
     0.35,
     "The local classifier does not have enough evidence."
   );
+}
+
+function semanticWords(value: string): string {
+  return value
+    .replace(/([a-z\d])([A-Z])/g, "$1 $2")
+    .replace(/[_-]+/g, " ")
+    .toLowerCase();
+}
+
+function ancestorSemanticNames(
+  region: CodeRegion,
+  regionById: Map<string, CodeRegion>
+): string {
+  const names: string[] = [];
+  let parentId = region.parentId;
+  while (parentId !== undefined) {
+    const parent = regionById.get(parentId);
+    if (parent === undefined) {
+      break;
+    }
+    if (parent.name !== undefined) {
+      names.push(parent.name);
+    }
+    parentId = parent.parentId;
+  }
+  return semanticWords(names.join(" "));
 }

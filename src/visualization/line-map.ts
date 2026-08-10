@@ -1,5 +1,5 @@
 import type { ClassificationResult } from "../domain/classification";
-import type { CodeRegion } from "../domain/code-region";
+import type { CodeRegion, CodeRegionType } from "../domain/code-region";
 import type { Responsibility } from "../domain/responsibility";
 
 export interface ResponsibilitySpan {
@@ -15,6 +15,7 @@ interface LineCandidate extends ResponsibilitySpan {
   depth: number;
   lineSpan: number;
   renderable: boolean;
+  regionType: CodeRegionType;
 }
 
 export function buildResponsibilitySpans(
@@ -38,6 +39,7 @@ export function buildResponsibilitySpans(
       confidence: classified.confidence,
       depth: region.depth,
       lineSpan: region.endLine - region.startLine + 1,
+      regionType: region.type,
       renderable:
         classified.responsibility !== "unknown" &&
         classified.confidence >= minimumConfidence,
@@ -54,7 +56,10 @@ export function buildResponsibilitySpans(
 
   const winners = [...candidatesByLine.entries()]
     .sort(([left], [right]) => left - right)
-    .map(([line, candidates]) => ({ line, winner: pickWinner(candidates) }));
+    .map(([line, candidates]) => ({
+      line,
+      winner: pickWinner(candidates, regionById)
+    }));
 
   const spans: ResponsibilitySpan[] = [];
   for (const { line, winner } of winners) {
@@ -83,10 +88,13 @@ export function buildResponsibilitySpans(
   return spans;
 }
 
-function pickWinner(candidates: LineCandidate[]): LineCandidate | undefined {
+function pickWinner(
+  candidates: LineCandidate[],
+  regionById: Map<string, CodeRegion>
+): LineCandidate | undefined {
   const maximumDepth = Math.max(...candidates.map(({ depth }) => depth));
   const deepest = candidates.filter(({ depth }) => depth === maximumDepth);
-  return [...deepest].sort(
+  const winner = [...deepest].sort(
     (left, right) =>
       responsibilityPriority(right.responsibility) -
         responsibilityPriority(left.responsibility) ||
@@ -94,6 +102,71 @@ function pickWinner(candidates: LineCandidate[]): LineCandidate | undefined {
       right.confidence - left.confidence ||
       left.regionId.localeCompare(right.regionId)
   )[0];
+
+  if (
+    winner !== undefined &&
+    !winner.renderable &&
+    winner.responsibility === "unknown" &&
+    winner.lineSpan === 1 &&
+    isWithinOneLineUnknownCallback(winner.regionId, candidates, regionById)
+  ) {
+    return candidates
+      .filter(
+        (candidate) =>
+          candidate.renderable &&
+          candidate.regionType === "statement" &&
+          candidate.lineSpan === 1 &&
+          isAncestor(candidate.regionId, winner.regionId, regionById)
+      )
+      .sort(
+        (left, right) =>
+          right.depth - left.depth ||
+          right.confidence - left.confidence ||
+          left.regionId.localeCompare(right.regionId)
+      )[0] ?? winner;
+  }
+
+  return winner;
+}
+
+function isWithinOneLineUnknownCallback(
+  regionId: string,
+  candidates: LineCandidate[],
+  regionById: Map<string, CodeRegion>
+): boolean {
+  let region = regionById.get(regionId);
+  let sawCallback = false;
+  while (region !== undefined) {
+    if (region.type === "callback") {
+      sawCallback = true;
+      const callbackCandidate = candidates.find(
+        (candidate) => candidate.regionId === region?.id
+      );
+      if (
+        region.startLine !== region.endLine ||
+        callbackCandidate?.responsibility !== "unknown"
+      ) {
+        return false;
+      }
+    }
+    region = region.parentId === undefined ? undefined : regionById.get(region.parentId);
+  }
+  return sawCallback;
+}
+
+function isAncestor(
+  ancestorId: string,
+  descendantId: string,
+  regionById: Map<string, CodeRegion>
+): boolean {
+  let parentId = regionById.get(descendantId)?.parentId;
+  while (parentId !== undefined) {
+    if (parentId === ancestorId) {
+      return true;
+    }
+    parentId = regionById.get(parentId)?.parentId;
+  }
+  return false;
 }
 
 function responsibilityPriority(responsibility: Responsibility): number {

@@ -6,8 +6,29 @@
   "private": true,
   "publisher": "umarf2212",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/umarf2212/semantic-code-highlighter.git"
+  },
+  "homepage": "https://github.com/umarf2212/semantic-code-highlighter#readme",
+  "bugs": {
+    "url": "https://github.com/umarf2212/semantic-code-highlighter/issues"
+  },
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Source analysis is disabled until the workspace is trusted."
+    },
+    "virtualWorkspaces": {
+      "supported": false
+    }
+  },
   "engines": {
-    "vscode": "^1.96.0"
+    "vscode": "^1.125.0"
   },
   "categories": [
     "Visualization",
@@ -49,7 +70,7 @@
       },
       {
         "command": "semanticCode.clearAnalysis",
-        "title": "Semantic Code: Clear Visible Analysis"
+        "title": "Semantic Code: Clear Session Analysis"
       },
       {
         "command": "semanticCode.clearCache",
@@ -118,7 +139,7 @@
           ],
           "default": "local",
           "scope": "resource",
-          "description": "Classifier used when analysis is explicitly run."
+          "description": "Classifier used for manual analysis and opt-in automatic analysis."
         },
         "semanticCode.model": {
           "type": "string",
@@ -215,7 +236,8 @@
     "check": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "package": "node esbuild.mjs --production"
+    "package": "node esbuild.mjs --production",
+    "package:vsix": "npm run package && node -e \"require('node:fs').mkdirSync('artifacts', { recursive: true })\" && vsce package --out artifacts/semantic-code-highlighter.vsix"
   },
   "dependencies": {
     "openai": "^7.4.0",
@@ -226,6 +248,7 @@
     "@types/node": "^26.2.0",
     "@types/vscode": "^1.125.0",
     "@vitest/coverage-v8": "^4.1.10",
+    "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.2",
     "vitest": "^4.1.10"
   }

@@ -5,6 +5,7 @@ import { TypeScriptRegionExtractor } from "./analysis/region-extractor";
 import { DefaultSourceFilter } from "./analysis/source-filter";
 import { ProjectContextBuilder } from "./analysis/project-context-builder";
 import { shouldAnalyzeAutomatically } from "./analysis/automatic-analysis";
+import { evaluateCloudSourceBoundary } from "./analysis/cloud-source-boundary";
 import { nonIdentifyingFileLabel } from "./analysis/file-label";
 import { effectiveRegionLimit } from "./analysis/analysis-limits";
 import {
@@ -12,6 +13,7 @@ import {
   createContentHash,
   WorkspaceAnalysisCache
 } from "./cache/analysis-cache";
+import { resultForPersistentCache } from "./cache/cache-policy";
 import type {
   ClassificationResult,
   CodeClassifier
@@ -63,7 +65,9 @@ interface FrozenClassifierPlan {
 }
 
 const OPENAI_API_KEY_SECRET = "semanticCode.openaiApiKey";
-const OPENAI_DISCLOSURE_KEY = "semanticCode.openaiDisclosureAccepted.v1";
+const OPENAI_DISCLOSURE_KEY = "semanticCode.openaiDisclosureAccepted.v2";
+const OPENAI_DISCLOSURE_MESSAGE =
+  "OpenAI analysis sends eligible source code, a workspace-relative path (or loose-file basename), language and AST region metadata, bounded package name/type/private/dependency names, and up to 8 KB of explicit .semantic-code.md instructions to OpenAI. Requests use store: false. A validation failure may resend the same payload once. Obvious secrets and generated files are filtered. Cancelling after dispatch may not prevent transmission or API usage.";
 
 export function activate(context: vscode.ExtensionContext): void {
   const extractor = new TypeScriptRegionExtractor();
@@ -79,6 +83,10 @@ export function activate(context: vscode.ExtensionContext): void {
   let automaticTimer: ReturnType<typeof setTimeout> | undefined;
   let automaticAbortController: AbortController | undefined;
   const activeAnalysisControllers = new Set<AbortController>();
+  const documentAnalysisControllers = new Map<
+    string,
+    { controller: AbortController; abortOnClose: boolean }
+  >();
   const output = vscode.window.createOutputChannel("Semantic Code Highlighter", {
     log: true
   });
@@ -92,6 +100,27 @@ export function activate(context: vscode.ExtensionContext): void {
     99
   );
   lensStatus.command = "semanticCode.focusResponsibility";
+
+  const ensureOpenAIDisclosure = async (
+    additionalDetail?: string,
+    actionLabel = "Analyze and Remember"
+  ): Promise<boolean> => {
+    if (context.workspaceState.get<boolean>(OPENAI_DISCLOSURE_KEY, false)) {
+      return true;
+    }
+    const action = await vscode.window.showWarningMessage(
+      [OPENAI_DISCLOSURE_MESSAGE, additionalDetail]
+        .filter((value): value is string => value !== undefined)
+        .join(" "),
+      { modal: true },
+      actionLabel
+    );
+    if (action !== actionLabel) {
+      return false;
+    }
+    await context.workspaceState.update(OPENAI_DISCLOSURE_KEY, true);
+    return true;
+  };
 
   const currentAnalysisFor = (
     document: vscode.TextDocument
@@ -186,7 +215,7 @@ export function activate(context: vscode.ExtensionContext): void {
     updateStatusBars();
   };
 
-  const analyzeDocument = async (
+  const analyzeDocumentOnce = async (
     document: vscode.TextDocument,
     progress: vscode.Progress<{ message?: string }>,
     signal: AbortSignal,
@@ -233,6 +262,23 @@ export function activate(context: vscode.ExtensionContext): void {
       }
       return;
     }
+    const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+    if (provider === "openai") {
+      progress.report({ message: "Verifying source boundary…" });
+      const boundaryDecision = await evaluateCloudSourceBoundary(
+        document.uri.fsPath,
+        workspaceFolder?.uri.fsPath
+      );
+      signal.throwIfAborted();
+      if (!boundaryDecision.allowed) {
+        if (notifySkips) {
+          await vscode.window.showWarningMessage(
+            `Semantic Code did not analyze this file: ${boundaryDecision.reason ?? "the cloud source boundary could not be verified"}`
+          );
+        }
+        return;
+      }
+    }
     const version = document.version;
     progress.report({ message: "Finding semantic regions…" });
     const regions = extractor.extract(document.uri.fsPath, sourceCode);
@@ -260,7 +306,6 @@ export function activate(context: vscode.ExtensionContext): void {
       }
       return;
     }
-    const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
     progress.report({ message: "Reading bounded project context…" });
     const projectContext = await projectContextBuilder.build(
       document.uri.fsPath,
@@ -288,17 +333,8 @@ export function activate(context: vscode.ExtensionContext): void {
 
     if (result === undefined) {
       if (provider === "openai") {
-        const accepted = context.workspaceState.get<boolean>(OPENAI_DISCLOSURE_KEY, false);
-        if (!accepted) {
-          const action = await vscode.window.showWarningMessage(
-            "OpenAI analysis sends this file's source code, relative path, and AST region metadata to OpenAI. The request uses store: false; obvious secrets and generated files are filtered.",
-            { modal: true },
-            "Analyze and Remember"
-          );
-          if (action !== "Analyze and Remember") {
-            return;
-          }
-          await context.workspaceState.update(OPENAI_DISCLOSURE_KEY, true);
+        if (!(await ensureOpenAIDisclosure())) {
+          return;
         }
       }
       progress.report({ message: provider === "openai" ? "Classifying with OpenAI…" : "Classifying locally…" });
@@ -312,7 +348,7 @@ export function activate(context: vscode.ExtensionContext): void {
         return;
       }
       if (cacheEnabled) {
-        await cache.set(cacheKey, result);
+        await cache.set(cacheKey, resultForPersistentCache(result, provider));
       }
     } else {
       progress.report({ message: "Using unchanged cached analysis…" });
@@ -337,6 +373,11 @@ export function activate(context: vscode.ExtensionContext): void {
       if (oldestKey !== undefined) {
         analyses.delete(oldestKey);
         focusedResponsibilities.delete(oldestKey);
+        for (const visibleEditor of vscode.window.visibleTextEditors) {
+          if (visibleEditor.document.uri.toString() === oldestKey) {
+            decorations.clear(visibleEditor);
+          }
+        }
       }
     }
     analyses.set(uriKey, {
@@ -377,6 +418,42 @@ export function activate(context: vscode.ExtensionContext): void {
     };
   };
 
+  const analyzeDocument = async (
+    document: vscode.TextDocument,
+    progress: vscode.Progress<{ message?: string }>,
+    parentSignal: AbortSignal,
+    targetEditor?: vscode.TextEditor,
+    notifySkips = true,
+    frozenClassifierPlan?: FrozenClassifierPlan
+  ): Promise<AnalysisOutcome | undefined> => {
+    const uriKey = document.uri.toString();
+    documentAnalysisControllers.get(uriKey)?.controller.abort();
+    const controller = new AbortController();
+    const run = {
+      controller,
+      abortOnClose: frozenClassifierPlan === undefined
+    };
+    const abortFromParent = (): void => controller.abort();
+    parentSignal.throwIfAborted();
+    parentSignal.addEventListener("abort", abortFromParent, { once: true });
+    documentAnalysisControllers.set(uriKey, run);
+    try {
+      return await analyzeDocumentOnce(
+        document,
+        progress,
+        controller.signal,
+        targetEditor,
+        notifySkips,
+        frozenClassifierPlan
+      );
+    } finally {
+      parentSignal.removeEventListener("abort", abortFromParent);
+      if (documentAnalysisControllers.get(uriKey) === run) {
+        documentAnalysisControllers.delete(uriKey);
+      }
+    }
+  };
+
   const cancelAutomaticAnalysis = (): void => {
     if (automaticTimer !== undefined) {
       clearTimeout(automaticTimer);
@@ -388,6 +465,10 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const abortAllAnalyses = (): void => {
     cancelAutomaticAnalysis();
+    for (const { controller } of documentAnalysisControllers.values()) {
+      controller.abort();
+    }
+    documentAnalysisControllers.clear();
     for (const controller of activeAnalysisControllers) {
       controller.abort();
     }
@@ -557,21 +638,33 @@ export function activate(context: vscode.ExtensionContext): void {
       const scopeText = capped
         ? `the first ${uris.length} files (more were found)`
         : `${uris.length} file${uris.length === 1 ? "" : "s"}`;
-      const detail =
-        provider === "openai"
-          ? `Analyze ${scopeText} with OpenAI? Each cache miss sends one filtered source file and may incur API usage.`
-          : `Analyze ${scopeText} locally? Cached unchanged files will be reused.`;
       const actionLabel = `Analyze ${uris.length} File${uris.length === 1 ? "" : "s"}`;
-      const action = await vscode.window.showWarningMessage(
-        detail,
-        { modal: true },
-        actionLabel
+      const disclosureAccepted = context.workspaceState.get<boolean>(
+        OPENAI_DISCLOSURE_KEY,
+        false
       );
-      if (action !== actionLabel) {
-        return;
-      }
-      if (provider === "openai") {
-        await context.workspaceState.update(OPENAI_DISCLOSURE_KEY, true);
+      if (provider === "openai" && !disclosureAccepted) {
+        if (
+          !(await ensureOpenAIDisclosure(
+            `This workspace run can submit up to ${uris.length} filtered source files sequentially and may incur API usage.`,
+            actionLabel
+          ))
+        ) {
+          return;
+        }
+      } else {
+        const detail =
+          provider === "openai"
+            ? `Analyze ${scopeText} with OpenAI? Each cache miss sends one filtered source file and may incur API usage.`
+            : `Analyze ${scopeText} locally? Cached unchanged files will be reused.`;
+        const action = await vscode.window.showWarningMessage(
+          detail,
+          { modal: true },
+          actionLabel
+        );
+        if (action !== actionLabel) {
+          return;
+        }
       }
 
       let completed = 0;
@@ -670,7 +763,7 @@ export function activate(context: vscode.ExtensionContext): void {
       focusedResponsibilities.clear();
       decorations.clearAll();
       updateStatusBars();
-      vscode.window.setStatusBarMessage("Semantic Code visible analysis cleared", 1800);
+      vscode.window.setStatusBarMessage("Semantic Code session analysis cleared", 1800);
     }),
     vscode.commands.registerCommand("semanticCode.clearCache", async () => {
       abortAllAnalyses();
@@ -854,6 +947,8 @@ export function activate(context: vscode.ExtensionContext): void {
         return;
       }
       const uriKey = document.uri.toString();
+      documentAnalysisControllers.get(uriKey)?.controller.abort();
+      documentAnalysisControllers.delete(uriKey);
       runEpochs.set(uriKey, (runEpochs.get(uriKey) ?? 0) + 1);
       analyses.delete(uriKey);
       focusedResponsibilities.delete(uriKey);
@@ -868,8 +963,14 @@ export function activate(context: vscode.ExtensionContext): void {
       updateStatusBars();
     }),
     vscode.workspace.onDidCloseTextDocument((document) => {
-      focusedResponsibilities.delete(document.uri.toString());
-      if (vscode.window.activeTextEditor?.document.uri.toString() === document.uri.toString()) {
+      const uriKey = document.uri.toString();
+      const run = documentAnalysisControllers.get(uriKey);
+      if (run?.abortOnClose === true) {
+        run.controller.abort();
+        documentAnalysisControllers.delete(uriKey);
+      }
+      focusedResponsibilities.delete(uriKey);
+      if (vscode.window.activeTextEditor?.document.uri.toString() === uriKey) {
         cancelAutomaticAnalysis();
       }
       updateStatusBars();
@@ -884,7 +985,7 @@ export function activate(context: vscode.ExtensionContext): void {
         event.affectsConfiguration("semanticCode.provider") ||
         event.affectsConfiguration("semanticCode.model");
       if (classifierChanged) {
-        cancelAutomaticAnalysis();
+        abortAllAnalyses();
         globalEpoch += 1;
         analyses.clear();
         focusedResponsibilities.clear();

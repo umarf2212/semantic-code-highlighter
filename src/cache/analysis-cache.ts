@@ -27,19 +27,28 @@ interface StoredCacheEntry {
 
 type StoredCache = Record<string, StoredCacheEntry>;
 
-const STORAGE_KEY = "semanticCode.analysisCache.v1";
+const STORAGE_KEY = "semanticCode.analysisCache.v2";
+const LEGACY_STORAGE_KEY = "semanticCode.analysisCache.v1";
 
 export class WorkspaceAnalysisCache implements AnalysisCache {
+  private readonly initialized: Promise<void>;
+
   constructor(
     private readonly store: CacheStore,
     private readonly maximumEntries = 200
-  ) {}
+  ) {
+    this.initialized = Promise.resolve(
+      this.store.update(LEGACY_STORAGE_KEY, undefined)
+    );
+  }
 
   async get(key: string): Promise<ClassificationResult | undefined> {
+    await this.initialized;
     return this.store.get<StoredCache>(STORAGE_KEY)?.[key]?.result;
   }
 
   async set(key: string, result: ClassificationResult): Promise<void> {
+    await this.initialized;
     const existing = this.store.get<StoredCache>(STORAGE_KEY) ?? {};
     const next: StoredCache = {
       ...existing,
@@ -55,6 +64,7 @@ export class WorkspaceAnalysisCache implements AnalysisCache {
   }
 
   async clear(): Promise<void> {
+    await this.initialized;
     await this.store.update(STORAGE_KEY, undefined);
   }
 }

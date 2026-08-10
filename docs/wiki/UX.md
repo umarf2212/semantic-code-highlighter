@@ -17,7 +17,7 @@ requires a prior manual disclosure acceptance; otherwise it stays dormant.
 - One line gets at most one responsibility color.
 - Specific nested regions win over mixed parents.
 - Low-confidence and unknown regions remain normal editor background.
-- Hover shows a human label, qualitative confidence, short rationale, and region breadcrumb.
+- Hover shows a human label, qualitative confidence, short rationale, and region breadcrumb. A cached OpenAI result omits the prior model rationale because source-derived explanations are not persisted.
 - Toggle is instant and never invokes a classifier.
 - The responsibility lens can show one category at a time without re-analysis;
   it lists only categories present in the active file, remains scoped to that file,

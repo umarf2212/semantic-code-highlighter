@@ -15,8 +15,12 @@
 - [Workspace analysis](docs/wiki/WORKSPACE_ANALYSIS.md)
 - [Project context](docs/wiki/PROJECT_CONTEXT.md)
 - [Responsibility summary](docs/wiki/RESPONSIBILITY_SUMMARY.md)
+- [Quality assurance](docs/wiki/QA.md)
 - [Roadmap and feature gates](docs/wiki/ROADMAP.md)
-- [Architecture decisions](docs/wiki/adr/)
+- [ADR 0001: Core first](docs/wiki/adr/0001-core-first.md)
+- [ADR 0002: Trustworthy uncertainty](docs/wiki/adr/0002-trustworthy-uncertainty.md)
+- [ADR 0003: Inline callback line ownership](docs/wiki/adr/0003-inline-callback-line-ownership.md)
+- [ADR 0004: Cloud source and cache boundaries](docs/wiki/adr/0004-cloud-source-and-cache-boundaries.md)
 
 ## Repository entry points
 
@@ -24,3 +28,4 @@
 - [Domain model](src/domain/)
 - [Analysis](src/analysis/)
 - [Tests](test/)
+- [Repository agent guide](AGENTS.md)

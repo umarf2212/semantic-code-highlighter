@@ -23,6 +23,10 @@ class MemoryStore implements CacheStore {
     }
     return Promise.resolve();
   }
+
+  seed(key: string, value: unknown): void {
+    this.values.set(key, value);
+  }
 }
 
 const request: ClassificationRequest = {
@@ -52,6 +56,31 @@ describe("WorkspaceAnalysisCache", () => {
     expect(await cache.get(key)).toEqual(result);
     await cache.clear();
     expect(await cache.get(key)).toBeUndefined();
+  });
+
+  it("removes legacy entries that could contain source-derived explanations", async () => {
+    const store = new MemoryStore();
+    store.seed("semanticCode.analysisCache.v1", {
+      legacy: {
+        result: {
+          ...result,
+          regions: [
+            {
+              regionId: "region:statement:0:10",
+              responsibility: "business_logic",
+              confidence: 0.9,
+              explanation: "Echoes customerSecretIdentifier"
+            }
+          ]
+        },
+        updatedAt: Date.now()
+      }
+    });
+    const cache = new WorkspaceAnalysisCache(store);
+
+    await cache.get("legacy");
+
+    expect(store.get("semanticCode.analysisCache.v1")).toBeUndefined();
   });
 
   it("invalidates when source, provider, or relevant context changes", () => {

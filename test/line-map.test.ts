@@ -99,4 +99,297 @@ describe("buildResponsibilitySpans", () => {
       )
     ).toBe(false);
   });
+
+  it("keeps an evidenced one-line statement when its inline callback is unknown", () => {
+    const inlineRegions: CodeRegion[] = [
+      {
+        id: "statement",
+        type: "statement",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 0,
+        endOffset: 55,
+        source: "vscode.workspace.onDidChangeTextDocument(() => refresh())",
+        depth: 0,
+        childIds: ["callback"]
+      },
+      {
+        id: "callback",
+        type: "callback",
+        name: "callback",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 41,
+        endOffset: 54,
+        source: "() => refresh()",
+        depth: 1,
+        parentId: "statement",
+        childIds: []
+      }
+    ];
+    const inlineResult: ClassificationResult = {
+      filePath: "extension.ts",
+      classifierVersion: "test:1",
+      regions: [
+        {
+          regionId: "statement",
+          responsibility: "infrastructure",
+          confidence: 0.9
+        },
+        { regionId: "callback", responsibility: "unknown", confidence: 0.3 }
+      ]
+    };
+
+    expect(buildResponsibilitySpans(inlineRegions, inlineResult, 0.5)).toEqual([
+      expect.objectContaining({
+        startLine: 0,
+        endLine: 0,
+        regionId: "statement",
+        responsibility: "infrastructure"
+      })
+    ]);
+  });
+
+  it("keeps the outer statement when a one-line block callback has an unknown child", () => {
+    const inlineRegions: CodeRegion[] = [
+      {
+        id: "statement",
+        type: "statement",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 0,
+        endOffset: 50,
+        source: "const ids = items.map(item => { return item.id; })",
+        depth: 0,
+        childIds: ["callback"]
+      },
+      {
+        id: "callback",
+        type: "callback",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 22,
+        endOffset: 49,
+        source: "item => { return item.id; }",
+        depth: 1,
+        parentId: "statement",
+        childIds: ["return"]
+      },
+      {
+        id: "return",
+        type: "statement",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 32,
+        endOffset: 47,
+        source: "return item.id;",
+        depth: 2,
+        parentId: "callback",
+        childIds: []
+      }
+    ];
+    const inlineResult: ClassificationResult = {
+      filePath: "mapper.ts",
+      classifierVersion: "test:1",
+      regions: [
+        {
+          regionId: "statement",
+          responsibility: "transformation",
+          confidence: 0.9
+        },
+        { regionId: "callback", responsibility: "unknown", confidence: 0.3 },
+        { regionId: "return", responsibility: "unknown", confidence: 0.3 }
+      ]
+    };
+
+    expect(buildResponsibilitySpans(inlineRegions, inlineResult, 0.5)).toEqual([
+      expect.objectContaining({
+        startLine: 0,
+        endLine: 0,
+        regionId: "statement",
+        responsibility: "transformation"
+      })
+    ]);
+  });
+
+  it("keeps a specifically classified low-confidence inline callback uncolored", () => {
+    const inlineRegions: CodeRegion[] = [
+      {
+        id: "statement",
+        type: "statement",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 0,
+        endOffset: 42,
+        source: "register(() => validatePendingInput())",
+        depth: 0,
+        childIds: ["callback"]
+      },
+      {
+        id: "callback",
+        type: "callback",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 9,
+        endOffset: 41,
+        source: "() => validatePendingInput()",
+        depth: 1,
+        parentId: "statement",
+        childIds: []
+      }
+    ];
+    const inlineResult: ClassificationResult = {
+      filePath: "extension.ts",
+      classifierVersion: "test:1",
+      regions: [
+        {
+          regionId: "statement",
+          responsibility: "infrastructure",
+          confidence: 0.9
+        },
+        {
+          regionId: "callback",
+          responsibility: "validation",
+          confidence: 0.45
+        }
+      ]
+    };
+
+    expect(buildResponsibilitySpans(inlineRegions, inlineResult, 0.5)).toEqual([]);
+  });
+
+  it("lets a low-confidence callback shield an unknown child on the same line", () => {
+    const inlineRegions: CodeRegion[] = [
+      {
+        id: "statement",
+        type: "statement",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 0,
+        endOffset: 51,
+        source: "register(value => { return validatePending(value); })",
+        depth: 0,
+        childIds: ["callback"]
+      },
+      {
+        id: "callback",
+        type: "callback",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 9,
+        endOffset: 50,
+        source: "value => { return validatePending(value); }",
+        depth: 1,
+        parentId: "statement",
+        childIds: ["return"]
+      },
+      {
+        id: "return",
+        type: "statement",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 20,
+        endOffset: 48,
+        source: "return validatePending(value);",
+        depth: 2,
+        parentId: "callback",
+        childIds: []
+      }
+    ];
+    const inlineResult: ClassificationResult = {
+      filePath: "extension.ts",
+      classifierVersion: "test:1",
+      regions: [
+        {
+          regionId: "statement",
+          responsibility: "infrastructure",
+          confidence: 0.9
+        },
+        {
+          regionId: "callback",
+          responsibility: "validation",
+          confidence: 0.45
+        },
+        { regionId: "return", responsibility: "unknown", confidence: 0.3 }
+      ]
+    };
+
+    expect(buildResponsibilitySpans(inlineRegions, inlineResult, 0.5)).toEqual([]);
+  });
+
+  it("requires every callback in a one-line nested chain to be unknown", () => {
+    const inlineRegions: CodeRegion[] = [
+      {
+        id: "statement",
+        type: "statement",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 0,
+        endOffset: 62,
+        source: "register(values => values.map(value => { return value.id; }))",
+        depth: 0,
+        childIds: ["outer-callback"]
+      },
+      {
+        id: "outer-callback",
+        type: "callback",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 9,
+        endOffset: 61,
+        source: "values => values.map(value => { return value.id; })",
+        depth: 1,
+        parentId: "statement",
+        childIds: ["inner-callback"]
+      },
+      {
+        id: "inner-callback",
+        type: "callback",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 30,
+        endOffset: 59,
+        source: "value => { return value.id; }",
+        depth: 2,
+        parentId: "outer-callback",
+        childIds: ["return"]
+      },
+      {
+        id: "return",
+        type: "statement",
+        startLine: 0,
+        endLine: 0,
+        startOffset: 41,
+        endOffset: 57,
+        source: "return value.id;",
+        depth: 3,
+        parentId: "inner-callback",
+        childIds: []
+      }
+    ];
+    const inlineResult: ClassificationResult = {
+      filePath: "extension.ts",
+      classifierVersion: "test:1",
+      regions: [
+        {
+          regionId: "statement",
+          responsibility: "infrastructure",
+          confidence: 0.9
+        },
+        {
+          regionId: "outer-callback",
+          responsibility: "validation",
+          confidence: 0.45
+        },
+        {
+          regionId: "inner-callback",
+          responsibility: "unknown",
+          confidence: 0.3
+        },
+        { regionId: "return", responsibility: "unknown", confidence: 0.3 }
+      ]
+    };
+
+    expect(buildResponsibilitySpans(inlineRegions, inlineResult, 0.5)).toEqual([]);
+  });
 });

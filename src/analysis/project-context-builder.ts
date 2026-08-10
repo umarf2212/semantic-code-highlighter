@@ -1,10 +1,11 @@
-import { readFile } from "node:fs/promises";
+import { lstat, open, realpath } from "node:fs/promises";
 import path from "node:path";
 
 import type { ProjectContext } from "../domain/project-context";
 
 const PROJECT_INSTRUCTIONS_FILE = ".semantic-code.md";
 const MAX_INSTRUCTIONS_LENGTH = 8_000;
+const MAX_PACKAGE_JSON_LENGTH = 256_000;
 const MAX_DEPENDENCIES_PER_GROUP = 120;
 
 interface PackageJsonShape {
@@ -37,7 +38,7 @@ export class ProjectContextBuilder {
     const instructionText =
       instructionsPath === undefined
         ? undefined
-        : (await readFile(instructionsPath, "utf8")).slice(0, MAX_INSTRUCTIONS_LENGTH);
+        : await readBoundedText(instructionsPath, MAX_INSTRUCTIONS_LENGTH, false);
     const projectInstructions =
       instructionText === undefined || containsCredentialMaterial(instructionText)
         ? undefined
@@ -59,8 +60,14 @@ async function findNearestFile(
   workspaceRoot: string,
   fileName: string
 ): Promise<string | undefined> {
-  const root = path.resolve(workspaceRoot);
-  let directory = path.dirname(path.resolve(filePath));
+  let root: string;
+  let directory: string;
+  try {
+    root = await realpath(path.resolve(workspaceRoot));
+    directory = await realpath(path.dirname(path.resolve(filePath)));
+  } catch {
+    return undefined;
+  }
   if (!isWithin(directory, root)) {
     return undefined;
   }
@@ -68,8 +75,13 @@ async function findNearestFile(
   while (true) {
     const candidate = path.join(directory, fileName);
     try {
-      await readFile(candidate);
-      return candidate;
+      const stats = await lstat(candidate);
+      if (stats.isFile() && !stats.isSymbolicLink()) {
+        const resolvedCandidate = await realpath(candidate);
+        if (isWithin(resolvedCandidate, root)) {
+          return resolvedCandidate;
+        }
+      }
     } catch {
       // Keep walking toward the workspace root.
     }
@@ -91,7 +103,15 @@ function isWithin(candidate: string, root: string): boolean {
 
 async function readBoundedPackageInfo(packagePath: string): Promise<unknown> {
   try {
-    const raw = JSON.parse(await readFile(packagePath, "utf8")) as PackageJsonShape;
+    const packageText = await readBoundedText(
+      packagePath,
+      MAX_PACKAGE_JSON_LENGTH,
+      true
+    );
+    if (packageText === undefined) {
+      return undefined;
+    }
+    const raw = JSON.parse(packageText) as PackageJsonShape;
     return {
       ...(typeof raw.name === "string" ? { name: raw.name } : {}),
       ...(typeof raw.type === "string" ? { type: raw.type } : {}),
@@ -102,6 +122,24 @@ async function readBoundedPackageInfo(packagePath: string): Promise<unknown> {
     };
   } catch {
     return undefined;
+  }
+}
+
+async function readBoundedText(
+  filePath: string,
+  maximumBytes: number,
+  rejectIfTruncated: boolean
+): Promise<string | undefined> {
+  const handle = await open(filePath, "r");
+  try {
+    const buffer = Buffer.alloc(maximumBytes + (rejectIfTruncated ? 1 : 0));
+    const { bytesRead } = await handle.read(buffer, 0, buffer.length, 0);
+    if (rejectIfTruncated && bytesRead > maximumBytes) {
+      return undefined;
+    }
+    return buffer.subarray(0, Math.min(bytesRead, maximumBytes)).toString("utf8");
+  } finally {
+    await handle.close();
   }
 }
 

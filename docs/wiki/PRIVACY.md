@@ -15,3 +15,6 @@ The absolute workspace root is not sent. Before the first OpenAI cache miss in a
 The source filter rejects `.env*`, credentials/secrets files, private keys and certificates, dependency/build/generated directories, generated/minified files, obvious embedded key material, unsupported extensions, and files over the configured size limit. Requests also have a configurable region limit.
 
 Cached results contain region classifications and short explanations, not source text. See [Cache Invalidation](CACHE.md).
+
+Opt-in analyze-on-open never starts OpenAI requests until the workspace has already
+accepted the first-send disclosure through a manual analysis.

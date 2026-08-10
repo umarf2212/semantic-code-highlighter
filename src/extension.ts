@@ -4,6 +4,7 @@ import { LocalHeuristicClassifier } from "./analysis/local-classifier";
 import { TypeScriptRegionExtractor } from "./analysis/region-extractor";
 import { DefaultSourceFilter } from "./analysis/source-filter";
 import { ProjectContextBuilder } from "./analysis/project-context-builder";
+import { shouldAnalyzeAutomatically } from "./analysis/automatic-analysis";
 import {
   createAnalysisCacheKey,
   WorkspaceAnalysisCache
@@ -58,6 +59,11 @@ export function activate(context: vscode.ExtensionContext): void {
   const analyses = new Map<string, DocumentAnalysis>();
   let sessionVisible = true;
   let focusedResponsibility: Responsibility | undefined;
+  let automaticTimer: ReturnType<typeof setTimeout> | undefined;
+  let automaticAbortController: AbortController | undefined;
+  const output = vscode.window.createOutputChannel("Semantic Code Highlighter", {
+    log: true
+  });
 
   const classifierFor = async (document: vscode.TextDocument): Promise<CodeClassifier> => {
     const configuration = vscode.workspace.getConfiguration(
@@ -251,8 +257,77 @@ export function activate(context: vscode.ExtensionContext): void {
     };
   };
 
+  const cancelAutomaticAnalysis = (): void => {
+    if (automaticTimer !== undefined) {
+      clearTimeout(automaticTimer);
+      automaticTimer = undefined;
+    }
+    automaticAbortController?.abort();
+    automaticAbortController = undefined;
+  };
+
+  const scheduleAutomaticAnalysis = (document: vscode.TextDocument): void => {
+    cancelAutomaticAnalysis();
+    const configuration = vscode.workspace.getConfiguration(
+      "semanticCode",
+      document.uri
+    );
+    const existing = analyses.get(document.uri.toString());
+    const provider = configuration.get<"local" | "openai">("provider", "local");
+    if (
+      !shouldAnalyzeAutomatically({
+        enabled: configuration.get<boolean>("analyzeOnOpen", false),
+        scheme: document.uri.scheme,
+        languageId: document.languageId,
+        isDirty: document.isDirty,
+        hasCurrentAnalysis: existing?.version === document.version,
+        provider,
+        openAIDisclosureAccepted: context.workspaceState.get<boolean>(
+          OPENAI_DISCLOSURE_KEY,
+          false
+        )
+      })
+    ) {
+      return;
+    }
+
+    automaticTimer = setTimeout(() => {
+      automaticTimer = undefined;
+      const controller = new AbortController();
+      automaticAbortController = controller;
+      void analyzeDocument(
+        document,
+        { report: () => undefined },
+        controller.signal,
+        undefined,
+        false
+      )
+        .then((outcome) => {
+          if (outcome !== undefined) {
+            output.info(
+              `Automatic analysis mapped ${outcome.classifiedRegionCount} regions in ${vscode.workspace.asRelativePath(document.uri, false)}${outcome.cacheHit ? " from cache" : ""}.`
+            );
+          }
+        })
+        .catch((error: unknown) => {
+          if (!isAbortError(error)) {
+            output.error(
+              `Automatic analysis failed for ${vscode.workspace.asRelativePath(document.uri, false)}: ${error instanceof Error ? error.message : String(error)}`
+            );
+          }
+        })
+        .finally(() => {
+          if (automaticAbortController === controller) {
+            automaticAbortController = undefined;
+          }
+        });
+    }, 450);
+  };
+
   context.subscriptions.push(
     decorations,
+    output,
+    { dispose: cancelAutomaticAnalysis },
     vscode.commands.registerCommand("semanticCode.analyzeCurrentFile", async () => {
       const editor = vscode.window.activeTextEditor;
       if (editor === undefined) {
@@ -492,6 +567,13 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.window.onDidChangeVisibleTextEditors(() => {
       applyToVisibleEditors();
     }),
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
+      if (editor !== undefined) {
+        scheduleAutomaticAnalysis(editor.document);
+      } else {
+        cancelAutomaticAnalysis();
+      }
+    }),
     vscode.workspace.onDidChangeTextDocument(({ document, contentChanges }) => {
       if (contentChanges.length === 0) {
         return;
@@ -505,11 +587,23 @@ export function activate(context: vscode.ExtensionContext): void {
     }),
     vscode.workspace.onDidCloseTextDocument((document) => {
       analyses.delete(document.uri.toString());
+      if (vscode.window.activeTextEditor?.document.uri.toString() === document.uri.toString()) {
+        cancelAutomaticAnalysis();
+      }
+    }),
+    vscode.workspace.onDidSaveTextDocument((document) => {
+      if (vscode.window.activeTextEditor?.document.uri.toString() === document.uri.toString()) {
+        scheduleAutomaticAnalysis(document);
+      }
     }),
     vscode.workspace.onDidChangeConfiguration((event) => {
       if (event.affectsConfiguration("semanticCode")) {
         decorations.reloadConfiguration();
         applyToVisibleEditors();
+        const activeDocument = vscode.window.activeTextEditor?.document;
+        if (activeDocument !== undefined) {
+          scheduleAutomaticAnalysis(activeDocument);
+        }
       }
     }),
     vscode.window.onDidChangeActiveColorTheme(() => {
@@ -517,6 +611,11 @@ export function activate(context: vscode.ExtensionContext): void {
       applyToVisibleEditors();
     })
   );
+
+  const activeDocument = vscode.window.activeTextEditor?.document;
+  if (activeDocument !== undefined) {
+    scheduleAutomaticAnalysis(activeDocument);
+  }
 }
 
 export function deactivate(): void {

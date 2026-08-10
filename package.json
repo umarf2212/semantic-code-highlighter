@@ -137,6 +137,12 @@
           "scope": "resource",
           "description": "Reuse classifications when source, classifier, ontology, prompt, and relevant project context are unchanged."
         },
+        "semanticCode.analyzeOnOpen": {
+          "type": "boolean",
+          "default": false,
+          "scope": "resource",
+          "description": "Analyze the active saved source file after it opens and after saves. OpenAI requires one prior manual analysis and disclosure acceptance."
+        },
         "semanticCode.maxFileSizeKb": {
           "type": "integer",
           "default": 256,

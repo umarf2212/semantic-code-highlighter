@@ -6,6 +6,11 @@ Open a supported file and run `Semantic Code: Analyze Current File` (or use the 
 
 Analysis is manual, cancellable, and progress-labelled. A compact status-bar message reports visible region and responsibility counts and marks cache hits. The command is safe to rerun.
 
+`semanticCode.analyzeOnOpen` is an opt-in convenience for the active saved file and
+saved revisions. It waits briefly to avoid editor churn, never analyzes dirty or
+non-file documents, and reuses the normal filters/cache. OpenAI automatic analysis
+requires a prior manual disclosure acceptance; otherwise it stays dormant.
+
 ## Visual behavior
 
 - Whole-line tints use one low opacity, configurable from `0.04` to `0.25`.

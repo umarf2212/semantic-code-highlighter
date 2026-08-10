@@ -1,0 +1,54 @@
+name: Bug report
+description: Report incorrect, stale, unsafe, or inconvenient behavior.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Do not paste credentials, private source code, absolute personal paths, or OpenAI request payloads.
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Provider
+      options:
+        - Local
+        - OpenAI
+        - Both / provider-independent
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: VS Code version, extension version, OS, and language ID.
+      placeholder: VS Code 1.xx, extension 0.1.0, macOS, TypeScript
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened?
+      description: Describe the visible result without including sensitive source.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal safe reproduction
+      description: Prefer synthetic code or a public repository and exact commands/settings.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed credentials, proprietary source, and identifying paths.
+          required: true

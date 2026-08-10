@@ -1,0 +1,9 @@
+# Workspace Analysis
+
+Workspace analysis is an explicit batch convenience, not a daemon.
+
+`Semantic Code: Analyze Workspace` first chooses exactly one folder in a multi-root workspace, then discovers supported JavaScript/TypeScript files only inside that root while excluding dependencies, build output, generated folders, and the remaining per-file privacy filters. It caps discovery at `semanticCode.maxWorkspaceFiles` (default 50), freezes the provider/model plan, shows the exact bounded scope, provider, cache behavior, and cloud-usage warning in a modal confirmation, then begins only after approval.
+
+Local classification defaults to two concurrent files and is configurable up to four. OpenAI classification is always sequential to reduce rate and cost surprises. The operation reports the current file, is cancellable, reuses unchanged cache entries, counts filtered and failed files separately, and keeps bounded content-hash-validated results available when those files are later opened. One file failure does not falsely stop sibling work.
+
+There is no background watcher and no automatic workspace scan.

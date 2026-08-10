@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security-sensitive report
+    url: https://github.com/umarf2212/semantic-code-highlighter/security/advisories/new
+    about: Report credential exposure, unintended source transmission, or other security issues privately.

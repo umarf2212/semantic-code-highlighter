@@ -20,5 +20,5 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
-      - run: npm run package
-
+      - run: npm run compile
+      - run: npm run package:vsix

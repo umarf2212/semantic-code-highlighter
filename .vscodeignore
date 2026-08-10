@@ -2,9 +2,16 @@
 .vscode/**
 coverage/**
 docs/**
+node_modules/**
 src/**
 test/**
+.qa/**
+artifacts/**
+dist/**/*.map
 .gitignore
+AGENTS.md
+llms.txt
+package-lock.json
 esbuild.mjs
 tsconfig.json
 vitest.config.mts

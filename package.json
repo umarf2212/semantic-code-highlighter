@@ -6,8 +6,29 @@
   "private": true,
   "publisher": "umarf2212",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/umarf2212/semantic-code-highlighter.git"
+  },
+  "homepage": "https://github.com/umarf2212/semantic-code-highlighter#readme",
+  "bugs": {
+    "url": "https://github.com/umarf2212/semantic-code-highlighter/issues"
+  },
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Source analysis is disabled until the workspace is trusted."
+    },
+    "virtualWorkspaces": {
+      "supported": false
+    }
+  },
   "engines": {
-    "vscode": "^1.96.0"
+    "vscode": "^1.125.0"
   },
   "categories": [
     "Visualization",
@@ -26,15 +47,187 @@
     "onLanguage:javascriptreact",
     "onLanguage:typescript",
     "onLanguage:typescriptreact",
-    "onCommand:semanticCode.hello"
+    "onCommand:semanticCode.analyzeCurrentFile",
+    "onCommand:semanticCode.analyzeWorkspace",
+    "onCommand:semanticCode.clearAnalysis",
+    "onCommand:semanticCode.clearCache",
+    "onCommand:semanticCode.focusResponsibility",
+    "onCommand:semanticCode.showResponsibilitySummary",
+    "onCommand:semanticCode.toggleVisualization",
+    "onCommand:semanticCode.setOpenAIKey",
+    "onCommand:semanticCode.forgetOpenAIKey"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "semanticCode.hello",
-        "title": "Semantic Code: Show Scaffold Status"
+        "command": "semanticCode.analyzeCurrentFile",
+        "title": "Semantic Code: Analyze Current File",
+        "icon": "$(symbol-color)"
+      },
+      {
+        "command": "semanticCode.analyzeWorkspace",
+        "title": "Semantic Code: Analyze Workspace"
+      },
+      {
+        "command": "semanticCode.clearAnalysis",
+        "title": "Semantic Code: Clear Session Analysis"
+      },
+      {
+        "command": "semanticCode.clearCache",
+        "title": "Semantic Code: Clear Cached Analysis"
+      },
+      {
+        "command": "semanticCode.toggleVisualization",
+        "title": "Semantic Code: Toggle Visualization"
+      },
+      {
+        "command": "semanticCode.focusResponsibility",
+        "title": "Semantic Code: Focus Responsibility Lens",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "semanticCode.showResponsibilitySummary",
+        "title": "Semantic Code: Show Responsibility Summary",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "semanticCode.setOpenAIKey",
+        "title": "Semantic Code: Set OpenAI API Key"
+      },
+      {
+        "command": "semanticCode.forgetOpenAIKey",
+        "title": "Semantic Code: Forget OpenAI API Key"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "semanticCode.analyzeCurrentFile",
+          "group": "navigation@20",
+          "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
+        },
+        {
+          "command": "semanticCode.focusResponsibility",
+          "group": "navigation@21",
+          "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
+        },
+        {
+          "command": "semanticCode.showResponsibilitySummary",
+          "group": "navigation@22",
+          "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Semantic Code Highlighter",
+      "properties": {
+        "semanticCode.enabled": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Show responsibility background bands after a file has been analyzed."
+        },
+        "semanticCode.provider": {
+          "type": "string",
+          "enum": [
+            "local",
+            "openai"
+          ],
+          "enumDescriptions": [
+            "Immediate, private, deterministic heuristics with lower semantic accuracy.",
+            "Opt-in cloud classification using structured outputs and a key held in VS Code SecretStorage."
+          ],
+          "default": "local",
+          "scope": "resource",
+          "description": "Classifier used for manual analysis and opt-in automatic analysis."
+        },
+        "semanticCode.model": {
+          "type": "string",
+          "default": "gpt-5.4-nano",
+          "scope": "resource",
+          "description": "OpenAI model used by the openai provider. The model must support structured outputs."
+        },
+        "semanticCode.opacity": {
+          "type": "number",
+          "default": 0.12,
+          "minimum": 0.04,
+          "maximum": 0.25,
+          "scope": "window",
+          "description": "Opacity of responsibility background bands. Confidence remains qualitative on hover."
+        },
+        "semanticCode.minimumConfidence": {
+          "type": "number",
+          "default": 0.5,
+          "minimum": 0,
+          "maximum": 1,
+          "scope": "resource",
+          "description": "Hide classifications below this confidence threshold."
+        },
+        "semanticCode.cacheEnabled": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Reuse classifications when source, classifier, ontology, prompt, and relevant project context are unchanged."
+        },
+        "semanticCode.analyzeOnOpen": {
+          "type": "boolean",
+          "default": false,
+          "scope": "resource",
+          "description": "Analyze the active saved source file after it opens and after saves. OpenAI requires one prior manual analysis and disclosure acceptance."
+        },
+        "semanticCode.maxFileSizeKb": {
+          "type": "integer",
+          "default": 256,
+          "minimum": 16,
+          "maximum": 2048,
+          "scope": "resource",
+          "description": "Maximum source file size eligible for analysis."
+        },
+        "semanticCode.maxRegions": {
+          "type": "integer",
+          "default": 220,
+          "minimum": 20,
+          "maximum": 1000,
+          "scope": "resource",
+          "description": "Maximum AST regions eligible for one classification request."
+        },
+        "semanticCode.maxWorkspaceFiles": {
+          "type": "integer",
+          "default": 50,
+          "minimum": 1,
+          "maximum": 500,
+          "scope": "resource",
+          "description": "Maximum files processed by one explicit workspace analysis."
+        },
+        "semanticCode.workspaceConcurrency": {
+          "type": "integer",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 4,
+          "scope": "resource",
+          "description": "Concurrent local workspace analyses. OpenAI analysis remains sequential to limit rate and cost surprises."
+        },
+        "semanticCode.colors": {
+          "type": "object",
+          "scope": "window",
+          "default": {
+            "business_logic": "#2E7D32",
+            "validation": "#F9A825",
+            "utility": "#1565C0",
+            "data": "#00838F",
+            "infrastructure": "#6A1B9A",
+            "external_io": "#EF6C00",
+            "transformation": "#AD1457",
+            "mixed": "#616161"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "description": "Base colors for responsibility bands. Six-digit hex colors only."
+        }
+      }
+    }
   },
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
@@ -43,15 +236,19 @@
     "check": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "package": "node esbuild.mjs --production"
+    "package": "node esbuild.mjs --production",
+    "package:vsix": "npm run package && node -e \"require('node:fs').mkdirSync('artifacts', { recursive: true })\" && vsce package --out artifacts/semantic-code-highlighter.vsix"
   },
   "dependencies": {
-    "typescript": "^7.0.2"
+    "openai": "^7.4.0",
+    "typescript": "^5.9.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
     "@types/vscode": "^1.125.0",
     "@vitest/coverage-v8": "^4.1.10",
+    "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.2",
     "vitest": "^4.1.10"
   }

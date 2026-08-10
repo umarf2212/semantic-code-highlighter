@@ -13,6 +13,7 @@
 - [Cache invalidation](docs/wiki/CACHE.md)
 - [User experience decisions](docs/wiki/UX.md)
 - [Workspace analysis](docs/wiki/WORKSPACE_ANALYSIS.md)
+- [Project context](docs/wiki/PROJECT_CONTEXT.md)
 - [Roadmap and feature gates](docs/wiki/ROADMAP.md)
 - [Architecture decisions](docs/wiki/adr/)
 

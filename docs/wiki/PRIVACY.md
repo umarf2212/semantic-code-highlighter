@@ -7,7 +7,7 @@ The `openai` provider runs only after the user selects it and explicitly invokes
 - Relative file path
 - VS Code language ID
 - AST region types, line ranges, names, IDs, and hierarchy
-- Optional bounded package/project instructions
+- Optional bounded package dependency names and explicit `.semantic-code.md` instructions
 - Current source text once
 
 The absolute workspace root is not sent. Before the first OpenAI cache miss in a workspace, a modal disclosure names the data and destination. Cancellation sends nothing.

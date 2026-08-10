@@ -13,6 +13,7 @@ This directory is the version-controlled source of truth for product intent and 
 7. [Cache Invalidation](CACHE.md)
 8. [User Experience Decisions](UX.md)
 9. [Workspace Analysis](WORKSPACE_ANALYSIS.md)
-10. [Architecture Decision Records](adr/)
+10. [Project Context](PROJECT_CONTEXT.md)
+11. [Architecture Decision Records](adr/)
 
 Future branches add privacy, prompt/schema, cache, evaluation, and user-experience pages when those systems become real. Documentation must describe shipped behavior, not speculative machinery.

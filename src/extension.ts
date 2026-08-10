@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import { LocalHeuristicClassifier } from "./analysis/local-classifier";
 import { TypeScriptRegionExtractor } from "./analysis/region-extractor";
 import { DefaultSourceFilter } from "./analysis/source-filter";
+import { ProjectContextBuilder } from "./analysis/project-context-builder";
 import {
   createAnalysisCacheKey,
   WorkspaceAnalysisCache
@@ -50,6 +51,7 @@ const OPENAI_DISCLOSURE_KEY = "semanticCode.openaiDisclosureAccepted.v1";
 
 export function activate(context: vscode.ExtensionContext): void {
   const extractor = new TypeScriptRegionExtractor();
+  const projectContextBuilder = new ProjectContextBuilder();
   const localClassifier: CodeClassifier = new LocalHeuristicClassifier();
   const decorations = new DecorationManager();
   const cache = new WorkspaceAnalysisCache(context.workspaceState);
@@ -170,16 +172,20 @@ export function activate(context: vscode.ExtensionContext): void {
       return;
     }
     const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+    progress.report({ message: "Reading bounded project context…" });
+    const projectContext = await projectContextBuilder.build(
+      document.uri.fsPath,
+      workspaceFolder?.uri.fsPath ?? "",
+      document.languageId
+    );
+    signal.throwIfAborted();
     const request = {
       filePath: workspaceFolder
         ? vscode.workspace.asRelativePath(document.uri, false)
         : document.uri.fsPath,
       sourceCode,
       regions,
-      projectContext: {
-        workspaceRoot: workspaceFolder?.uri.fsPath ?? "",
-        language: document.languageId
-      },
+      projectContext,
       signal
     };
     const provider = configuration.get<"local" | "openai">("provider", "local");

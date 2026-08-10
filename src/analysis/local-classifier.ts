@@ -15,7 +15,7 @@ interface HeuristicClassification {
 
 export class LocalHeuristicClassifier implements CodeClassifier {
   readonly id = "local";
-  readonly version = "2";
+  readonly version = "3";
 
   async classify(request: ClassificationRequest): Promise<ClassificationResult> {
     request.signal?.throwIfAborted();
@@ -120,7 +120,8 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
       evidence
     ) ||
     /\.(map|flatmap|reduce)\s*\(/.test(source) ||
-    /json\.(parse|stringify)\s*\(/.test(source)
+    /json\.(parse|stringify)\s*\(/.test(source) ||
+    /\.(exec|positionat)\s*\(/.test(source)
   ) {
     return classification(
       "transformation",
@@ -135,7 +136,13 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
     /\b(config|configure|setup|initialize|bootstrap|middleware|router|container|provider|adapter|connection)\b/.test(
       evidence
     ) ||
-    /\b(process\.env|createclient|createserver)\b/.test(source)
+    /\b(process\.env|createclient|createserver)\b/.test(source) ||
+    /\bvscode\.(window|workspace|commands|languages|debug|extensions|env)\b/.test(source) ||
+    /\bcontext\.subscriptions\b/.test(source) ||
+    /\.(ondidchange\w*|setdecorations|createtexteditordecorationtype|register\w*provider|registercommand)\s*\(/.test(
+      source
+    ) ||
+    /\bconsole\.(log|warn|error|debug|info)\s*\(/.test(source)
   ) {
     return classification(
       "infrastructure",
@@ -145,7 +152,8 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
   }
   if (
     /(^|[/._-])(util|utils|helpers?)([/._-]|$)/.test(path) ||
-    /\b(util|helper|format|slug|clamp|memoize|debounce|throttle)\b/.test(name)
+    /\b(util|helper|format|slug|clamp|memoize|debounce|throttle)\b/.test(name) ||
+    /\b(settimeout|cleartimeout|setinterval|clearinterval|queuemicrotask)\s*\(/.test(source)
   ) {
     return classification(
       "utility",

@@ -57,6 +57,41 @@ describe("LocalHeuristicClassifier", () => {
     ).toBe("unknown");
   });
 
+  it("recognizes evidenced editor-platform setup without coloring generic calls", async () => {
+    const platformSource = `
+import * as vscode from "vscode";
+export function activate(context: vscode.ExtensionContext) {
+  doWork();
+  const decoration = vscode.window.createTextEditorDecorationType({ isWholeLine: true });
+  vscode.workspace.onDidChangeTextDocument(() => decoration.dispose(), null, context.subscriptions);
+  setTimeout(() => decoration.dispose(), 100);
+}`;
+    const regions = new TypeScriptRegionExtractor().extract(
+      "decorator-sample/src/extension.ts",
+      platformSource
+    );
+    const result = await new LocalHeuristicClassifier().classify({
+      filePath: "decorator-sample/src/extension.ts",
+      sourceCode: platformSource,
+      regions,
+      projectContext: { workspaceRoot: "/workspace", language: "typescript" }
+    });
+    const responsibilityForStatement = (snippet: string) => {
+      const region = regions.find(
+        ({ type, source: regionSource }) =>
+          type === "statement" && regionSource.includes(snippet)
+      );
+      return result.regions.find(({ regionId }) => regionId === region?.id)?.responsibility;
+    };
+
+    expect(responsibilityForStatement("doWork")).toBe("unknown");
+    expect(responsibilityForStatement("createTextEditorDecorationType")).toBe(
+      "infrastructure"
+    );
+    expect(responsibilityForStatement("onDidChangeTextDocument")).toBe("infrastructure");
+    expect(responsibilityForStatement("setTimeout")).toBe("utility");
+  });
+
   it.each([
     {
       filePath: "src/utils/format.ts",

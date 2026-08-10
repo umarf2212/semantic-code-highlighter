@@ -2,6 +2,8 @@
 
 Semantic Code Highlighter turns a JavaScript or TypeScript file into a subtle, responsibility-based map. Whole-line background bands distinguish business logic, validation, utilities, data, infrastructure, external I/O, and transformations—so you can understand an unfamiliar file before reading every line.
 
+Install the pre-release from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=umarf2212.semantic-code-highlighter), or search for **Semantic Code Highlighter** in VS Code Extensions.
+
 ![VS Code editor showing semantic responsibility bands](docs/images/semantic-map.png)
 
 The source is never modified. Ambiguous or low-confidence code stays uncolored instead of receiving a persuasive guess.

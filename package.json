@@ -3,8 +3,10 @@
   "displayName": "Semantic Code Highlighter",
   "description": "A subtle responsibility map for JavaScript and TypeScript source code.",
   "version": "0.1.0",
+  "preview": true,
   "private": true,
   "publisher": "umarf2212",
+  "icon": "media/icon.png",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -231,13 +233,14 @@
   },
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "vscode:prepublish": "npm run package",
     "compile": "npm run check && node esbuild.mjs",
     "watch": "node esbuild.mjs --watch",
     "check": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "package": "node esbuild.mjs --production",
-    "package:vsix": "npm run package && node -e \"require('node:fs').mkdirSync('artifacts', { recursive: true })\" && vsce package --out artifacts/semantic-code-highlighter.vsix"
+    "package:vsix": "npm run package && node -e \"require('node:fs').mkdirSync('artifacts', { recursive: true })\" && vsce package --pre-release --out artifacts/semantic-code-highlighter.vsix"
   },
   "dependencies": {
     "openai": "^7.4.0",

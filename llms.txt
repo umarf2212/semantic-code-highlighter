@@ -12,6 +12,7 @@
 - [Privacy and data sent](docs/wiki/PRIVACY.md)
 - [Cache invalidation](docs/wiki/CACHE.md)
 - [User experience decisions](docs/wiki/UX.md)
+- [Workspace analysis](docs/wiki/WORKSPACE_ANALYSIS.md)
 - [Roadmap and feature gates](docs/wiki/ROADMAP.md)
 - [Architecture decisions](docs/wiki/adr/)
 

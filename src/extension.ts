@@ -19,6 +19,7 @@ import {
 } from "./domain/responsibility";
 import { OpenAIClassifier } from "./llm/openai-classifier";
 import { CLASSIFICATION_PROMPT_VERSION } from "./llm/classification-prompt";
+import { runWithConcurrency } from "./utils/run-with-concurrency";
 import { DecorationManager } from "./visualization/decoration-manager";
 
 const SUPPORTED_LANGUAGE_IDS = new Set([
@@ -113,19 +114,22 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const analyzeDocument = async (
     document: vscode.TextDocument,
-    progress: vscode.Progress<{ message?: string; increment?: number }>,
+    progress: vscode.Progress<{ message?: string }>,
     signal: AbortSignal,
-    targetEditor?: vscode.TextEditor
+    targetEditor?: vscode.TextEditor,
+    notifySkips = true
   ): Promise<AnalysisOutcome | undefined> => {
     if (!SUPPORTED_LANGUAGE_IDS.has(document.languageId)) {
-      await vscode.window.showWarningMessage(
-        "Semantic Code Highlighter currently supports JavaScript and TypeScript files."
-      );
+      if (notifySkips) {
+        await vscode.window.showWarningMessage(
+          "Semantic Code Highlighter currently supports JavaScript and TypeScript files."
+        );
+      }
       return;
     }
 
     signal.throwIfAborted();
-    progress.report({ message: "Checking source safety…", increment: 10 });
+    progress.report({ message: "Checking source safety…" });
     const configuration = vscode.workspace.getConfiguration(
       "semanticCode",
       document.uri
@@ -137,26 +141,32 @@ export function activate(context: vscode.ExtensionContext): void {
       sourceCode
     );
     if (!sourceDecision.allowed) {
-      await vscode.window.showWarningMessage(
-        `Semantic Code did not analyze this file: ${sourceDecision.reason ?? "excluded by the source filter"}`
-      );
+      if (notifySkips) {
+        await vscode.window.showWarningMessage(
+          `Semantic Code did not analyze this file: ${sourceDecision.reason ?? "excluded by the source filter"}`
+        );
+      }
       return;
     }
     const version = document.version;
-    progress.report({ message: "Finding semantic regions…", increment: 20 });
+    progress.report({ message: "Finding semantic regions…" });
     const regions = extractor.extract(document.uri.fsPath, sourceCode);
     signal.throwIfAborted();
     if (regions.length === 0) {
-      await vscode.window.showInformationMessage(
-        "Semantic Code found no meaningful regions in this file."
-      );
+      if (notifySkips) {
+        await vscode.window.showInformationMessage(
+          "Semantic Code found no meaningful regions in this file."
+        );
+      }
       return;
     }
     const maxRegions = configuration.get<number>("maxRegions", 220);
     if (regions.length > maxRegions) {
-      await vscode.window.showWarningMessage(
-        `Semantic Code found ${regions.length} regions, above the configured limit of ${maxRegions}. Raise semanticCode.maxRegions or analyze a smaller file.`
-      );
+      if (notifySkips) {
+        await vscode.window.showWarningMessage(
+          `Semantic Code found ${regions.length} regions, above the configured limit of ${maxRegions}. Raise semanticCode.maxRegions or analyze a smaller file.`
+        );
+      }
       return;
     }
     const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
@@ -198,7 +208,7 @@ export function activate(context: vscode.ExtensionContext): void {
           await context.workspaceState.update(OPENAI_DISCLOSURE_KEY, true);
         }
       }
-      progress.report({ message: provider === "openai" ? "Classifying with OpenAI…" : "Classifying locally…", increment: 35 });
+      progress.report({ message: provider === "openai" ? "Classifying with OpenAI…" : "Classifying locally…" });
       const classifier = await classifierFor(document);
       result = await classifier.classify(request);
       signal.throwIfAborted();
@@ -206,7 +216,7 @@ export function activate(context: vscode.ExtensionContext): void {
         await cache.set(cacheKey, result);
       }
     } else {
-      progress.report({ message: "Using unchanged cached analysis…", increment: 35 });
+      progress.report({ message: "Using unchanged cached analysis…" });
     }
 
     if (document.version !== version) {
@@ -219,7 +229,7 @@ export function activate(context: vscode.ExtensionContext): void {
       decorations.apply(targetEditor, regions, result, focusedResponsibility);
     }
     applyToVisibleEditors(document.uri);
-    progress.report({ message: "Rendering responsibility map…", increment: 35 });
+    progress.report({ message: "Rendering responsibility map…" });
 
     const minimumConfidence = configuration.get<number>("minimumConfidence", 0.5);
     const visibleClassifications = result.regions.filter(
@@ -281,6 +291,130 @@ export function activate(context: vscode.ExtensionContext): void {
         const message = error instanceof Error ? error.message : String(error);
         await vscode.window.showErrorMessage(`Semantic Code analysis failed: ${message}`);
       }
+    }),
+    vscode.commands.registerCommand("semanticCode.analyzeWorkspace", async () => {
+      const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+      if (workspaceFolder === undefined) {
+        await vscode.window.showWarningMessage(
+          "Open a workspace before running Semantic Code workspace analysis."
+        );
+        return;
+      }
+      const configuration = vscode.workspace.getConfiguration(
+        "semanticCode",
+        workspaceFolder.uri
+      );
+      const maximumFiles = configuration.get<number>("maxWorkspaceFiles", 50);
+      const discovered = await vscode.workspace.findFiles(
+        "**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}",
+        "**/{node_modules,bower_components,vendor,dist,build,out,coverage,.git,.next,.nuxt,generated}/**",
+        maximumFiles + 1
+      );
+      const capped = discovered.length > maximumFiles;
+      const uris = discovered
+        .sort((left, right) => left.fsPath.localeCompare(right.fsPath))
+        .slice(0, maximumFiles);
+      if (uris.length === 0) {
+        await vscode.window.showInformationMessage(
+          "Semantic Code found no supported workspace files."
+        );
+        return;
+      }
+
+      const provider = configuration.get<"local" | "openai">("provider", "local");
+      const scopeText = capped
+        ? `the first ${uris.length} files (more were found)`
+        : `${uris.length} file${uris.length === 1 ? "" : "s"}`;
+      const detail =
+        provider === "openai"
+          ? `Analyze ${scopeText} with OpenAI? Each cache miss sends one filtered source file and may incur API usage.`
+          : `Analyze ${scopeText} locally? Cached unchanged files will be reused.`;
+      const actionLabel = `Analyze ${uris.length} File${uris.length === 1 ? "" : "s"}`;
+      const action = await vscode.window.showWarningMessage(
+        detail,
+        { modal: true },
+        actionLabel
+      );
+      if (action !== actionLabel) {
+        return;
+      }
+      if (provider === "openai") {
+        await context.workspaceState.update(OPENAI_DISCLOSURE_KEY, true);
+      }
+
+      let completed = 0;
+      let mapped = 0;
+      let skipped = 0;
+      let cacheHits = 0;
+      try {
+        await vscode.window.withProgress(
+          {
+            location: vscode.ProgressLocation.Notification,
+            title: "Mapping workspace responsibilities",
+            cancellable: true
+          },
+          async (progress, token) => {
+            const abortController = new AbortController();
+            const cancellation = token.onCancellationRequested(() => {
+              abortController.abort();
+            });
+            const configuredConcurrency = configuration.get<number>(
+              "workspaceConcurrency",
+              2
+            );
+            const concurrency = provider === "openai" ? 1 : configuredConcurrency;
+            try {
+              await runWithConcurrency(uris, concurrency, async (uri) => {
+                abortController.signal.throwIfAborted();
+                const document = await vscode.workspace.openTextDocument(uri);
+                const outcome = await analyzeDocument(
+                  document,
+                  {
+                    report: ({ message }) => {
+                      if (message !== undefined) {
+                        progress.report({
+                          message: `${completed + 1}/${uris.length} ${vscode.workspace.asRelativePath(uri, false)} — ${message}`
+                        });
+                      }
+                    }
+                  },
+                  abortController.signal,
+                  undefined,
+                  false
+                );
+                completed += 1;
+                progress.report({ increment: 100 / uris.length });
+                if (outcome === undefined) {
+                  skipped += 1;
+                } else {
+                  mapped += 1;
+                  if (outcome.cacheHit) {
+                    cacheHits += 1;
+                  }
+                }
+              });
+            } finally {
+              cancellation.dispose();
+            }
+          }
+        );
+      } catch (error) {
+        if (isAbortError(error)) {
+          vscode.window.setStatusBarMessage(
+            `Semantic Code workspace analysis cancelled after ${completed}/${uris.length} files`,
+            3000
+          );
+          return;
+        }
+        const message = error instanceof Error ? error.message : String(error);
+        await vscode.window.showErrorMessage(
+          `Semantic Code workspace analysis stopped: ${message}`
+        );
+        return;
+      }
+      await vscode.window.showInformationMessage(
+        `Semantic Code mapped ${mapped} file${mapped === 1 ? "" : "s"}; ${cacheHits} cache hit${cacheHits === 1 ? "" : "s"}; ${skipped} skipped.`
+      );
     }),
     vscode.commands.registerCommand("semanticCode.clearAnalysis", () => {
       analyses.clear();

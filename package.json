@@ -27,6 +27,7 @@
     "onLanguage:typescript",
     "onLanguage:typescriptreact",
     "onCommand:semanticCode.analyzeCurrentFile",
+    "onCommand:semanticCode.analyzeWorkspace",
     "onCommand:semanticCode.clearAnalysis",
     "onCommand:semanticCode.clearCache",
     "onCommand:semanticCode.focusResponsibility",
@@ -40,6 +41,10 @@
         "command": "semanticCode.analyzeCurrentFile",
         "title": "Semantic Code: Analyze Current File",
         "icon": "$(symbol-color)"
+      },
+      {
+        "command": "semanticCode.analyzeWorkspace",
+        "title": "Semantic Code: Analyze Workspace"
       },
       {
         "command": "semanticCode.clearAnalysis",
@@ -147,6 +152,22 @@
           "maximum": 1000,
           "scope": "resource",
           "description": "Maximum AST regions eligible for one classification request."
+        },
+        "semanticCode.maxWorkspaceFiles": {
+          "type": "integer",
+          "default": 50,
+          "minimum": 1,
+          "maximum": 500,
+          "scope": "resource",
+          "description": "Maximum files processed by one explicit workspace analysis."
+        },
+        "semanticCode.workspaceConcurrency": {
+          "type": "integer",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 4,
+          "scope": "resource",
+          "description": "Concurrent local workspace analyses. OpenAI analysis remains sequential to limit rate and cost surprises."
         },
         "semanticCode.colors": {
           "type": "object",

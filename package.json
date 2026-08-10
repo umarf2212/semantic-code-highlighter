@@ -1,0 +1,58 @@
+{
+  "name": "semantic-code-highlighter",
+  "displayName": "Semantic Code Highlighter",
+  "description": "A subtle responsibility map for JavaScript and TypeScript source code.",
+  "version": "0.1.0",
+  "private": true,
+  "publisher": "umarf2212",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "semantic",
+    "responsibility",
+    "architecture",
+    "highlighting",
+    "code navigation"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact",
+    "onCommand:semanticCode.hello"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "semanticCode.hello",
+        "title": "Semantic Code: Show Scaffold Status"
+      }
+    ]
+  },
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "compile": "npm run check && node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "package": "node esbuild.mjs --production"
+  },
+  "dependencies": {
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@types/vscode": "^1.125.0",
+    "@vitest/coverage-v8": "^4.1.10",
+    "esbuild": "^0.28.2",
+    "vitest": "^4.1.10"
+  }
+}

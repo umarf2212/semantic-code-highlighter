@@ -11,8 +11,7 @@
 
 ## High-value follow-ups
 
-1. Lightweight file responsibility statistics
-2. Alternate providers and evidence-backed context expansion
+1. Alternate providers and evidence-backed context expansion
 
 The responsibility lens shipped immediately after the core map because it directly
 supports navigation and requires no additional source transmission.
@@ -21,6 +20,8 @@ capped, cancellable, and cache-first.
 Minimal package metadata and explicit `.semantic-code.md` context shipped to improve
 ambiguous responsibility labels without scanning unrelated files.
 Opt-in analyze-on-open shipped with saved-file, cache, and prior-disclosure guards.
+The file responsibility summary shipped as an on-demand navigation aid rather than
+a persistent dashboard or quality metric.
 
 ## Deferred until evidence justifies them
 

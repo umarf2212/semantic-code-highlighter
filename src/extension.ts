@@ -23,6 +23,7 @@ import { OpenAIClassifier } from "./llm/openai-classifier";
 import { CLASSIFICATION_PROMPT_VERSION } from "./llm/classification-prompt";
 import { runWithConcurrency } from "./utils/run-with-concurrency";
 import { DecorationManager } from "./visualization/decoration-manager";
+import { buildResponsibilitySummary } from "./visualization/responsibility-summary";
 
 const SUPPORTED_LANGUAGE_IDS = new Set([
   "javascript",
@@ -45,6 +46,11 @@ interface AnalysisOutcome {
 
 interface ResponsibilityQuickPickItem extends vscode.QuickPickItem {
   responsibility?: Responsibility;
+}
+
+interface ResponsibilitySummaryQuickPickItem extends vscode.QuickPickItem {
+  responsibility: Responsibility;
+  firstLine: number;
 }
 
 const OPENAI_API_KEY_SECRET = "semanticCode.openaiApiKey";
@@ -547,6 +553,69 @@ export function activate(context: vscode.ExtensionContext): void {
         2400
       );
     }),
+    vscode.commands.registerCommand(
+      "semanticCode.showResponsibilitySummary",
+      async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor === undefined) {
+          await vscode.window.showWarningMessage(
+            "Open a source file before viewing its responsibility summary."
+          );
+          return;
+        }
+        const analysis = analyses.get(editor.document.uri.toString());
+        if (analysis === undefined || analysis.version !== editor.document.version) {
+          const action = await vscode.window.showInformationMessage(
+            "Analyze this file before viewing its responsibility summary.",
+            "Analyze Now"
+          );
+          if (action === "Analyze Now") {
+            await vscode.commands.executeCommand("semanticCode.analyzeCurrentFile");
+            await vscode.commands.executeCommand(
+              "semanticCode.showResponsibilitySummary"
+            );
+          }
+          return;
+        }
+        const minimumConfidence = vscode.workspace
+          .getConfiguration("semanticCode", editor.document.uri)
+          .get<number>("minimumConfidence", 0.5);
+        const summary = buildResponsibilitySummary(
+          analysis.regions,
+          analysis.result,
+          minimumConfidence
+        );
+        if (summary.length === 0) {
+          await vscode.window.showInformationMessage(
+            "No classifications meet the current confidence threshold."
+          );
+          return;
+        }
+        const items: ResponsibilitySummaryQuickPickItem[] = summary.map((item) => ({
+          label: `${RESPONSIBILITY_METADATA[item.responsibility].label} — ${item.percentage}%`,
+          description: `${item.lineCount} colored line${item.lineCount === 1 ? "" : "s"}`,
+          detail: RESPONSIBILITY_METADATA[item.responsibility].description,
+          responsibility: item.responsibility,
+          firstLine: item.firstLine
+        }));
+        const selected = await vscode.window.showQuickPick(items, {
+          title: "Responsibility distribution",
+          placeHolder: "Choose a responsibility to focus and reveal its first region"
+        });
+        if (selected === undefined) {
+          return;
+        }
+        focusedResponsibility = selected.responsibility;
+        sessionVisible = true;
+        applyToVisibleEditors(editor.document.uri);
+        const position = new vscode.Position(selected.firstLine, 0);
+        editor.selection = new vscode.Selection(position, position);
+        editor.revealRange(
+          new vscode.Range(position, position),
+          vscode.TextEditorRevealType.InCenterIfOutsideViewport
+        );
+      }
+    ),
     vscode.commands.registerCommand("semanticCode.setOpenAIKey", async () => {
       const apiKey = await vscode.window.showInputBox({
         title: "Semantic Code: OpenAI API Key",

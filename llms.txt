@@ -14,6 +14,7 @@
 - [User experience decisions](docs/wiki/UX.md)
 - [Workspace analysis](docs/wiki/WORKSPACE_ANALYSIS.md)
 - [Project context](docs/wiki/PROJECT_CONTEXT.md)
+- [Responsibility summary](docs/wiki/RESPONSIBILITY_SUMMARY.md)
 - [Roadmap and feature gates](docs/wiki/ROADMAP.md)
 - [Architecture decisions](docs/wiki/adr/)
 

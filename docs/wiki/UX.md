@@ -21,6 +21,8 @@ requires a prior manual disclosure acceptance; otherwise it stays dormant.
 - Toggle is instant and never invokes a classifier.
 - The responsibility lens can show one category at a time without re-analysis;
   choosing “Show all” restores the complete map.
+- The on-demand responsibility summary reports disjoint colored-line percentages;
+  selecting a category focuses its lens and jumps to its first region.
 - Any content edit clears the old map immediately; rerun is explicit.
 
 ## Failure behavior

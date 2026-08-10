@@ -15,7 +15,7 @@ export const classificationPayloadSchema = z
             regionId: z.string().min(1),
             responsibility: z.enum(RESPONSIBILITIES),
             confidence: z.number().min(0).max(1),
-            explanation: z.string().trim().min(1).max(240).optional()
+            explanation: z.string().trim().min(1).max(240)
           })
           .strict()
       )
@@ -71,9 +71,7 @@ export function validateClassificationPayload(
       regionId: classified.regionId,
       responsibility: classified.responsibility,
       confidence: classified.confidence,
-      ...(classified.explanation === undefined
-        ? {}
-        : { explanation: classified.explanation })
+      explanation: classified.explanation
     }))
   };
 }

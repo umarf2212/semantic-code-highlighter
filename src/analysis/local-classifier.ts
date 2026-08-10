@@ -15,7 +15,7 @@ interface HeuristicClassification {
 
 export class LocalHeuristicClassifier implements CodeClassifier {
   readonly id = "local";
-  readonly version = "1";
+  readonly version = "2";
 
   async classify(request: ClassificationRequest): Promise<ClassificationResult> {
     request.signal?.throwIfAborted();
@@ -73,6 +73,15 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
 
   if (["interface", "type", "enum"].includes(region.type)) {
     return classification("data", 0.98, "Declares a data shape or value set.");
+  }
+  if (
+    (region.type === "class" &&
+      /(^|[/._-])(models?|schemas?|types?)([/._-]|$)/.test(path)) ||
+    (region.type === "statement" &&
+      (/^const\s+[A-Z][A-Z\d_]*\s*=/.test(region.source.trim()) ||
+        /\bas const\b/.test(source)))
+  ) {
+    return classification("data", 0.76, "Defines a stable data value or representation.");
   }
   if (region.type === "imports") {
     return classification(
@@ -144,18 +153,16 @@ function classifyRegion(region: CodeRegion, filePath: string): HeuristicClassifi
       "Provides generic reusable functionality."
     );
   }
-  if (region.type === "statement" || region.type === "if" || region.type === "loop") {
+  if (
+    /(^|[/._-])(domain|services?|use-?cases?|workflows?)([/._-]|$)/.test(path) ||
+    /\b(calculate|pricing|price|total|discount|eligib\w*|order|invoice|payment|checkout|cart|balance|quota|policy|approve|reject)\w*\b/.test(
+      evidence
+    )
+  ) {
     return classification(
       "business_logic",
-      0.62,
-      "Implements an application decision, calculation, or workflow step."
-    );
-  }
-  if (region.type === "function" || region.type === "method") {
-    return classification(
-      "business_logic",
-      0.56,
-      "Appears to implement application behavior."
+      0.74,
+      "Implements an evidenced domain decision, calculation, or workflow step."
     );
   }
   return unknownClassification();

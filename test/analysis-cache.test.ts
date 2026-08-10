@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   createAnalysisCacheKey,
+  createContentHash,
   WorkspaceAnalysisCache,
   type CacheStore
 } from "../src/cache/analysis-cache";
@@ -37,6 +38,11 @@ const result: ClassificationResult = {
 };
 
 describe("WorkspaceAnalysisCache", () => {
+  it("uses content hashes rather than transient document versions", () => {
+    expect(createContentHash("same source")).toBe(createContentHash("same source"));
+    expect(createContentHash("same source")).not.toBe(createContentHash("changed source"));
+  });
+
   it("hits unchanged content and clears persisted results", async () => {
     const cache = new WorkspaceAnalysisCache(new MemoryStore());
     const key = createAnalysisCacheKey(request, { id: "local", version: "1" });
@@ -72,4 +78,3 @@ describe("WorkspaceAnalysisCache", () => {
     expect(new Set([base, sourceChanged, providerChanged, contextChanged]).size).toBe(4);
   });
 });
-

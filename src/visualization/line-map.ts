@@ -14,6 +14,7 @@ export interface ResponsibilitySpan {
 interface LineCandidate extends ResponsibilitySpan {
   depth: number;
   lineSpan: number;
+  renderable: boolean;
 }
 
 export function buildResponsibilitySpans(
@@ -26,11 +27,7 @@ export function buildResponsibilitySpans(
 
   for (const classified of result.regions) {
     const region = regionById.get(classified.regionId);
-    if (
-      region === undefined ||
-      classified.responsibility === "unknown" ||
-      classified.confidence < minimumConfidence
-    ) {
+    if (region === undefined) {
       continue;
     }
     const candidate: LineCandidate = {
@@ -41,6 +38,9 @@ export function buildResponsibilitySpans(
       confidence: classified.confidence,
       depth: region.depth,
       lineSpan: region.endLine - region.startLine + 1,
+      renderable:
+        classified.responsibility !== "unknown" &&
+        classified.confidence >= minimumConfidence,
       ...(classified.explanation === undefined
         ? {}
         : { explanation: classified.explanation })
@@ -58,7 +58,7 @@ export function buildResponsibilitySpans(
 
   const spans: ResponsibilitySpan[] = [];
   for (const { line, winner } of winners) {
-    if (winner === undefined) {
+    if (winner === undefined || !winner.renderable) {
       continue;
     }
     const previous = spans.at(-1);
@@ -84,14 +84,24 @@ export function buildResponsibilitySpans(
 }
 
 function pickWinner(candidates: LineCandidate[]): LineCandidate | undefined {
-  const specific = candidates.filter(({ responsibility }) => responsibility !== "mixed");
-  const pool = specific.length > 0 ? specific : candidates;
-  return [...pool].sort(
+  const maximumDepth = Math.max(...candidates.map(({ depth }) => depth));
+  const deepest = candidates.filter(({ depth }) => depth === maximumDepth);
+  return [...deepest].sort(
     (left, right) =>
-      right.depth - left.depth ||
+      responsibilityPriority(right.responsibility) -
+        responsibilityPriority(left.responsibility) ||
       left.lineSpan - right.lineSpan ||
       right.confidence - left.confidence ||
       left.regionId.localeCompare(right.regionId)
   )[0];
 }
 
+function responsibilityPriority(responsibility: Responsibility): number {
+  if (responsibility === "unknown") {
+    return 0;
+  }
+  if (responsibility === "mixed") {
+    return 1;
+  }
+  return 2;
+}

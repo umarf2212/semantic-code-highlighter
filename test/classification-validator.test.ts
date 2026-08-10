@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { zodTextFormat } from "openai/helpers/zod";
 
 import {
+  classificationPayloadSchema,
   ClassificationValidationError,
   validateClassificationPayload
 } from "../src/analysis/classification-validator";
@@ -26,6 +28,12 @@ const request: ClassificationRequest = {
 };
 
 describe("validateClassificationPayload", () => {
+  it("can be converted to the OpenAI structured-output format", () => {
+    expect(() =>
+      zodTextFormat(classificationPayloadSchema, "semantic_code_classification")
+    ).not.toThrow();
+  });
+
   it("accepts one valid result for every known region", () => {
     const result = validateClassificationPayload(
       {
@@ -72,4 +80,3 @@ describe("validateClassificationPayload", () => {
     );
   });
 });
-

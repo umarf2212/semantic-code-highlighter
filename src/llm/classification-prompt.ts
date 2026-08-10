@@ -22,7 +22,7 @@ export function buildClassificationMessages(
     "The AST supplied the regions and their hierarchy; never invent, omit, or duplicate region ids.",
     "Classify conservatively. Use mixed only for a broad region with multiple significant responsibilities, and unknown when evidence is insufficient.",
     "A parent may be mixed while specific children retain their own categories.",
-    "Keep each explanation factual and under 160 characters. Return structured data only."
+    "Every region must include a factual explanation under 160 characters. Return structured data only."
   ].join("\n\n");
 
   const payload = {
@@ -56,4 +56,3 @@ export function buildClassificationMessages(
     ].join("\n\n")
   };
 }
-

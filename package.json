@@ -131,7 +131,7 @@
           "default": 0.12,
           "minimum": 0.04,
           "maximum": 0.25,
-          "scope": "resource",
+          "scope": "window",
           "description": "Opacity of responsibility background bands. Confidence remains qualitative on hover."
         },
         "semanticCode.minimumConfidence": {
@@ -188,7 +188,7 @@
         },
         "semanticCode.colors": {
           "type": "object",
-          "scope": "resource",
+          "scope": "window",
           "default": {
             "business_logic": "#2E7D32",
             "validation": "#F9A825",

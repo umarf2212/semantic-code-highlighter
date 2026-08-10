@@ -80,6 +80,10 @@ export function createAnalysisCacheKey(
     .digest("hex");
 }
 
+export function createContentHash(sourceCode: string): string {
+  return createHash("sha256").update(sourceCode).digest("hex");
+}
+
 function stableStringify(value: unknown): string {
   if (Array.isArray(value)) {
     return `[${value.map(stableStringify).join(",")}]`;
@@ -92,4 +96,3 @@ function stableStringify(value: unknown): string {
   }
   return JSON.stringify(value) ?? "null";
 }
-

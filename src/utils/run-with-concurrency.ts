@@ -21,7 +21,14 @@ export async function runWithConcurrency<Item, Result>(
     }
   };
 
-  await Promise.all(Array.from({ length: concurrency }, runWorker));
+  const workers = await Promise.allSettled(
+    Array.from({ length: concurrency }, runWorker)
+  );
+  const failure = workers.find(
+    (worker): worker is PromiseRejectedResult => worker.status === "rejected"
+  );
+  if (failure !== undefined) {
+    throw failure.reason;
+  }
   return results;
 }
-

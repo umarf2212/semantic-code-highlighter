@@ -10,7 +10,7 @@ The `openai` provider runs only after the user selects it and explicitly invokes
 - Optional bounded package dependency names and explicit `.semantic-code.md` instructions
 - Current source text once
 
-The absolute workspace root is not sent. Before the first OpenAI cache miss in a workspace, a modal disclosure names the data and destination. Cancellation sends nothing.
+The absolute workspace root is not sent. A loose file outside any workspace is labeled by basename only, so identifying parent directories are neither transmitted nor cached. Before the first OpenAI cache miss in a workspace, a modal disclosure names the data and destination. Cancellation sends nothing.
 
 The source filter rejects `.env*`, credentials/secrets files, private keys and certificates, dependency/build/generated directories, generated/minified files, obvious embedded key material, unsupported extensions, and files over the configured size limit. Requests also have a configurable region limit.
 

@@ -20,11 +20,18 @@ requires a prior manual disclosure acceptance; otherwise it stays dormant.
 - Hover shows a human label, qualitative confidence, short rationale, and region breadcrumb.
 - Toggle is instant and never invokes a classifier.
 - The responsibility lens can show one category at a time without re-analysis;
-  choosing “Show all” restores the complete map.
+  it lists only categories present in the active file, remains scoped to that file,
+  and has a persistent status-bar indicator. Choosing “Show all” restores the map.
 - The on-demand responsibility summary reports disjoint colored-line percentages;
   selecting a category focuses its lens and jumps to its first region.
-- Any content edit clears the old map immediately; rerun is explicit.
+- Any content edit clears the old map immediately. Manual mode waits for an explicit
+  rerun; opt-in analyze-on-open may refresh after the file is saved.
 
 ## Failure behavior
 
 Unsupported, protected, oversized, overly complex, or regionless files produce an actionable message and no decoration. Provider, key, network, and validation failures leave the editor unchanged. Cancellation is quiet apart from a short status message.
+
+An analyzed active file has a persistent status-bar item naming the actual provider
+(`Local` or `OpenAI · model`) and whether the map is hidden. Changing provider or
+model clears the old map; an in-flight older generation cannot overwrite newer,
+cleared, or edited state.

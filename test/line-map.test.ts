@@ -80,7 +80,7 @@ describe("buildResponsibilitySpans", () => {
     expect(owners.get(2)).toBe("validation");
     expect(owners.get(3)).toBe("validation");
     expect(owners.get(5)).toBe("external_io");
-    expect(owners.get(7)).toBe("mixed");
+    expect(owners.get(7)).toBeUndefined();
     expect(owners.get(0)).toBe("mixed");
   });
 
@@ -93,5 +93,10 @@ describe("buildResponsibilitySpans", () => {
     };
     const spans = buildResponsibilitySpans(regions, lowResult, 0.5);
     expect(spans.some(({ regionId }) => regionId === "io")).toBe(false);
+    expect(
+      spans.some(
+        ({ startLine, endLine }) => startLine <= 5 && endLine >= 5
+      )
+    ).toBe(false);
   });
 });

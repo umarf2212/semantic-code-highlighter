@@ -41,4 +41,51 @@ describe("LocalHeuristicClassifier", () => {
       2
     );
   });
+
+  it("leaves generic statements unknown instead of painting them as business logic", async () => {
+    const genericSource = `function run() {\n  doWork();\n}`;
+    const regions = new TypeScriptRegionExtractor().extract("src/run.ts", genericSource);
+    const result = await new LocalHeuristicClassifier().classify({
+      filePath: "src/run.ts",
+      sourceCode: genericSource,
+      regions,
+      projectContext: { workspaceRoot: "/workspace", language: "typescript" }
+    });
+    const statement = regions.find(({ type }) => type === "statement");
+    expect(
+      result.regions.find(({ regionId }) => regionId === statement?.id)?.responsibility
+    ).toBe("unknown");
+  });
+
+  it.each([
+    {
+      filePath: "src/utils/format.ts",
+      sourceCode: "export function formatCurrency(value: number) { return String(value); }",
+      expected: "utility"
+    },
+    {
+      filePath: "src/config/server.ts",
+      sourceCode: "export function configureServer() { return createServer(); }",
+      expected: "infrastructure"
+    },
+    {
+      filePath: "src/constants/currency.ts",
+      sourceCode: "export const DEFAULT_CURRENCY = 'USD' as const;",
+      expected: "data"
+    },
+    {
+      filePath: "src/domain/pricing.ts",
+      sourceCode: "export function calculateTotal(price: number, quantity: number) { return price * quantity; }",
+      expected: "business_logic"
+    }
+  ])("classifies representative $expected evidence", async ({ filePath, sourceCode, expected }) => {
+    const regions = new TypeScriptRegionExtractor().extract(filePath, sourceCode);
+    const result = await new LocalHeuristicClassifier().classify({
+      filePath,
+      sourceCode,
+      regions,
+      projectContext: { workspaceRoot: "/workspace", language: "typescript" }
+    });
+    expect(result.regions.some(({ responsibility }) => responsibility === expected)).toBe(true);
+  });
 });

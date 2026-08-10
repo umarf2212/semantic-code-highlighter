@@ -26,15 +26,81 @@
     "onLanguage:javascriptreact",
     "onLanguage:typescript",
     "onLanguage:typescriptreact",
-    "onCommand:semanticCode.hello"
+    "onCommand:semanticCode.analyzeCurrentFile",
+    "onCommand:semanticCode.clearAnalysis",
+    "onCommand:semanticCode.toggleVisualization"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "semanticCode.hello",
-        "title": "Semantic Code: Show Scaffold Status"
+        "command": "semanticCode.analyzeCurrentFile",
+        "title": "Semantic Code: Analyze Current File",
+        "icon": "$(symbol-color)"
+      },
+      {
+        "command": "semanticCode.clearAnalysis",
+        "title": "Semantic Code: Clear Analysis"
+      },
+      {
+        "command": "semanticCode.toggleVisualization",
+        "title": "Semantic Code: Toggle Visualization"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "semanticCode.analyzeCurrentFile",
+          "group": "navigation@20",
+          "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Semantic Code Highlighter",
+      "properties": {
+        "semanticCode.enabled": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Show responsibility background bands after a file has been analyzed."
+        },
+        "semanticCode.opacity": {
+          "type": "number",
+          "default": 0.12,
+          "minimum": 0.04,
+          "maximum": 0.25,
+          "scope": "resource",
+          "description": "Opacity of responsibility background bands. Confidence remains qualitative on hover."
+        },
+        "semanticCode.minimumConfidence": {
+          "type": "number",
+          "default": 0.5,
+          "minimum": 0,
+          "maximum": 1,
+          "scope": "resource",
+          "description": "Hide classifications below this confidence threshold."
+        },
+        "semanticCode.colors": {
+          "type": "object",
+          "scope": "resource",
+          "default": {
+            "business_logic": "#2E7D32",
+            "validation": "#F9A825",
+            "utility": "#1565C0",
+            "data": "#00838F",
+            "infrastructure": "#6A1B9A",
+            "external_io": "#EF6C00",
+            "transformation": "#AD1457",
+            "mixed": "#616161"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "description": "Base colors for responsibility bands. Six-digit hex colors only."
+        }
+      }
+    }
   },
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",

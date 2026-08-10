@@ -21,3 +21,6 @@ AST ranges may overlap, but rendered background spans must not. The visualizer f
 3. Do not cover specific children with a grey mixed parent.
 4. Coalesce adjacent lines with the same final responsibility.
 
+Confidence below the configured threshold is not rendered. Above that threshold,
+all categories use one fixed subtle opacity; qualitative confidence belongs on
+hover so hue remains the primary visual vocabulary.

@@ -1,0 +1,41 @@
+{
+  "folders": [
+    {
+      "name": "Hackathon Starter",
+      "path": "../../../.qa/uat/repos/hackathon-starter"
+    },
+    {
+      "name": "RealWorld",
+      "path": "../../../.qa/uat/repos/realworld"
+    },
+    {
+      "name": "Express",
+      "path": "../../../.qa/uat/repos/express"
+    },
+    {
+      "name": "NodeBB",
+      "path": "../../../.qa/uat/repos/nodebb"
+    }
+  ],
+  "settings": {
+    "semanticCode.provider": "agent",
+    "editor.fontSize": 14,
+    "editor.minimap.enabled": false,
+    "editor.stickyScroll.enabled": false,
+    "editor.renderLineHighlight": "gutter",
+    "editor.wordWrap": "on",
+    "workbench.startupEditor": "none",
+    "workbench.colorTheme": "Dark Modern",
+    "workbench.tips.enabled": false,
+    "extensions.ignoreRecommendations": true,
+    "files.autoSave": "off",
+    "window.commandCenter": false,
+    "git.enabled": false,
+    "typescript.validate.enable": false,
+    "javascript.validate.enable": false,
+    "window.zoomLevel": 0,
+    "editor.lineHeight": 21,
+    "editor.occurrencesHighlight": "off",
+    "editor.selectionHighlight": false
+  }
+}

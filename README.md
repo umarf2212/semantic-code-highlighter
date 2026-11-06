@@ -18,6 +18,14 @@ The source is never modified. Ambiguous or low-confidence code stays uncolored i
 
 The local classifier is the zero-setup default. It is deliberately conservative and leaves code uncolored when naming, paths, and syntax do not provide enough evidence.
 
+## Real-repository UAT
+
+The [feasibility assessment and UAT report](docs/uat/2026-11-05/README.md) includes 21 real VS Code screenshots from Hackathon Starter, RealWorld, Express and NodeBB, before/after comparisons, responsibility filtering, failure cases, and reproduction artifacts. The local analysis core was exercised on 1,055 files.
+
+The report evaluates the development working tree, including unreleased agent-map features; it does not describe every feature of the Marketplace build. Demonstration maps were authored and assessed by the same agent, so they are not an independent accuracy or reading-speed benchmark.
+
+![NodeBB development preview showing validation, persistence and domain-policy bands](docs/uat/2026-11-05/screenshots/11-nodebb-agent-provider.png)
+
 ## Responsibility legend
 
 | Responsibility | Default color | Intended meaning |

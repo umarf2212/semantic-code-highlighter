@@ -36,3 +36,9 @@ Use this pass to look for over-coloring and under-coloring, not just crashes. Am
 ## Manual provider checks
 
 OpenAI checks require a user-supplied key in VS Code SecretStorage. Before release, verify the first-send disclosure, cancellation both before dispatch and in flight, `store: false`, structured-output validation and retry, sequential workspace requests, cache reuse without persisted model rationale, provider/model identity, and failure behavior. Never put a test key in repository settings, fixtures, logs, screenshots, or issue reports.
+
+## Real-repository UAT — 2026-11-05
+
+The [feasibility assessment and screenshot report](../uat/2026-11-05/README.md) records an actual Extension Development Host run in VS Code 1.140.0 on macOS arm64 against pinned shallow clones of Hackathon Starter, RealWorld, Express and NodeBB. Four authored agent maps (340 regions) were validated and visually inspected. The run exercised preparation, hover, responsibility lens, summary navigation, toggling, edit invalidation, stale-map rejection, replacement and partial workspace-map reporting. Offline workspace analysis mapped 37 RealWorld files with zero failures. A separate deterministic local sweep analyzed 1,055 files; 129 exceeded the default 220-region limit.
+
+The UAT found useful responsibility boundaries, but also first-run missing-map friction, a local email-I/O misclassification, large-file exclusions, colored whitespace, loss of provider identity while hidden, and progress remaining pending until a skip warning was dismissed. The agent maps were authored and assessed by the same agent, so screenshots and successful validation are demonstration evidence, not independent accuracy or reading-speed measurements. OpenAI, light/high-contrast themes and formal accessibility acceptance remain untested in that run. All 89 automated tests, type checking, compilation and VSIX packaging passed. Product behavior, ontology and visual precedence were not changed.

@@ -1,0 +1,1061 @@
+[
+  {
+    "id": "region:statement:130:143",
+    "type": "statement",
+    "name": "'use strict'",
+    "start": 8,
+    "end": 8,
+    "source": "'use strict';",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:194:233",
+    "type": "statement",
+    "name": "{ METHODS }",
+    "start": 15,
+    "end": 15,
+    "source": "var { METHODS } = require('node:http');",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:234:276",
+    "type": "statement",
+    "name": "contentType",
+    "start": 16,
+    "end": 16,
+    "source": "var contentType = require('content-type');",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:277:304",
+    "type": "statement",
+    "name": "etag",
+    "start": 17,
+    "end": 17,
+    "source": "var etag = require('etag');",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:305:337",
+    "type": "statement",
+    "name": "mime",
+    "start": 18,
+    "end": 18,
+    "source": "var mime = require('mime-types')",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:338:376",
+    "type": "statement",
+    "name": "proxyaddr",
+    "start": 19,
+    "end": 19,
+    "source": "var proxyaddr = require('proxy-addr');",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:377:400",
+    "type": "statement",
+    "name": "qs",
+    "start": 20,
+    "end": 20,
+    "source": "var qs = require('qs');",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:401:447",
+    "type": "statement",
+    "name": "querystring",
+    "start": 21,
+    "end": 21,
+    "source": "var querystring = require('node:querystring');",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:448:490",
+    "type": "statement",
+    "name": "{ Buffer }",
+    "start": 22,
+    "end": 22,
+    "source": "const { Buffer } = require('node:buffer');",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:585:649",
+    "type": "statement",
+    "name": "exports.methods = METHODS.map((method) => met...",
+    "start": 29,
+    "end": 29,
+    "source": "exports.methods = METHODS.map((method) => method.toLowerCase());",
+    "local": "transformation"
+  },
+  {
+    "id": "region:callback:615:647",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:585:649",
+    "start": 29,
+    "end": 29,
+    "source": "(method) => method.toLowerCase()",
+    "local": "transformation"
+  },
+  {
+    "id": "region:statement:794:845",
+    "type": "statement",
+    "name": "exports.etag = createETagGenerator({ weak: fa...",
+    "start": 40,
+    "end": 40,
+    "source": "exports.etag = createETagGenerator({ weak: false })",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:988:1039",
+    "type": "statement",
+    "name": "exports.wetag = createETagGenerator({ weak: t...",
+    "start": 51,
+    "end": 51,
+    "source": "exports.wetag = createETagGenerator({ weak: true })",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:1184:1358",
+    "type": "statement",
+    "name": "exports.normalizeType = function(type){ retur...",
+    "start": 61,
+    "end": 65,
+    "source": "exports.normalizeType = function(type){",
+    "local": "transformation"
+  },
+  {
+    "id": "region:function:1208:1357",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:1184:1358",
+    "start": 61,
+    "end": 65,
+    "source": "function(type){",
+    "local": "transformation"
+  },
+  {
+    "id": "region:statement:1226:1355",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:1208:1357",
+    "start": 62,
+    "end": 64,
+    "source": "return ~type.indexOf('/')",
+    "local": "transformation"
+  },
+  {
+    "id": "region:statement:1493:1581",
+    "type": "statement",
+    "name": "exports.normalizeTypes = function(types) { re...",
+    "start": 75,
+    "end": 77,
+    "source": "exports.normalizeTypes = function(types) {",
+    "local": "transformation"
+  },
+  {
+    "id": "region:function:1518:1580",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:1493:1581",
+    "start": 75,
+    "end": 77,
+    "source": "function(types) {",
+    "local": "transformation"
+  },
+  {
+    "id": "region:statement:1538:1578",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:1518:1580",
+    "start": 76,
+    "end": 76,
+    "source": "return types.map(exports.normalizeType);",
+    "local": "transformation"
+  },
+  {
+    "id": "region:function:1748:2571",
+    "type": "function",
+    "name": "acceptParams",
+    "start": 89,
+    "end": 120,
+    "source": "function acceptParams (str) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:1780:1804",
+    "type": "statement",
+    "name": "length",
+    "parentId": "region:function:1748:2571",
+    "start": 90,
+    "end": 90,
+    "source": "var length = str.length;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:1807:1841",
+    "type": "statement",
+    "name": "colonIndex",
+    "parentId": "region:function:1748:2571",
+    "start": 91,
+    "end": 91,
+    "source": "var colonIndex = str.indexOf(';');",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:1844:1896",
+    "type": "statement",
+    "name": "index",
+    "parentId": "region:function:1748:2571",
+    "start": 92,
+    "end": 92,
+    "source": "var index = colonIndex === -1 ? length : colonIndex;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:1899:1971",
+    "type": "statement",
+    "name": "ret",
+    "parentId": "region:function:1748:2571",
+    "start": 93,
+    "end": 93,
+    "source": "var ret = { value: str.slice(0, index).trim(), quality: 1, params: {} };",
+    "local": "utility"
+  },
+  {
+    "id": "region:loop:1975:2554",
+    "type": "loop",
+    "name": "WhileStatement",
+    "parentId": "region:function:1748:2571",
+    "start": 95,
+    "end": 117,
+    "source": "while (index < length) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2004:2045",
+    "type": "statement",
+    "name": "splitIndex",
+    "parentId": "region:loop:1975:2554",
+    "start": 96,
+    "end": 96,
+    "source": "var splitIndex = str.indexOf('=', index);",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:2050:2079",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:loop:1975:2554",
+    "start": 97,
+    "end": 97,
+    "source": "if (splitIndex === -1) break;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2073:2079",
+    "type": "statement",
+    "name": "BreakStatement",
+    "parentId": "region:if:2050:2079",
+    "start": 97,
+    "end": 97,
+    "source": "break;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2085:2126",
+    "type": "statement",
+    "name": "colonIndex",
+    "parentId": "region:loop:1975:2554",
+    "start": 99,
+    "end": 99,
+    "source": "var colonIndex = str.indexOf(';', index);",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2131:2186",
+    "type": "statement",
+    "name": "endIndex",
+    "parentId": "region:loop:1975:2554",
+    "start": 100,
+    "end": 100,
+    "source": "var endIndex = colonIndex === -1 ? length : colonIndex;",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:2192:2298",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:loop:1975:2554",
+    "start": 102,
+    "end": 105,
+    "source": "if (splitIndex > endIndex) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2227:2276",
+    "type": "statement",
+    "name": "index = str.lastIndexOf(';', splitIndex - 1) + 1",
+    "parentId": "region:if:2192:2298",
+    "start": 103,
+    "end": 103,
+    "source": "index = str.lastIndexOf(';', splitIndex - 1) + 1;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2283:2292",
+    "type": "statement",
+    "name": "ContinueStatement",
+    "parentId": "region:if:2192:2298",
+    "start": 104,
+    "end": 104,
+    "source": "continue;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2304:2350",
+    "type": "statement",
+    "name": "key",
+    "parentId": "region:loop:1975:2554",
+    "start": 107,
+    "end": 107,
+    "source": "var key = str.slice(index, splitIndex).trim();",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2355:2410",
+    "type": "statement",
+    "name": "value",
+    "parentId": "region:loop:1975:2554",
+    "start": 108,
+    "end": 108,
+    "source": "var value = str.slice(splitIndex + 1, endIndex).trim();",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:2416:2479",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:loop:1975:2554",
+    "start": 110,
+    "end": 112,
+    "source": "if (key === 'q') {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2441:2473",
+    "type": "statement",
+    "name": "ret.quality = parseFloat(value)",
+    "parentId": "region:if:2416:2479",
+    "start": 111,
+    "end": 111,
+    "source": "ret.quality = parseFloat(value);",
+    "local": "utility"
+  },
+  {
+    "id": "region:else:2485:2523",
+    "type": "else",
+    "name": "else",
+    "parentId": "region:if:2416:2479",
+    "start": 112,
+    "end": 114,
+    "source": "{",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2493:2517",
+    "type": "statement",
+    "name": "ret.params[key] = value",
+    "parentId": "region:else:2485:2523",
+    "start": 113,
+    "end": 113,
+    "source": "ret.params[key] = value;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2529:2550",
+    "type": "statement",
+    "name": "index = endIndex + 1",
+    "parentId": "region:loop:1975:2554",
+    "start": 116,
+    "end": 116,
+    "source": "index = endIndex + 1;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2558:2569",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:1748:2571",
+    "start": 119,
+    "end": 119,
+    "source": "return ret;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2701:3082",
+    "type": "statement",
+    "name": "exports.compileETag = function(val) { var fn;...",
+    "start": 130,
+    "end": 152,
+    "source": "exports.compileETag = function(val) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:function:2723:3082",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:2701:3082",
+    "start": 130,
+    "end": 152,
+    "source": "function(val) {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:2741:2748",
+    "type": "statement",
+    "name": "fn",
+    "parentId": "region:function:2723:3082",
+    "start": 131,
+    "end": 131,
+    "source": "var fn;",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:2752:2804",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:2723:3082",
+    "start": 133,
+    "end": 135,
+    "source": "if (typeof val === 'function') {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2789:2800",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:if:2752:2804",
+    "start": 134,
+    "end": 134,
+    "source": "return val;",
+    "local": "utility"
+  },
+  {
+    "id": "region:switch:2808:3066",
+    "type": "switch",
+    "name": "switch",
+    "parentId": "region:function:2723:3082",
+    "start": 137,
+    "end": 149,
+    "source": "switch (val) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:case:2827:2837",
+    "type": "case",
+    "name": "case true",
+    "parentId": "region:switch:2808:3066",
+    "start": 138,
+    "end": 138,
+    "source": "case true:",
+    "local": "utility"
+  },
+  {
+    "id": "region:case:2842:2893",
+    "type": "case",
+    "name": "case 'weak'",
+    "parentId": "region:switch:2808:3066",
+    "start": 139,
+    "end": 141,
+    "source": "case 'weak':",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2861:2880",
+    "type": "statement",
+    "name": "fn = exports.wetag",
+    "parentId": "region:case:2842:2893",
+    "start": 140,
+    "end": 140,
+    "source": "fn = exports.wetag;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2887:2893",
+    "type": "statement",
+    "name": "BreakStatement",
+    "parentId": "region:case:2842:2893",
+    "start": 141,
+    "end": 141,
+    "source": "break;",
+    "local": "utility"
+  },
+  {
+    "id": "region:case:2898:2922",
+    "type": "case",
+    "name": "case false",
+    "parentId": "region:switch:2808:3066",
+    "start": 142,
+    "end": 143,
+    "source": "case false:",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2916:2922",
+    "type": "statement",
+    "name": "BreakStatement",
+    "parentId": "region:case:2898:2922",
+    "start": 143,
+    "end": 143,
+    "source": "break;",
+    "local": "utility"
+  },
+  {
+    "id": "region:case:2927:2979",
+    "type": "case",
+    "name": "case 'strong'",
+    "parentId": "region:switch:2808:3066",
+    "start": 144,
+    "end": 146,
+    "source": "case 'strong':",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2948:2966",
+    "type": "statement",
+    "name": "fn = exports.etag",
+    "parentId": "region:case:2927:2979",
+    "start": 145,
+    "end": 145,
+    "source": "fn = exports.etag;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:2973:2979",
+    "type": "statement",
+    "name": "BreakStatement",
+    "parentId": "region:case:2927:2979",
+    "start": 146,
+    "end": 146,
+    "source": "break;",
+    "local": "utility"
+  },
+  {
+    "id": "region:case:2984:3062",
+    "type": "case",
+    "name": "default",
+    "parentId": "region:switch:2808:3066",
+    "start": 147,
+    "end": 148,
+    "source": "default:",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:2999:3062",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:case:2984:3062",
+    "start": 148,
+    "end": 148,
+    "source": "throw new TypeError('unknown value for etag function: ' + val);",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:3070:3080",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:2723:3082",
+    "start": 151,
+    "end": 151,
+    "source": "return fn;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3212:3647",
+    "type": "statement",
+    "name": "exports.compileQueryParser = function compile...",
+    "start": 162,
+    "end": 184,
+    "source": "exports.compileQueryParser = function compileQueryParser(val) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:function:3241:3647",
+    "type": "function",
+    "name": "compileQueryParser",
+    "parentId": "region:statement:3212:3647",
+    "start": 162,
+    "end": 184,
+    "source": "function compileQueryParser(val) {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:3278:3285",
+    "type": "statement",
+    "name": "fn",
+    "parentId": "region:function:3241:3647",
+    "start": 163,
+    "end": 163,
+    "source": "var fn;",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:3289:3341",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3241:3647",
+    "start": 165,
+    "end": 167,
+    "source": "if (typeof val === 'function') {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3326:3337",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:if:3289:3341",
+    "start": 166,
+    "end": 166,
+    "source": "return val;",
+    "local": "utility"
+  },
+  {
+    "id": "region:switch:3345:3631",
+    "type": "switch",
+    "name": "switch",
+    "parentId": "region:function:3241:3647",
+    "start": 169,
+    "end": 181,
+    "source": "switch (val) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:case:3364:3374",
+    "type": "case",
+    "name": "case true",
+    "parentId": "region:switch:3345:3631",
+    "start": 170,
+    "end": 170,
+    "source": "case true:",
+    "local": "utility"
+  },
+  {
+    "id": "region:case:3379:3436",
+    "type": "case",
+    "name": "case 'simple'",
+    "parentId": "region:switch:3345:3631",
+    "start": 171,
+    "end": 173,
+    "source": "case 'simple':",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3400:3423",
+    "type": "statement",
+    "name": "fn = querystring.parse",
+    "parentId": "region:case:3379:3436",
+    "start": 172,
+    "end": 172,
+    "source": "fn = querystring.parse;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3430:3436",
+    "type": "statement",
+    "name": "BreakStatement",
+    "parentId": "region:case:3379:3436",
+    "start": 173,
+    "end": 173,
+    "source": "break;",
+    "local": "utility"
+  },
+  {
+    "id": "region:case:3441:3465",
+    "type": "case",
+    "name": "case false",
+    "parentId": "region:switch:3345:3631",
+    "start": 174,
+    "end": 175,
+    "source": "case false:",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3459:3465",
+    "type": "statement",
+    "name": "BreakStatement",
+    "parentId": "region:case:3441:3465",
+    "start": 175,
+    "end": 175,
+    "source": "break;",
+    "local": "utility"
+  },
+  {
+    "id": "region:case:3470:3536",
+    "type": "case",
+    "name": "case 'extended'",
+    "parentId": "region:switch:3345:3631",
+    "start": 176,
+    "end": 178,
+    "source": "case 'extended':",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3493:3523",
+    "type": "statement",
+    "name": "fn = parseExtendedQueryString",
+    "parentId": "region:case:3470:3536",
+    "start": 177,
+    "end": 177,
+    "source": "fn = parseExtendedQueryString;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3530:3536",
+    "type": "statement",
+    "name": "BreakStatement",
+    "parentId": "region:case:3470:3536",
+    "start": 178,
+    "end": 178,
+    "source": "break;",
+    "local": "utility"
+  },
+  {
+    "id": "region:case:3541:3627",
+    "type": "case",
+    "name": "default",
+    "parentId": "region:switch:3345:3631",
+    "start": 179,
+    "end": 180,
+    "source": "default:",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:3556:3627",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:case:3541:3627",
+    "start": 180,
+    "end": 180,
+    "source": "throw new TypeError('unknown value for query parser function: ' + val);",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:3635:3645",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:3241:3647",
+    "start": 183,
+    "end": 183,
+    "source": "return fn;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3797:4282",
+    "type": "statement",
+    "name": "exports.compileTrust = function(val) { if (ty...",
+    "start": 194,
+    "end": 214,
+    "source": "exports.compileTrust = function(val) {",
+    "local": "transformation"
+  },
+  {
+    "id": "region:function:3820:4282",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:3797:4282",
+    "start": 194,
+    "end": 214,
+    "source": "function(val) {",
+    "local": "transformation"
+  },
+  {
+    "id": "region:if:3838:3880",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3820:4282",
+    "start": 195,
+    "end": 195,
+    "source": "if (typeof val === 'function') return val;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3869:3880",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:if:3838:3880",
+    "start": 195,
+    "end": 195,
+    "source": "return val;",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:3884:3977",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3820:4282",
+    "start": 197,
+    "end": 200,
+    "source": "if (val === true) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3940:3973",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:if:3884:3977",
+    "start": 199,
+    "end": 199,
+    "source": "return function(){ return true };",
+    "local": "utility"
+  },
+  {
+    "id": "region:function:3947:3972",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:3940:3973",
+    "start": 199,
+    "end": 199,
+    "source": "function(){ return true }",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3959:3970",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:3947:3972",
+    "start": 199,
+    "end": 199,
+    "source": "return true",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:3981:4094",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3820:4282",
+    "start": 202,
+    "end": 205,
+    "source": "if (typeof val === 'number') {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:4050:4090",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:if:3981:4094",
+    "start": 204,
+    "end": 204,
+    "source": "return function(a, i){ return i < val };",
+    "local": "utility"
+  },
+  {
+    "id": "region:function:4057:4089",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:4050:4090",
+    "start": 204,
+    "end": 204,
+    "source": "function(a, i){ return i < val }",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:4073:4087",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:4057:4089",
+    "start": 204,
+    "end": 204,
+    "source": "return i < val",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:4098:4240",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3820:4282",
+    "start": 207,
+    "end": 211,
+    "source": "if (typeof val === 'string') {",
+    "local": "transformation"
+  },
+  {
+    "id": "region:statement:4171:4236",
+    "type": "statement",
+    "name": "val = val.split(',') .map(function (v) { retu...",
+    "parentId": "region:if:4098:4240",
+    "start": 209,
+    "end": 210,
+    "source": "val = val.split(',')",
+    "local": "transformation"
+  },
+  {
+    "id": "region:callback:4203:4235",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:4171:4236",
+    "start": 210,
+    "end": 210,
+    "source": "function (v) { return v.trim() }",
+    "local": "transformation"
+  },
+  {
+    "id": "region:statement:4218:4233",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:callback:4203:4235",
+    "start": 210,
+    "end": 210,
+    "source": "return v.trim()",
+    "local": "transformation"
+  },
+  {
+    "id": "region:statement:4244:4280",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:3820:4282",
+    "start": 213,
+    "end": 213,
+    "source": "return proxyaddr.compile(val || []);",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:4434:4711",
+    "type": "statement",
+    "name": "exports.setCharset = function setCharset(type...",
+    "start": 225,
+    "end": 238,
+    "source": "exports.setCharset = function setCharset(type, charset) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:function:4455:4710",
+    "type": "function",
+    "name": "setCharset",
+    "parentId": "region:statement:4434:4711",
+    "start": 225,
+    "end": 238,
+    "source": "function setCharset(type, charset) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:4494:4539",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:4455:4710",
+    "start": 226,
+    "end": 228,
+    "source": "if (!type || !charset) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:4523:4535",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:if:4494:4539",
+    "start": 227,
+    "end": 227,
+    "source": "return type;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:4559:4596",
+    "type": "statement",
+    "name": "parsed",
+    "parentId": "region:function:4455:4710",
+    "start": 231,
+    "end": 231,
+    "source": "var parsed = contentType.parse(type);",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:4617:4653",
+    "type": "statement",
+    "name": "parsed.parameters.charset = charset",
+    "parentId": "region:function:4455:4710",
+    "start": 234,
+    "end": 234,
+    "source": "parsed.parameters.charset = charset;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:4674:4708",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:4455:4710",
+    "start": 237,
+    "end": 237,
+    "source": "return contentType.format(parsed);",
+    "local": "utility"
+  },
+  {
+    "id": "region:function:4868:5081",
+    "type": "function",
+    "name": "createETagGenerator",
+    "start": 249,
+    "end": 257,
+    "source": "function createETagGenerator (options) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:4911:5079",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:4868:5081",
+    "start": 250,
+    "end": 256,
+    "source": "return function generateETag (body, encoding) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:function:4918:5079",
+    "type": "function",
+    "name": "generateETag",
+    "parentId": "region:statement:4911:5079",
+    "start": 250,
+    "end": 256,
+    "source": "function generateETag (body, encoding) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:4963:5044",
+    "type": "statement",
+    "name": "buf",
+    "parentId": "region:function:4918:5079",
+    "start": 251,
+    "end": 253,
+    "source": "var buf = !Buffer.isBuffer(body)",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:5050:5075",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:4918:5079",
+    "start": 255,
+    "end": 255,
+    "source": "return etag(buf, options)",
+    "local": "utility"
+  },
+  {
+    "id": "region:function:5193:5292",
+    "type": "function",
+    "name": "parseExtendedQueryString",
+    "start": 267,
+    "end": 271,
+    "source": "function parseExtendedQueryString(str) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:5236:5290",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:5193:5292",
+    "start": 268,
+    "end": 270,
+    "source": "return qs.parse(str, {",
+    "local": "utility"
+  }
+]

@@ -1,0 +1,591 @@
+[
+  {
+    "id": "region:statement:0:13",
+    "type": "statement",
+    "name": "'use strict'",
+    "start": 1,
+    "end": 1,
+    "source": "'use strict';",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:15:47",
+    "type": "statement",
+    "name": "meta",
+    "start": 3,
+    "end": 3,
+    "source": "const meta = require('../meta');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:48:82",
+    "type": "statement",
+    "name": "db",
+    "start": 4,
+    "end": 4,
+    "source": "const db = require('../database');",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:83:121",
+    "type": "statement",
+    "name": "plugins",
+    "start": 5,
+    "end": 5,
+    "source": "const plugins = require('../plugins');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:122:154",
+    "type": "statement",
+    "name": "user",
+    "start": 6,
+    "end": 6,
+    "source": "const user = require('../user');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:155:191",
+    "type": "statement",
+    "name": "topics",
+    "start": 7,
+    "end": 7,
+    "source": "const topics = require('../topics');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:192:236",
+    "type": "statement",
+    "name": "categories",
+    "start": 8,
+    "end": 8,
+    "source": "const categories = require('../categories');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:237:273",
+    "type": "statement",
+    "name": "groups",
+    "start": 9,
+    "end": 9,
+    "source": "const groups = require('../groups');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:274:320",
+    "type": "statement",
+    "name": "activitypub",
+    "start": 10,
+    "end": 10,
+    "source": "const activitypub = require('../activitypub');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:321:355",
+    "type": "statement",
+    "name": "utils",
+    "start": 11,
+    "end": 11,
+    "source": "const utils = require('../utils');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:357:3535",
+    "type": "statement",
+    "name": "module.exports = function (Posts) { Posts.cre...",
+    "start": 13,
+    "end": 102,
+    "source": "module.exports = function (Posts) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:function:374:3534",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:357:3535",
+    "start": 13,
+    "end": 102,
+    "source": "function (Posts) {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:394:3186",
+    "type": "statement",
+    "name": "Posts.create = async function (data) { // Thi...",
+    "parentId": "region:function:374:3534",
+    "start": 14,
+    "end": 86,
+    "source": "Posts.create = async function (data) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:function:409:3185",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:394:3186",
+    "start": 14,
+    "end": 86,
+    "source": "async function (data) {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:504:559",
+    "type": "statement",
+    "name": "{ uid, tid, _activitypub, sourceContent }",
+    "parentId": "region:function:409:3185",
+    "start": 16,
+    "end": 16,
+    "source": "const { uid, tid, _activitypub, sourceContent } = data;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:562:602",
+    "type": "statement",
+    "name": "content",
+    "parentId": "region:function:409:3185",
+    "start": 17,
+    "end": 17,
+    "source": "const content = data.content.toString();",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:605:652",
+    "type": "statement",
+    "name": "timestamp",
+    "parentId": "region:function:409:3185",
+    "start": 18,
+    "end": 18,
+    "source": "const timestamp = data.timestamp || Date.now();",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:655:691",
+    "type": "statement",
+    "name": "isMain",
+    "parentId": "region:function:409:3185",
+    "start": 19,
+    "end": 19,
+    "source": "const isMain = data.isMain || false;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:694:720",
+    "type": "statement",
+    "name": "hasAttachment",
+    "parentId": "region:function:409:3185",
+    "start": 20,
+    "end": 20,
+    "source": "let hasAttachment = false;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:724:811",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:409:3185",
+    "start": 22,
+    "end": 24,
+    "source": "if (!uid && parseInt(uid, 10) !== 0) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:766:807",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:724:811",
+    "start": 23,
+    "end": 23,
+    "source": "throw new Error('[[error:invalid-uid]]');",
+    "local": "validation"
+  },
+  {
+    "id": "region:if:815:954",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:409:3185",
+    "start": 26,
+    "end": 28,
+    "source": "if (data.toPid && !utils.isNumber(data.toPid) && !activitypub.helpers.isUri(data.toPid)) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:909:950",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:815:954",
+    "start": 27,
+    "end": 27,
+    "source": "throw new Error('[[error:invalid-pid]]');",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:958:1028",
+    "type": "statement",
+    "name": "pid",
+    "parentId": "region:function:409:3185",
+    "start": 30,
+    "end": 30,
+    "source": "const pid = data.pid || await db.incrObjectField('global', 'nextPid');",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:1031:1099",
+    "type": "statement",
+    "name": "postData",
+    "parentId": "region:function:409:3185",
+    "start": 31,
+    "end": 31,
+    "source": "let postData = { pid, uid, tid, content, sourceContent, timestamp };",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:1103:1156",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:409:3185",
+    "start": 33,
+    "end": 35,
+    "source": "if (data.toPid) {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:1124:1152",
+    "type": "statement",
+    "name": "postData.toPid = data.toPid",
+    "parentId": "region:if:1103:1156",
+    "start": 34,
+    "end": 34,
+    "source": "postData.toPid = data.toPid;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:1159:1255",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:409:3185",
+    "start": 36,
+    "end": 38,
+    "source": "if (data.ip && meta.config.logIPs && meta.config.trackIpPerPost) {",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:1229:1251",
+    "type": "statement",
+    "name": "postData.ip = data.ip",
+    "parentId": "region:if:1159:1255",
+    "start": 37,
+    "end": 37,
+    "source": "postData.ip = data.ip;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:1258:1336",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:409:3185",
+    "start": 39,
+    "end": 41,
+    "source": "if (data.handle && !parseInt(uid, 10)) {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:1302:1332",
+    "type": "statement",
+    "name": "postData.handle = data.handle",
+    "parentId": "region:if:1258:1336",
+    "start": 40,
+    "end": 40,
+    "source": "postData.handle = data.handle;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:1339:1419",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:409:3185",
+    "start": 42,
+    "end": 44,
+    "source": "if (data.contentWarning) {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:1369:1415",
+    "type": "statement",
+    "name": "postData.contentWarning = data.contentWarning",
+    "parentId": "region:if:1339:1419",
+    "start": 43,
+    "end": 43,
+    "source": "postData.contentWarning = data.contentWarning;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:1422:1944",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:409:3185",
+    "start": 45,
+    "end": 58,
+    "source": "if (_activitypub) {",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:1445:1510",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:if:1422:1944",
+    "start": 46,
+    "end": 48,
+    "source": "if (_activitypub.url) {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:1473:1505",
+    "type": "statement",
+    "name": "postData.url = _activitypub.url",
+    "parentId": "region:if:1445:1510",
+    "start": 47,
+    "end": 47,
+    "source": "postData.url = _activitypub.url;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:1514:1594",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:if:1422:1944",
+    "start": 49,
+    "end": 51,
+    "source": "if (_activitypub.audience) {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:1547:1589",
+    "type": "statement",
+    "name": "postData.audience = _activitypub.audience",
+    "parentId": "region:if:1514:1594",
+    "start": 50,
+    "end": 50,
+    "source": "postData.audience = _activitypub.audience;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:1653:1744",
+    "type": "statement",
+    "name": "property",
+    "parentId": "region:if:1422:1944",
+    "start": 54,
+    "end": 54,
+    "source": "const property = postData.sourceContent && !postData.content ? 'sourceContent' : 'content';",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:1748:1845",
+    "type": "statement",
+    "name": "postData[property] = await activitypub.helper...",
+    "parentId": "region:if:1422:1944",
+    "start": 55,
+    "end": 55,
+    "source": "postData[property] = await activitypub.helpers.renderEmoji(postData[property], _activitypub.tag);",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:1850:1940",
+    "type": "statement",
+    "name": "hasAttachment = _activitypub && _activitypub....",
+    "parentId": "region:if:1422:1944",
+    "start": 57,
+    "end": 57,
+    "source": "hasAttachment = _activitypub && _activitypub.attachment && _activitypub.attachment.length;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:1948:2050",
+    "type": "statement",
+    "name": "({ post: postData } = await plugins.hooks.fir...",
+    "parentId": "region:function:409:3185",
+    "start": 60,
+    "end": 60,
+    "source": "({ post: postData } = await plugins.hooks.fire('filter:post.create', { post: postData, data: data }));",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:2054:2126",
+    "type": "statement",
+    "name": "uploads",
+    "parentId": "region:function:409:3185",
+    "start": 62,
+    "end": 62,
+    "source": "const uploads = await Posts.uploads.getUploadsForPost(postData, isMain);",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:2129:2172",
+    "type": "statement",
+    "name": "postData.uploads = JSON.stringify(uploads)",
+    "parentId": "region:function:409:3185",
+    "start": 63,
+    "end": 63,
+    "source": "postData.uploads = JSON.stringify(uploads);",
+    "local": "transformation"
+  },
+  {
+    "id": "region:statement:2175:2228",
+    "type": "statement",
+    "name": "await db.setObject(`post:${postData.pid}`, po...",
+    "parentId": "region:function:409:3185",
+    "start": 64,
+    "end": 64,
+    "source": "await db.setObject(`post:${postData.pid}`, postData);",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:2232:2302",
+    "type": "statement",
+    "name": "topicData",
+    "parentId": "region:function:409:3185",
+    "start": 66,
+    "end": 66,
+    "source": "const topicData = await topics.getTopicFields(tid, ['cid', 'pinned']);",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:2305:2334",
+    "type": "statement",
+    "name": "postData.cid = topicData.cid",
+    "parentId": "region:function:409:3185",
+    "start": 67,
+    "end": 67,
+    "source": "postData.cid = topicData.cid;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:2337:2375",
+    "type": "statement",
+    "name": "isRemote",
+    "parentId": "region:function:409:3185",
+    "start": 68,
+    "end": 68,
+    "source": "const isRemote = !utils.isNumber(pid);",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:2378:2945",
+    "type": "statement",
+    "name": "await Promise.all([ db.sortedSetAdd(!isRemote...",
+    "parentId": "region:function:409:3185",
+    "start": 69,
+    "end": 80,
+    "source": "await Promise.all([",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:2949:3043",
+    "type": "statement",
+    "name": "result",
+    "parentId": "region:function:409:3185",
+    "start": 82,
+    "end": 82,
+    "source": "const result = await plugins.hooks.fire('filter:post.get', { post: postData, uid: data.uid });",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3046:3074",
+    "type": "statement",
+    "name": "result.post.isMain = isMain",
+    "parentId": "region:function:409:3185",
+    "start": 83,
+    "end": 83,
+    "source": "result.post.isMain = isMain;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3077:3160",
+    "type": "statement",
+    "name": "plugins.hooks.fire('action:post.save', { post...",
+    "parentId": "region:function:409:3185",
+    "start": 84,
+    "end": 84,
+    "source": "plugins.hooks.fire('action:post.save', { post: { ...result.post, _activitypub } });",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3163:3182",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:409:3185",
+    "start": 85,
+    "end": 85,
+    "source": "return result.post;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:function:3189:3532",
+    "type": "function",
+    "name": "addReplyTo",
+    "parentId": "region:function:374:3534",
+    "start": 88,
+    "end": 101,
+    "source": "async function addReplyTo(postData, timestamp) {",
+    "local": "external_io"
+  },
+  {
+    "id": "region:if:3240:3277",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3189:3532",
+    "start": 89,
+    "end": 91,
+    "source": "if (!postData.toPid) {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3266:3273",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:if:3240:3277",
+    "start": 90,
+    "end": 90,
+    "source": "return;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3280:3330",
+    "type": "statement",
+    "name": "exists",
+    "parentId": "region:function:3189:3532",
+    "start": 92,
+    "end": 92,
+    "source": "const exists = await Posts.exists(postData.toPid);",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:3333:3362",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3189:3532",
+    "start": 93,
+    "end": 95,
+    "source": "if (!exists) {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3351:3358",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:if:3333:3362",
+    "start": 94,
+    "end": 94,
+    "source": "return;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3366:3529",
+    "type": "statement",
+    "name": "await Promise.all([ db.sortedSetAdd(`pid:${po...",
+    "parentId": "region:function:3189:3532",
+    "start": 97,
+    "end": 100,
+    "source": "await Promise.all([",
+    "local": "external_io"
+  }
+]

@@ -1,0 +1,391 @@
+{
+  "formatVersion": "1",
+  "ontologyVersion": "1",
+  "regionModelVersion": "3",
+  "promptVersion": "2",
+  "schemaVersion": "2",
+  "files": [
+    {
+      "filePath": "controllers/contact.js",
+      "sourceHash": "761ca839d601b89d80af7e48f52872b65a947c5870cf6938792a5cf49250cebd",
+      "classification": {
+        "regions": [
+          {
+            "regionId": "region:statement:0:39",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads the validator and mail adapter dependencies."
+          },
+          {
+            "regionId": "region:statement:40:97",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads the validator and mail adapter dependencies."
+          },
+          {
+            "regionId": "region:function:99:879",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Calls the remote reCAPTCHA assessment service and returns its result."
+          },
+          {
+            "regionId": "region:statement:143:191",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Builds the service endpoint from environment configuration."
+          },
+          {
+            "regionId": "region:statement:194:248",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Builds the service endpoint from environment configuration."
+          },
+          {
+            "regionId": "region:statement:251:293",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Builds the service endpoint from environment configuration."
+          },
+          {
+            "regionId": "region:statement:296:404",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Builds the service endpoint from environment configuration."
+          },
+          {
+            "regionId": "region:statement:407:474",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects the supplied token and site key into the assessment payload."
+          },
+          {
+            "regionId": "region:statement:477:619",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Sends the assessment request to the remote reCAPTCHA API."
+          },
+          {
+            "regionId": "region:statement:622:653",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Decodes and projects the remote assessment into a smaller result."
+          },
+          {
+            "regionId": "region:statement:656:877",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Decodes and projects the remote assessment into a smaller result."
+          },
+          {
+            "regionId": "region:statement:927:1423",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Implements the Express contact page handler."
+          },
+          {
+            "regionId": "region:function:948:1422",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Implements the Express contact page handler."
+          },
+          {
+            "regionId": "region:statement:966:996",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Derives the anonymous-user flag used by the contact template."
+          },
+          {
+            "regionId": "region:if:1000:1253",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Warns about missing CAPTCHA deployment configuration."
+          },
+          {
+            "regionId": "region:statement:1050:1249",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Warns about missing CAPTCHA deployment configuration."
+          },
+          {
+            "regionId": "region:statement:1257:1420",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Renders and sends the contact page through the HTTP response."
+          },
+          {
+            "regionId": "region:statement:1489:3765",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates contact submission, admissibility checks and email delivery."
+          },
+          {
+            "regionId": "region:function:1511:3764",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates contact submission, admissibility checks and email delivery."
+          },
+          {
+            "regionId": "region:statement:1541:1569",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Collects contact-submission input and CAPTCHA errors."
+          },
+          {
+            "regionId": "region:statement:1572:1585",
+            "responsibility": "data",
+            "confidence": 0.9,
+            "explanation": "Declares the sender fields populated later in the workflow."
+          },
+          {
+            "regionId": "region:statement:1588:1602",
+            "responsibility": "data",
+            "confidence": 0.9,
+            "explanation": "Declares the sender fields populated later in the workflow."
+          },
+          {
+            "regionId": "region:if:1605:1840",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Checks the required sender, message and CAPTCHA inputs."
+          },
+          {
+            "regionId": "region:if:1626:1721",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Checks the required sender, message and CAPTCHA inputs."
+          },
+          {
+            "regionId": "region:statement:1664:1721",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Checks the required sender, message and CAPTCHA inputs."
+          },
+          {
+            "regionId": "region:if:1726:1836",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Checks the required sender, message and CAPTCHA inputs."
+          },
+          {
+            "regionId": "region:statement:1766:1836",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Checks the required sender, message and CAPTCHA inputs."
+          },
+          {
+            "regionId": "region:if:1843:1945",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Checks the required sender, message and CAPTCHA inputs."
+          },
+          {
+            "regionId": "region:statement:1884:1945",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Checks the required sender, message and CAPTCHA inputs."
+          },
+          {
+            "regionId": "region:if:1949:2180",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Checks the required sender, message and CAPTCHA inputs."
+          },
+          {
+            "regionId": "region:statement:1999:2176",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Logs missing CAPTCHA configuration rather than validating a token."
+          },
+          {
+            "regionId": "region:else:2186:2724",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Coordinates the CAPTCHA admissibility check and error handling."
+          },
+          {
+            "regionId": "region:if:2186:2642",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Coordinates the CAPTCHA admissibility check and error handling."
+          },
+          {
+            "regionId": "region:try:2250:2470",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Coordinates the CAPTCHA admissibility check and error handling."
+          },
+          {
+            "regionId": "region:statement:2262:2346",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Invokes the same-file helper that calls the remote assessment API."
+          },
+          {
+            "regionId": "region:if:2353:2464",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a failed CAPTCHA assessment or turns its failure into a rejected submission."
+          },
+          {
+            "regionId": "region:statement:2393:2456",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a failed CAPTCHA assessment or turns its failure into a rejected submission."
+          },
+          {
+            "regionId": "region:catch:2471:2638",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a failed CAPTCHA assessment or turns its failure into a rejected submission."
+          },
+          {
+            "regionId": "region:statement:2493:2545",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Records the failed assessment in the application log."
+          },
+          {
+            "regionId": "region:statement:2552:2632",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Collects errors and prevents delivery when submission requirements fail."
+          },
+          {
+            "regionId": "region:else:2648:2724",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Collects errors and prevents delivery when submission requirements fail."
+          },
+          {
+            "regionId": "region:statement:2654:2720",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Collects errors and prevents delivery when submission requirements fail."
+          },
+          {
+            "regionId": "region:if:2728:2842",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Collects errors and prevents delivery when submission requirements fail."
+          },
+          {
+            "regionId": "region:statement:2763:2801",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Writes flash feedback or sends the redirect response."
+          },
+          {
+            "regionId": "region:statement:2806:2838",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Writes flash feedback or sends the redirect response."
+          },
+          {
+            "regionId": "region:if:2846:2928",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Selects and projects sender identity from form input or the signed-in user."
+          },
+          {
+            "regionId": "region:statement:2867:2892",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Selects and projects sender identity from form input or the signed-in user."
+          },
+          {
+            "regionId": "region:statement:2897:2924",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Selects and projects sender identity from form input or the signed-in user."
+          },
+          {
+            "regionId": "region:else:2934:3015",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Selects and projects sender identity from form input or the signed-in user."
+          },
+          {
+            "regionId": "region:statement:2940:2979",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Selects and projects sender identity from form input or the signed-in user."
+          },
+          {
+            "regionId": "region:statement:2984:3011",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Selects and projects sender identity from form input or the signed-in user."
+          },
+          {
+            "regionId": "region:function:3044:3651",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Sends contact email through the configured Nodemailer adapter."
+          },
+          {
+            "regionId": "region:statement:3062:3255",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds the mail payload from the selected sender and message."
+          },
+          {
+            "regionId": "region:statement:3261:3594",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Configures delivery feedback and error messages for the mail adapter."
+          },
+          {
+            "regionId": "region:statement:3600:3647",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "The imported sendMail adapter creates a transport and sends the message."
+          },
+          {
+            "regionId": "region:try:3656:3725",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates mail delivery and the successful redirect."
+          },
+          {
+            "regionId": "region:statement:3666:3691",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Sends the email or the resulting HTTP redirect."
+          },
+          {
+            "regionId": "region:statement:3696:3721",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Sends the email or the resulting HTTP redirect."
+          },
+          {
+            "regionId": "region:catch:3726:3762",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Passes delivery errors to Express error middleware."
+          },
+          {
+            "regionId": "region:statement:3746:3758",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Passes delivery errors to Express error middleware."
+          }
+        ],
+        "lineOwners": [
+          {
+            "line": 55,
+            "regionId": "region:if:1626:1721"
+          },
+          {
+            "line": 56,
+            "regionId": "region:if:1726:1836"
+          },
+          {
+            "line": 58,
+            "regionId": "region:if:1843:1945"
+          }
+        ]
+      }
+    }
+  ]
+}

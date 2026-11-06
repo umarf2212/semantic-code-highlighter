@@ -1,0 +1,12 @@
+
+> semantic-code-highlighter@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.10 /Users/umarfarooque/Documents/ChatGPT/Semantic Code Highlighter
+
+
+ Test Files  21 passed (21)
+      Tests  89 passed (89)
+   Start at  08:32:34
+   Duration  1.53s (transform 922ms, setup 0ms, import 5.70s, tests 460ms, environment 1ms)

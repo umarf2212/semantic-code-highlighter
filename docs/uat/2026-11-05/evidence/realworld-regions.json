@@ -1,0 +1,1108 @@
+[
+  {
+    "id": "region:imports:0:285",
+    "type": "imports",
+    "name": "imports",
+    "start": 1,
+    "end": 6,
+    "source": "import slugify from 'slugify';",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:function:313:1202",
+    "type": "function",
+    "name": "buildFindAllQuery",
+    "start": 8,
+    "end": 67,
+    "source": "(query: any, id: number | undefined) => {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:357:381",
+    "type": "statement",
+    "name": "queries",
+    "parentId": "region:function:313:1202",
+    "start": 9,
+    "end": 9,
+    "source": "const queries: any = [];",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:384:409",
+    "type": "statement",
+    "name": "orAuthorQuery",
+    "parentId": "region:function:313:1202",
+    "start": 10,
+    "end": 10,
+    "source": "const orAuthorQuery = [];",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:412:438",
+    "type": "statement",
+    "name": "andAuthorQuery",
+    "parentId": "region:function:313:1202",
+    "start": 11,
+    "end": 11,
+    "source": "const andAuthorQuery = [];",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:442:507",
+    "type": "statement",
+    "name": "orAuthorQuery.push({ demo: { equals: true, }, })",
+    "parentId": "region:function:313:1202",
+    "start": 13,
+    "end": 17,
+    "source": "orAuthorQuery.push({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:511:598",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:313:1202",
+    "start": 19,
+    "end": 25,
+    "source": "if (id) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:525:594",
+    "type": "statement",
+    "name": "orAuthorQuery.push({ id: { equals: id, }, })",
+    "parentId": "region:if:511:598",
+    "start": 20,
+    "end": 24,
+    "source": "orAuthorQuery.push({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:602:721",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:313:1202",
+    "start": 27,
+    "end": 33,
+    "source": "if ('author' in query) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:631:717",
+    "type": "statement",
+    "name": "andAuthorQuery.push({ username: { equals: que...",
+    "parentId": "region:if:602:721",
+    "start": 28,
+    "end": 32,
+    "source": "andAuthorQuery.push({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:725:824",
+    "type": "statement",
+    "name": "authorQuery",
+    "parentId": "region:function:313:1202",
+    "start": 35,
+    "end": 40,
+    "source": "const authorQuery = {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:828:854",
+    "type": "statement",
+    "name": "queries.push(authorQuery)",
+    "parentId": "region:function:313:1202",
+    "start": 42,
+    "end": 42,
+    "source": "queries.push(authorQuery);",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:858:990",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:313:1202",
+    "start": 44,
+    "end": 52,
+    "source": "if ('tag' in query) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:884:986",
+    "type": "statement",
+    "name": "queries.push({ tagList: { some: { name: query...",
+    "parentId": "region:if:858:990",
+    "start": 45,
+    "end": 51,
+    "source": "queries.push({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:994:1181",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:313:1202",
+    "start": 54,
+    "end": 64,
+    "source": "if ('favorited' in query) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:1026:1177",
+    "type": "statement",
+    "name": "queries.push({ favoritedBy: { some: { usernam...",
+    "parentId": "region:if:994:1181",
+    "start": 55,
+    "end": 63,
+    "source": "queries.push({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:1185:1200",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:313:1202",
+    "start": 66,
+    "end": 66,
+    "source": "return queries;",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:function:1232:2103",
+    "type": "function",
+    "name": "getArticles",
+    "start": 69,
+    "end": 111,
+    "source": "async (query: any, id?: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:1271:1319",
+    "type": "statement",
+    "name": "andQueries",
+    "parentId": "region:function:1232:2103",
+    "start": 70,
+    "end": 70,
+    "source": "const andQueries = buildFindAllQuery(query, id);",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:1322:1421",
+    "type": "statement",
+    "name": "articlesCount",
+    "parentId": "region:function:1232:2103",
+    "start": 71,
+    "end": 75,
+    "source": "const articlesCount = await prisma.article.count({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:1425:1991",
+    "type": "statement",
+    "name": "articles",
+    "parentId": "region:function:1232:2103",
+    "start": 77,
+    "end": 105,
+    "source": "const articles = await prisma.article.findMany({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:1995:2101",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:1232:2103",
+    "start": 107,
+    "end": 110,
+    "source": "return {",
+    "local": "transformation"
+  },
+  {
+    "id": "region:callback:2031:2075",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:1995:2101",
+    "start": 108,
+    "end": 108,
+    "source": "(article: any) => articleMapper(article, id)",
+    "local": "transformation"
+  },
+  {
+    "id": "region:function:2129:3038",
+    "type": "function",
+    "name": "getFeed",
+    "start": 113,
+    "end": 160,
+    "source": "async (offset: number, limit: number, id: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:2186:2329",
+    "type": "statement",
+    "name": "articlesCount",
+    "parentId": "region:function:2129:3038",
+    "start": 114,
+    "end": 120,
+    "source": "const articlesCount = await prisma.article.count({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:2333:2926",
+    "type": "statement",
+    "name": "articles",
+    "parentId": "region:function:2129:3038",
+    "start": 122,
+    "end": 154,
+    "source": "const articles = await prisma.article.findMany({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:2930:3036",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:2129:3038",
+    "start": 156,
+    "end": 159,
+    "source": "return {",
+    "local": "transformation"
+  },
+  {
+    "id": "region:callback:2966:3010",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:2930:3036",
+    "start": 157,
+    "end": 157,
+    "source": "(article: any) => articleMapper(article, id)",
+    "local": "transformation"
+  },
+  {
+    "id": "region:function:3070:4626",
+    "type": "function",
+    "name": "createArticle",
+    "start": 162,
+    "end": 239,
+    "source": "async (article: any, id: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:3110:3164",
+    "type": "statement",
+    "name": "{ title, description, body, tagList }",
+    "parentId": "region:function:3070:4626",
+    "start": 163,
+    "end": 163,
+    "source": "const { title, description, body, tagList } = article;",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:3167:3218",
+    "type": "statement",
+    "name": "tags",
+    "parentId": "region:function:3070:4626",
+    "start": 164,
+    "end": 164,
+    "source": "const tags = Array.isArray(tagList) ? tagList : [];",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:3222:3316",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3070:4626",
+    "start": 166,
+    "end": 168,
+    "source": "if (!title) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:3240:3312",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:3222:3316",
+    "start": 167,
+    "end": 167,
+    "source": "throw new HttpException(422, { errors: { title: [\"can't be blank\"] } });",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:3320:3426",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3070:4626",
+    "start": 170,
+    "end": 172,
+    "source": "if (!description) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:3344:3422",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:3320:3426",
+    "start": 171,
+    "end": 171,
+    "source": "throw new HttpException(422, { errors: { description: [\"can't be blank\"] } });",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:3430:3522",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3070:4626",
+    "start": 174,
+    "end": 176,
+    "source": "if (!body) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:3447:3518",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:3430:3522",
+    "start": 175,
+    "end": 175,
+    "source": "throw new HttpException(422, { errors: { body: [\"can't be blank\"] } });",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:3526:3565",
+    "type": "statement",
+    "name": "slug",
+    "parentId": "region:function:3070:4626",
+    "start": 178,
+    "end": 178,
+    "source": "const slug = `${slugify(title)}-${id}`;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:3569:3701",
+    "type": "statement",
+    "name": "existingTitle",
+    "parentId": "region:function:3070:4626",
+    "start": 180,
+    "end": 187,
+    "source": "const existingTitle = await prisma.article.findUnique({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:if:3705:3806",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:3070:4626",
+    "start": 189,
+    "end": 191,
+    "source": "if (existingTitle) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:3730:3802",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:3705:3806",
+    "start": 190,
+    "end": 190,
+    "source": "throw new HttpException(422, { errors: { title: ['must be unique'] } });",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:3810:4579",
+    "type": "statement",
+    "name": "{\n    authorId,\n    id: articleId,\n    ...createdArticle\n  }",
+    "parentId": "region:function:3070:4626",
+    "start": 193,
+    "end": 236,
+    "source": "const {",
+    "local": "external_io"
+  },
+  {
+    "id": "region:callback:4028:4123",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:3810:4579",
+    "start": 204,
+    "end": 207,
+    "source": "(tag: string) => ({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:4583:4624",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:3070:4626",
+    "start": 238,
+    "end": 238,
+    "source": "return articleMapper(createdArticle, id);",
+    "local": "transformation"
+  },
+  {
+    "id": "region:function:4655:5279",
+    "type": "function",
+    "name": "getArticle",
+    "start": 241,
+    "end": 274,
+    "source": "async (slug: string, id?: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:4696:5142",
+    "type": "statement",
+    "name": "article",
+    "parentId": "region:function:4655:5279",
+    "start": 242,
+    "end": 267,
+    "source": "const article = await prisma.article.findUnique({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:if:5146:5239",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:4655:5279",
+    "start": 269,
+    "end": 271,
+    "source": "if (!article) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:5166:5235",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:5146:5239",
+    "start": 270,
+    "end": 270,
+    "source": "throw new HttpException(404, { errors: { article: ['not found'] } });",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:5243:5277",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:4655:5279",
+    "start": 273,
+    "end": 273,
+    "source": "return articleMapper(article, id);",
+    "local": "transformation"
+  },
+  {
+    "id": "region:function:5313:5472",
+    "type": "function",
+    "name": "disconnectArticlesTags",
+    "start": 276,
+    "end": 287,
+    "source": "async (slug: string) => {",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:5341:5470",
+    "type": "statement",
+    "name": "await prisma.article.update({ where: { slug, ...",
+    "parentId": "region:function:5313:5472",
+    "start": 277,
+    "end": 286,
+    "source": "await prisma.article.update({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:function:5504:7528",
+    "type": "function",
+    "name": "updateArticle",
+    "start": 289,
+    "end": 383,
+    "source": "async (article: any, slug: string, id: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:5558:5577",
+    "type": "statement",
+    "name": "newSlug",
+    "parentId": "region:function:5504:7528",
+    "start": 290,
+    "end": 290,
+    "source": "let newSlug = null;",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:5581:5802",
+    "type": "statement",
+    "name": "existingArticle",
+    "parentId": "region:function:5504:7528",
+    "start": 292,
+    "end": 304,
+    "source": "const existingArticle = await await prisma.article.findFirst({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:if:5806:5871",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:5504:7528",
+    "start": 306,
+    "end": 308,
+    "source": "if (!existingArticle) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:5834:5867",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:5806:5871",
+    "start": 307,
+    "end": 307,
+    "source": "throw new HttpException(404, {});",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:5875:6025",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:5504:7528",
+    "start": 310,
+    "end": 314,
+    "source": "if (existingArticle.author.id !== id) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:5919:6021",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:5875:6025",
+    "start": 311,
+    "end": 313,
+    "source": "throw new HttpException(403, {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:6029:6429",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:5504:7528",
+    "start": 316,
+    "end": 333,
+    "source": "if (article.title) {",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:6054:6098",
+    "type": "statement",
+    "name": "newSlug = `${slugify(article.title)}-${id}`",
+    "parentId": "region:if:6029:6429",
+    "start": 317,
+    "end": 317,
+    "source": "newSlug = `${slugify(article.title)}-${id}`;",
+    "local": "utility"
+  },
+  {
+    "id": "region:if:6104:6425",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:if:6029:6429",
+    "start": 319,
+    "end": 332,
+    "source": "if (newSlug !== slug) {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:6134:6302",
+    "type": "statement",
+    "name": "existingTitle",
+    "parentId": "region:if:6104:6425",
+    "start": 320,
+    "end": 327,
+    "source": "const existingTitle = await prisma.article.findFirst({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:if:6310:6419",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:if:6104:6425",
+    "start": 329,
+    "end": 331,
+    "source": "if (existingTitle) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:6339:6411",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:6310:6419",
+    "start": 330,
+    "end": 330,
+    "source": "throw new HttpException(422, { errors: { title: ['must be unique'] } });",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:6433:6647",
+    "type": "statement",
+    "name": "tagList",
+    "parentId": "region:function:5504:7528",
+    "start": 335,
+    "end": 341,
+    "source": "const tagList =",
+    "local": "transformation"
+  },
+  {
+    "id": "region:callback:6539:6634",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:6433:6647",
+    "start": 337,
+    "end": 340,
+    "source": "(tag: string) => ({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:6651:6686",
+    "type": "statement",
+    "name": "await disconnectArticlesTags(slug)",
+    "parentId": "region:function:5504:7528",
+    "start": 343,
+    "end": 343,
+    "source": "await disconnectArticlesTags(slug);",
+    "local": "utility"
+  },
+  {
+    "id": "region:statement:6690:7481",
+    "type": "statement",
+    "name": "updatedArticle",
+    "parentId": "region:function:5504:7528",
+    "start": 345,
+    "end": 380,
+    "source": "const updatedArticle = await prisma.article.update({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:7485:7526",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:5504:7528",
+    "start": 382,
+    "end": 382,
+    "source": "return articleMapper(updatedArticle, id);",
+    "local": "transformation"
+  },
+  {
+    "id": "region:function:7560:8116",
+    "type": "function",
+    "name": "deleteArticle",
+    "start": 385,
+    "end": 414,
+    "source": "async (slug: string, id: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:7600:7821",
+    "type": "statement",
+    "name": "existingArticle",
+    "parentId": "region:function:7560:8116",
+    "start": 386,
+    "end": 398,
+    "source": "const existingArticle = await await prisma.article.findFirst({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:if:7825:7890",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:7560:8116",
+    "start": 400,
+    "end": 402,
+    "source": "if (!existingArticle) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:7853:7886",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:7825:7890",
+    "start": 401,
+    "end": 401,
+    "source": "throw new HttpException(404, {});",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:7894:8044",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:7560:8116",
+    "start": 404,
+    "end": 408,
+    "source": "if (existingArticle.author.id !== id) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:7938:8040",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:7894:8044",
+    "start": 405,
+    "end": 407,
+    "source": "throw new HttpException(403, {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:8047:8114",
+    "type": "statement",
+    "name": "await prisma.article.delete({ where: { slug, ...",
+    "parentId": "region:function:7560:8116",
+    "start": 409,
+    "end": 413,
+    "source": "await prisma.article.delete({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:function:8155:9177",
+    "type": "function",
+    "name": "getCommentsByArticle",
+    "start": 416,
+    "end": 471,
+    "source": "async (slug: string, id?: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:8196:8215",
+    "type": "statement",
+    "name": "queries",
+    "parentId": "region:function:8155:9177",
+    "start": 417,
+    "end": 417,
+    "source": "const queries = [];",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:8219:8278",
+    "type": "statement",
+    "name": "queries.push({ author: { demo: true, }, })",
+    "parentId": "region:function:8155:9177",
+    "start": 419,
+    "end": 423,
+    "source": "queries.push({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:8282:8359",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:8155:9177",
+    "start": 425,
+    "end": 431,
+    "source": "if (id) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:8296:8355",
+    "type": "statement",
+    "name": "queries.push({ author: { id, }, })",
+    "parentId": "region:if:8282:8359",
+    "start": 426,
+    "end": 430,
+    "source": "queries.push({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:8363:8860",
+    "type": "statement",
+    "name": "comments",
+    "parentId": "region:function:8155:9177",
+    "start": 433,
+    "end": 458,
+    "source": "const comments = await prisma.article.findUnique({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:8864:9157",
+    "type": "statement",
+    "name": "result",
+    "parentId": "region:function:8155:9177",
+    "start": 460,
+    "end": 468,
+    "source": "const result = comments?.comments.map((comment: any) => ({",
+    "local": "transformation"
+  },
+  {
+    "id": "region:callback:8902:9155",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:8864:9157",
+    "start": 460,
+    "end": 468,
+    "source": "(comment: any) => ({",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:callback:9108:9141",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:callback:8902:9155",
+    "start": 466,
+    "end": 466,
+    "source": "(follow: any) => follow.id === id",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:9161:9175",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:8155:9177",
+    "start": 470,
+    "end": 470,
+    "source": "return result;",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:function:9206:10239",
+    "type": "function",
+    "name": "addComment",
+    "start": 473,
+    "end": 525,
+    "source": "async (body: string, slug: string, id: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:if:9260:9352",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:9206:10239",
+    "start": 474,
+    "end": 476,
+    "source": "if (!body) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:9277:9348",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:9260:9352",
+    "start": 475,
+    "end": 475,
+    "source": "throw new HttpException(422, { errors: { body: [\"can't be blank\"] } });",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:9356:9480",
+    "type": "statement",
+    "name": "article",
+    "parentId": "region:function:9206:10239",
+    "start": 478,
+    "end": 485,
+    "source": "const article = await prisma.article.findUnique({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:9484:9896",
+    "type": "statement",
+    "name": "comment",
+    "parentId": "region:function:9206:10239",
+    "start": 487,
+    "end": 511,
+    "source": "const comment = await prisma.comment.create({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:9900:10237",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:9206:10239",
+    "start": 513,
+    "end": 524,
+    "source": "return {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:callback:10190:10223",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:9900:10237",
+    "start": 522,
+    "end": 522,
+    "source": "(follow: any) => follow.id === id",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:function:10271:10845",
+    "type": "function",
+    "name": "deleteComment",
+    "start": 527,
+    "end": 560,
+    "source": "async (id: number, userId: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:10313:10563",
+    "type": "statement",
+    "name": "comment",
+    "parentId": "region:function:10271:10845",
+    "start": 528,
+    "end": 543,
+    "source": "const comment = await prisma.comment.findFirst({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:if:10567:10624",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:10271:10845",
+    "start": 545,
+    "end": 547,
+    "source": "if (!comment) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:10587:10620",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:10567:10624",
+    "start": 546,
+    "end": 546,
+    "source": "throw new HttpException(404, {});",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:if:10628:10774",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:10271:10845",
+    "start": 549,
+    "end": 553,
+    "source": "if (comment.author.id !== userId) {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:10668:10770",
+    "type": "statement",
+    "name": "throw",
+    "parentId": "region:if:10628:10774",
+    "start": 550,
+    "end": 552,
+    "source": "throw new HttpException(403, {",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:10778:10843",
+    "type": "statement",
+    "name": "await prisma.comment.delete({ where: { id, }, })",
+    "parentId": "region:function:10271:10845",
+    "start": 555,
+    "end": 559,
+    "source": "await prisma.comment.delete({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:function:10879:11783",
+    "type": "function",
+    "name": "favoriteArticle",
+    "start": 562,
+    "end": 606,
+    "source": "async (slugPayload: string, id: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:10926:11493",
+    "type": "statement",
+    "name": "{ _count, ...article }",
+    "parentId": "region:function:10879:11783",
+    "start": 563,
+    "end": 595,
+    "source": "const { _count, ...article } = await prisma.article.update({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:11497:11763",
+    "type": "statement",
+    "name": "result",
+    "parentId": "region:function:10879:11783",
+    "start": 597,
+    "end": 603,
+    "source": "const result = {",
+    "local": "transformation"
+  },
+  {
+    "id": "region:callback:11611:11633",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:11497:11763",
+    "start": 600,
+    "end": 600,
+    "source": "(tag: Tag) => tag.name",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:callback:11676:11715",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:11497:11763",
+    "start": 601,
+    "end": 601,
+    "source": "(favorited: any) => favorited.id === id",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:11767:11781",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:10879:11783",
+    "start": 605,
+    "end": 605,
+    "source": "return result;",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:function:11819:12726",
+    "type": "function",
+    "name": "unfavoriteArticle",
+    "start": 608,
+    "end": 652,
+    "source": "async (slugPayload: string, id: number) => {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:11866:12436",
+    "type": "statement",
+    "name": "{ _count, ...article }",
+    "parentId": "region:function:11819:12726",
+    "start": 609,
+    "end": 641,
+    "source": "const { _count, ...article } = await prisma.article.update({",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:12440:12706",
+    "type": "statement",
+    "name": "result",
+    "parentId": "region:function:11819:12726",
+    "start": 643,
+    "end": 649,
+    "source": "const result = {",
+    "local": "transformation"
+  },
+  {
+    "id": "region:callback:12554:12576",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:12440:12706",
+    "start": 646,
+    "end": 646,
+    "source": "(tag: Tag) => tag.name",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:callback:12619:12658",
+    "type": "callback",
+    "name": "callback",
+    "parentId": "region:statement:12440:12706",
+    "start": 647,
+    "end": 647,
+    "source": "(favorited: any) => favorited.id === id",
+    "local": "business_logic"
+  },
+  {
+    "id": "region:statement:12710:12724",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:11819:12726",
+    "start": 651,
+    "end": 651,
+    "source": "return result;",
+    "local": "business_logic"
+  }
+]

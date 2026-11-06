@@ -1,0 +1,691 @@
+{
+  "formatVersion": "1",
+  "ontologyVersion": "1",
+  "regionModelVersion": "3",
+  "promptVersion": "2",
+  "schemaVersion": "2",
+  "files": [
+    {
+      "filePath": "lib/utils.js",
+      "sourceHash": "4bd3bf9c911e086d1911954708de7a6c384ed924360e3fd1d4a43c98bd68b112",
+      "classification": {
+        "regions": [
+          {
+            "regionId": "region:statement:130:143",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Enables strict mode or loads HTTP representation and parsing dependencies."
+          },
+          {
+            "regionId": "region:statement:194:233",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Enables strict mode or loads HTTP representation and parsing dependencies."
+          },
+          {
+            "regionId": "region:statement:234:276",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Enables strict mode or loads HTTP representation and parsing dependencies."
+          },
+          {
+            "regionId": "region:statement:277:304",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Enables strict mode or loads HTTP representation and parsing dependencies."
+          },
+          {
+            "regionId": "region:statement:305:337",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Enables strict mode or loads HTTP representation and parsing dependencies."
+          },
+          {
+            "regionId": "region:statement:338:376",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Enables strict mode or loads HTTP representation and parsing dependencies."
+          },
+          {
+            "regionId": "region:statement:377:400",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Enables strict mode or loads HTTP representation and parsing dependencies."
+          },
+          {
+            "regionId": "region:statement:401:447",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Enables strict mode or loads HTTP representation and parsing dependencies."
+          },
+          {
+            "regionId": "region:statement:448:490",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Enables strict mode or loads HTTP representation and parsing dependencies."
+          },
+          {
+            "regionId": "region:statement:585:649",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes supported HTTP method names to lowercase."
+          },
+          {
+            "regionId": "region:callback:615:647",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes supported HTTP method names to lowercase."
+          },
+          {
+            "regionId": "region:statement:794:845",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Configures strong and weak entity-tag generator functions."
+          },
+          {
+            "regionId": "region:statement:988:1039",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Configures strong and weak entity-tag generator functions."
+          },
+          {
+            "regionId": "region:statement:1184:1358",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:function:1208:1357",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:1226:1355",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:1493:1581",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:function:1518:1580",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:1538:1578",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:function:1748:2571",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:1780:1804",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:1807:1841",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:1844:1896",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:1899:1971",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:loop:1975:2554",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2004:2045",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:if:2050:2079",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2073:2079",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2085:2126",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2131:2186",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:if:2192:2298",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2227:2276",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2283:2292",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2304:2350",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2355:2410",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:if:2416:2479",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2441:2473",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:else:2485:2523",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2493:2517",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2529:2550",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2558:2569",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes MIME types or parses Accept parameters into structured values."
+          },
+          {
+            "regionId": "region:statement:2701:3082",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:function:2723:3082",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:statement:2741:2748",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:if:2752:2804",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:statement:2789:2800",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:switch:2808:3066",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:case:2827:2837",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:case:2842:2893",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:statement:2861:2880",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:statement:2887:2893",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:case:2898:2922",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:statement:2916:2922",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:case:2927:2979",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:statement:2948:2966",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:statement:2973:2979",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the ETag setting to an application generator function."
+          },
+          {
+            "regionId": "region:case:2984:3062",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects an unsupported ETag configuration value."
+          },
+          {
+            "regionId": "region:statement:2999:3062",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects an unsupported ETag configuration value."
+          },
+          {
+            "regionId": "region:statement:3070:3080",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:statement:3212:3647",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:function:3241:3647",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:statement:3278:3285",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:if:3289:3341",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:statement:3326:3337",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:switch:3345:3631",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:case:3364:3374",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:case:3379:3436",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:statement:3400:3423",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:statement:3430:3436",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:case:3441:3465",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:statement:3459:3465",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:case:3470:3536",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:statement:3493:3523",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:statement:3530:3536",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Returns the configured generator or resolves the query parser setting."
+          },
+          {
+            "regionId": "region:case:3541:3627",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects an unsupported query parser configuration value."
+          },
+          {
+            "regionId": "region:statement:3556:3627",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects an unsupported query parser configuration value."
+          },
+          {
+            "regionId": "region:statement:3635:3645",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the parser or configures the proxy trust predicate."
+          },
+          {
+            "regionId": "region:statement:3797:4282",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the parser or configures the proxy trust predicate."
+          },
+          {
+            "regionId": "region:function:3820:4282",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the parser or configures the proxy trust predicate."
+          },
+          {
+            "regionId": "region:if:3838:3880",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the parser or configures the proxy trust predicate."
+          },
+          {
+            "regionId": "region:statement:3869:3880",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the parser or configures the proxy trust predicate."
+          },
+          {
+            "regionId": "region:if:3884:3977",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Resolves the parser or configures the proxy trust predicate."
+          },
+          {
+            "regionId": "region:statement:3940:3973",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Produces the configured predicate that admits every proxy hop."
+          },
+          {
+            "regionId": "region:function:3947:3972",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Produces the configured predicate that admits every proxy hop."
+          },
+          {
+            "regionId": "region:statement:3959:3970",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Produces the configured predicate that admits every proxy hop."
+          },
+          {
+            "regionId": "region:if:3981:4094",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Selects hop-count based proxy trust configuration."
+          },
+          {
+            "regionId": "region:statement:4050:4090",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Produces the predicate that admits proxy hops below the configured count."
+          },
+          {
+            "regionId": "region:function:4057:4089",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Produces the predicate that admits proxy hops below the configured count."
+          },
+          {
+            "regionId": "region:statement:4073:4087",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Produces the predicate that admits proxy hops below the configured count."
+          },
+          {
+            "regionId": "region:if:4098:4240",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Selects the string form of proxy trust configuration."
+          },
+          {
+            "regionId": "region:statement:4171:4236",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Splits and trims comma-separated proxy addresses."
+          },
+          {
+            "regionId": "region:callback:4203:4235",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Splits and trims comma-separated proxy addresses."
+          },
+          {
+            "regionId": "region:statement:4218:4233",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Splits and trims comma-separated proxy addresses."
+          },
+          {
+            "regionId": "region:statement:4244:4280",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Compiles the configured proxy address trust predicate."
+          },
+          {
+            "regionId": "region:statement:4434:4711",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Parses a Content-Type, updates charset and serializes the new header value."
+          },
+          {
+            "regionId": "region:function:4455:4710",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Parses a Content-Type, updates charset and serializes the new header value."
+          },
+          {
+            "regionId": "region:if:4494:4539",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Parses a Content-Type, updates charset and serializes the new header value."
+          },
+          {
+            "regionId": "region:statement:4523:4535",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Parses a Content-Type, updates charset and serializes the new header value."
+          },
+          {
+            "regionId": "region:statement:4559:4596",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Parses a Content-Type, updates charset and serializes the new header value."
+          },
+          {
+            "regionId": "region:statement:4617:4653",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Parses a Content-Type, updates charset and serializes the new header value."
+          },
+          {
+            "regionId": "region:statement:4674:4708",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Parses a Content-Type, updates charset and serializes the new header value."
+          },
+          {
+            "regionId": "region:function:4868:5081",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Creates an entity-tag generator with the supplied options."
+          },
+          {
+            "regionId": "region:statement:4911:5079",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Creates an entity-tag generator with the supplied options."
+          },
+          {
+            "regionId": "region:function:4918:5079",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Converts the body to a buffer and generates its entity-tag representation."
+          },
+          {
+            "regionId": "region:statement:4963:5044",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Converts the body to a buffer and generates its entity-tag representation."
+          },
+          {
+            "regionId": "region:statement:5050:5075",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Converts the body to a buffer and generates its entity-tag representation."
+          },
+          {
+            "regionId": "region:function:5193:5292",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Parses an extended query string into structured values."
+          },
+          {
+            "regionId": "region:statement:5236:5290",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Parses an extended query string into structured values."
+          }
+        ],
+        "lineOwners": [
+          {
+            "line": 28,
+            "regionId": "region:callback:615:647"
+          },
+          {
+            "line": 96,
+            "regionId": "region:if:2050:2079"
+          },
+          {
+            "line": 194,
+            "regionId": "region:if:3838:3880"
+          },
+          {
+            "line": 198,
+            "regionId": "region:function:3947:3972"
+          },
+          {
+            "line": 203,
+            "regionId": "region:function:4057:4089"
+          },
+          {
+            "line": 209,
+            "regionId": "region:callback:4203:4235"
+          }
+        ]
+      }
+    }
+  ]
+}

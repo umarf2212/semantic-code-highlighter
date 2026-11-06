@@ -1,0 +1,378 @@
+{
+  "formatVersion": "1",
+  "ontologyVersion": "1",
+  "regionModelVersion": "3",
+  "promptVersion": "2",
+  "schemaVersion": "2",
+  "files": [
+    {
+      "filePath": "src/posts/create.js",
+      "sourceHash": "e6571c5dc046c9e8e995c743dd0b89997341903a7338a025c5a86606e4329746",
+      "classification": {
+        "regions": [
+          {
+            "regionId": "region:statement:0:13",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:15:47",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:48:82",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:83:121",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:122:154",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:155:191",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:192:236",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:237:273",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:274:320",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:321:355",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:357:3535",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:function:374:3534",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Loads dependencies and wires post methods onto the exported Posts module."
+          },
+          {
+            "regionId": "region:statement:394:3186",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates post creation, federation metadata and persistence side effects."
+          },
+          {
+            "regionId": "region:function:409:3185",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates post creation, federation metadata and persistence side effects."
+          },
+          {
+            "regionId": "region:statement:504:559",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Extracts and normalizes incoming post fields and defaults."
+          },
+          {
+            "regionId": "region:statement:562:602",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Extracts and normalizes incoming post fields and defaults."
+          },
+          {
+            "regionId": "region:statement:605:652",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Extracts and normalizes incoming post fields and defaults."
+          },
+          {
+            "regionId": "region:statement:655:691",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Extracts and normalizes incoming post fields and defaults."
+          },
+          {
+            "regionId": "region:statement:694:720",
+            "responsibility": "data",
+            "confidence": 0.9,
+            "explanation": "Initializes the attachment-presence flag."
+          },
+          {
+            "regionId": "region:if:724:811",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects invalid author and reply-target identifiers."
+          },
+          {
+            "regionId": "region:statement:766:807",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects invalid author and reply-target identifiers."
+          },
+          {
+            "regionId": "region:if:815:954",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects invalid author and reply-target identifiers."
+          },
+          {
+            "regionId": "region:statement:909:950",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects invalid author and reply-target identifiers."
+          },
+          {
+            "regionId": "region:statement:958:1028",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Allocates the next post identifier by updating the database counter."
+          },
+          {
+            "regionId": "region:statement:1031:1099",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds the stored post representation and optional reply field."
+          },
+          {
+            "regionId": "region:if:1103:1156",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds the stored post representation and optional reply field."
+          },
+          {
+            "regionId": "region:statement:1124:1152",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds the stored post representation and optional reply field."
+          },
+          {
+            "regionId": "region:if:1159:1255",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Applies the forum policy controlling whether an IP is stored with a post."
+          },
+          {
+            "regionId": "region:statement:1229:1251",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Applies the forum policy controlling whether an IP is stored with a post."
+          },
+          {
+            "regionId": "region:if:1258:1336",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:statement:1302:1332",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:if:1339:1419",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:statement:1369:1415",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:if:1422:1944",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:if:1445:1510",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:statement:1473:1505",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:if:1514:1594",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:statement:1547:1589",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:statement:1653:1744",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:statement:1748:1845",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:statement:1850:1940",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects optional and federated post metadata and rewrites emoji representation."
+          },
+          {
+            "regionId": "region:statement:1948:2050",
+            "responsibility": "unknown",
+            "confidence": 0.3,
+            "explanation": "Plugin implementations may alter the post or perform side effects; this dispatch alone cannot establish their purpose."
+          },
+          {
+            "regionId": "region:statement:2054:2126",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Collects upload paths using thumbnail reads and filesystem-backed path validation."
+          },
+          {
+            "regionId": "region:statement:2129:2172",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Serializes upload metadata for the stored post."
+          },
+          {
+            "regionId": "region:statement:2175:2228",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Writes the post and reads the topic category and pin state from persistence."
+          },
+          {
+            "regionId": "region:statement:2232:2302",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Writes the post and reads the topic category and pin state from persistence."
+          },
+          {
+            "regionId": "region:statement:2305:2334",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Adds the loaded category identifier to the post representation."
+          },
+          {
+            "regionId": "region:statement:2337:2375",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Distinguishes remote from local post identifiers for bookkeeping."
+          },
+          {
+            "regionId": "region:statement:2378:2945",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Persists post indexes, counts, reply links and upload metadata."
+          },
+          {
+            "regionId": "region:statement:2949:3043",
+            "responsibility": "unknown",
+            "confidence": 0.3,
+            "explanation": "The plugin filter body is not fixed here; its purpose depends on installed plugins."
+          },
+          {
+            "regionId": "region:statement:3046:3074",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Adds the main-post flag to the returned post representation."
+          },
+          {
+            "regionId": "region:statement:3077:3160",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Dispatches the post-save lifecycle hook to installed plugins."
+          },
+          {
+            "regionId": "region:statement:3163:3182",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Returns the created post or coordinates reply relationship bookkeeping."
+          },
+          {
+            "regionId": "region:function:3189:3532",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Returns the created post or coordinates reply relationship bookkeeping."
+          },
+          {
+            "regionId": "region:if:3240:3277",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires a reply target before updating its reply relationship."
+          },
+          {
+            "regionId": "region:statement:3266:3273",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires a reply target before updating its reply relationship."
+          },
+          {
+            "regionId": "region:statement:3280:3330",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Posts.exists reads database existence for the reply target."
+          },
+          {
+            "regionId": "region:if:3333:3362",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires the reply target to exist before linking it."
+          },
+          {
+            "regionId": "region:statement:3351:3358",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires the reply target to exist before linking it."
+          },
+          {
+            "regionId": "region:statement:3366:3529",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Persists the reply index and increments its reply counter."
+          }
+        ],
+        "lineOwners": []
+      }
+    }
+  ]
+}

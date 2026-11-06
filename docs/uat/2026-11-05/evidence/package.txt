@@ -1,0 +1,42 @@
+
+> semantic-code-highlighter@0.1.0 package:vsix
+> npm run package && node -e "require('node:fs').mkdirSync('artifacts', { recursive: true })" && vsce package --pre-release --out artifacts/semantic-code-highlighter.vsix
+
+
+> semantic-code-highlighter@0.1.0 package
+> node esbuild.mjs --production
+
+
+  dist/extension.js  4.0mb ⚠️
+
+⚡ Done in 396ms
+Executing prepublish script 'npm run vscode:prepublish'...
+
+> semantic-code-highlighter@0.1.0 vscode:prepublish
+> npm run package
+
+
+> semantic-code-highlighter@0.1.0 package
+> node esbuild.mjs --production
+
+
+  dist/extension.js  4.0mb ⚠️
+
+⚡ Done in 523ms
+ INFO  Files included in the VSIX:
+semantic-code-highlighter.vsix
+├─ [Content_Types].xml
+├─ extension.vsixmanifest
+└─ extension/
+   ├─ LICENSE.txt [1.05 KB]
+   ├─ changelog.md [1.04 KB]
+   ├─ package.json [9 KB]
+   ├─ readme.md [8.44 KB]
+   ├─ dist/
+   │  └─ extension.js [4.02 MB]
+   └─ media/
+      └─ icon.png [11.91 KB]
+
+The file extension/dist/extension.js is large (4.02 MB)
+
+ DONE  Packaged: artifacts/semantic-code-highlighter.vsix (8 files, 1.14 MB)

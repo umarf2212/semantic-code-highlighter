@@ -1,0 +1,690 @@
+{
+  "formatVersion": "1",
+  "ontologyVersion": "1",
+  "regionModelVersion": "3",
+  "promptVersion": "2",
+  "schemaVersion": "2",
+  "files": [
+    {
+      "filePath": "src/app/routes/article/article.service.ts",
+      "sourceHash": "0d0952c277fe13a6ac59edec35c33e1702895a8608194fa910e821886bf23a8e",
+      "classification": {
+        "regions": [
+          {
+            "regionId": "region:imports:0:285",
+            "responsibility": "infrastructure",
+            "confidence": 0.9,
+            "explanation": "Imports the persistence adapter, mappers and HTTP error type."
+          },
+          {
+            "regionId": "region:function:313:1202",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:357:381",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:384:409",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:412:438",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:442:507",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:if:511:598",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:525:594",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:if:602:721",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:631:717",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:725:824",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:828:854",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:if:858:990",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:884:986",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:if:994:1181",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:1026:1177",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:statement:1185:1200",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds a Prisma filter representation from author, tag and favorite query parameters."
+          },
+          {
+            "regionId": "region:function:1232:2103",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates article listing, persistence reads and response mapping."
+          },
+          {
+            "regionId": "region:statement:1271:1319",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "The same-file helper converts query parameters to Prisma filters."
+          },
+          {
+            "regionId": "region:statement:1322:1421",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Counts or reads matching articles through Prisma."
+          },
+          {
+            "regionId": "region:statement:1425:1991",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Counts or reads matching articles through Prisma."
+          },
+          {
+            "regionId": "region:statement:1995:2101",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects stored articles into the API response through articleMapper."
+          },
+          {
+            "regionId": "region:callback:2031:2075",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects stored articles into the API response through articleMapper."
+          },
+          {
+            "regionId": "region:function:2129:3038",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates the followed-author feed query and API response."
+          },
+          {
+            "regionId": "region:statement:2186:2329",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Counts or reads the followed-author articles from persistence."
+          },
+          {
+            "regionId": "region:statement:2333:2926",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Counts or reads the followed-author articles from persistence."
+          },
+          {
+            "regionId": "region:statement:2930:3036",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Maps persistent articles into the feed response."
+          },
+          {
+            "regionId": "region:callback:2966:3010",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Maps persistent articles into the feed response."
+          },
+          {
+            "regionId": "region:function:3070:4626",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Creates an article after required-field and uniqueness checks."
+          },
+          {
+            "regionId": "region:statement:3110:3164",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Extracts article input and normalizes the optional tag list."
+          },
+          {
+            "regionId": "region:statement:3167:3218",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Extracts article input and normalizes the optional tag list."
+          },
+          {
+            "regionId": "region:if:3222:3316",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a missing title, description or body with HTTP 422."
+          },
+          {
+            "regionId": "region:statement:3240:3312",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a missing title, description or body with HTTP 422."
+          },
+          {
+            "regionId": "region:if:3320:3426",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a missing title, description or body with HTTP 422."
+          },
+          {
+            "regionId": "region:statement:3344:3422",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a missing title, description or body with HTTP 422."
+          },
+          {
+            "regionId": "region:if:3430:3522",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a missing title, description or body with HTTP 422."
+          },
+          {
+            "regionId": "region:statement:3447:3518",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a missing title, description or body with HTTP 422."
+          },
+          {
+            "regionId": "region:statement:3526:3565",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Converts the title and author identifier into an article slug."
+          },
+          {
+            "regionId": "region:statement:3569:3701",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Looks up an existing slug through the Prisma database adapter."
+          },
+          {
+            "regionId": "region:if:3705:3806",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Enforces uniqueness before writing the new article."
+          },
+          {
+            "regionId": "region:statement:3730:3802",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Enforces uniqueness before writing the new article."
+          },
+          {
+            "regionId": "region:statement:3810:4579",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Creates the article and linked tags and author in persistence."
+          },
+          {
+            "regionId": "region:callback:4028:4123",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects tags into connect-or-create shapes or maps the created article for the API."
+          },
+          {
+            "regionId": "region:statement:4583:4624",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects tags into connect-or-create shapes or maps the created article for the API."
+          },
+          {
+            "regionId": "region:function:4655:5279",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Retrieves one article and rejects a missing result."
+          },
+          {
+            "regionId": "region:statement:4696:5142",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Loads the requested article and related records through Prisma."
+          },
+          {
+            "regionId": "region:if:5146:5239",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a missing article with HTTP 404."
+          },
+          {
+            "regionId": "region:statement:5166:5235",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a missing article with HTTP 404."
+          },
+          {
+            "regionId": "region:statement:5243:5277",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "The imported mapper projects stored fields into the article response."
+          },
+          {
+            "regionId": "region:function:5313:5472",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Updates persistence to disconnect the article tag relations."
+          },
+          {
+            "regionId": "region:statement:5341:5470",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Updates persistence to disconnect the article tag relations."
+          },
+          {
+            "regionId": "region:function:5504:7528",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates authorized article updates, title uniqueness and tag replacement."
+          },
+          {
+            "regionId": "region:statement:5558:5577",
+            "responsibility": "data",
+            "confidence": 0.9,
+            "explanation": "Declares the optional replacement slug."
+          },
+          {
+            "regionId": "region:statement:5581:5802",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Reads the existing article and author identifier for the update."
+          },
+          {
+            "regionId": "region:if:5806:5871",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing article owned by the acting user."
+          },
+          {
+            "regionId": "region:statement:5834:5867",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing article owned by the acting user."
+          },
+          {
+            "regionId": "region:if:5875:6025",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing article owned by the acting user."
+          },
+          {
+            "regionId": "region:statement:5919:6021",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing article owned by the acting user."
+          },
+          {
+            "regionId": "region:if:6029:6429",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates optional title replacement and its uniqueness check."
+          },
+          {
+            "regionId": "region:statement:6054:6098",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Converts the replacement title into a slug."
+          },
+          {
+            "regionId": "region:if:6104:6425",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Checks replacement-slug uniqueness when the slug changes."
+          },
+          {
+            "regionId": "region:statement:6134:6302",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Queries persistence for a conflicting replacement slug."
+          },
+          {
+            "regionId": "region:if:6310:6419",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a conflicting article title."
+          },
+          {
+            "regionId": "region:statement:6339:6411",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects a conflicting article title."
+          },
+          {
+            "regionId": "region:statement:6433:6647",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes supplied tags into persistence relation operations."
+          },
+          {
+            "regionId": "region:callback:6539:6634",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Normalizes supplied tags into persistence relation operations."
+          },
+          {
+            "regionId": "region:statement:6651:6686",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Disconnects old tag relations and persists the updated article."
+          },
+          {
+            "regionId": "region:statement:6690:7481",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Disconnects old tag relations and persists the updated article."
+          },
+          {
+            "regionId": "region:statement:7485:7526",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Maps the updated article to its API representation."
+          },
+          {
+            "regionId": "region:function:7560:8116",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates article deletion after existence and ownership checks."
+          },
+          {
+            "regionId": "region:statement:7600:7821",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Loads the article and owner from persistence."
+          },
+          {
+            "regionId": "region:if:7825:7890",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing article owned by the deleting user."
+          },
+          {
+            "regionId": "region:statement:7853:7886",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing article owned by the deleting user."
+          },
+          {
+            "regionId": "region:if:7894:8044",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing article owned by the deleting user."
+          },
+          {
+            "regionId": "region:statement:7938:8040",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing article owned by the deleting user."
+          },
+          {
+            "regionId": "region:statement:8047:8114",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Deletes the article from persistence."
+          },
+          {
+            "regionId": "region:function:8155:9177",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates comment retrieval and the caller-specific response."
+          },
+          {
+            "regionId": "region:statement:8196:8215",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds the comment author filter from demo and signed-in identities."
+          },
+          {
+            "regionId": "region:statement:8219:8278",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds the comment author filter from demo and signed-in identities."
+          },
+          {
+            "regionId": "region:if:8282:8359",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds the comment author filter from demo and signed-in identities."
+          },
+          {
+            "regionId": "region:statement:8296:8355",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Builds the comment author filter from demo and signed-in identities."
+          },
+          {
+            "regionId": "region:statement:8363:8860",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Queries the article and its visible comments from persistence."
+          },
+          {
+            "regionId": "region:statement:8864:9157",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects comments and following status into the API response."
+          },
+          {
+            "regionId": "region:callback:8902:9155",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects comments and following status into the API response."
+          },
+          {
+            "regionId": "region:callback:9108:9141",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects comments and following status into the API response."
+          },
+          {
+            "regionId": "region:statement:9161:9175",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects comments and following status into the API response."
+          },
+          {
+            "regionId": "region:function:9206:10239",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates comment creation and its returned representation."
+          },
+          {
+            "regionId": "region:if:9260:9352",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects an empty comment body."
+          },
+          {
+            "regionId": "region:statement:9277:9348",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Rejects an empty comment body."
+          },
+          {
+            "regionId": "region:statement:9356:9480",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Loads the parent article and creates a related comment in persistence."
+          },
+          {
+            "regionId": "region:statement:9484:9896",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Loads the parent article and creates a related comment in persistence."
+          },
+          {
+            "regionId": "region:statement:9900:10237",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects the new comment and author following flag for the API."
+          },
+          {
+            "regionId": "region:callback:10190:10223",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects the new comment and author following flag for the API."
+          },
+          {
+            "regionId": "region:function:10271:10845",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates authorized comment deletion."
+          },
+          {
+            "regionId": "region:statement:10313:10563",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Loads the comment and author from persistence."
+          },
+          {
+            "regionId": "region:if:10567:10624",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing comment owned by the acting user."
+          },
+          {
+            "regionId": "region:statement:10587:10620",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing comment owned by the acting user."
+          },
+          {
+            "regionId": "region:if:10628:10774",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing comment owned by the acting user."
+          },
+          {
+            "regionId": "region:statement:10668:10770",
+            "responsibility": "validation",
+            "confidence": 0.9,
+            "explanation": "Requires an existing comment owned by the acting user."
+          },
+          {
+            "regionId": "region:statement:10778:10843",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Deletes the comment through Prisma."
+          },
+          {
+            "regionId": "region:function:10879:11783",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates the favorite relation change and response."
+          },
+          {
+            "regionId": "region:statement:10926:11493",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Persists the user favorite relation and loads the article relations."
+          },
+          {
+            "regionId": "region:statement:11497:11763",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects tags, author and favorite state into the API response."
+          },
+          {
+            "regionId": "region:callback:11611:11633",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects tags, author and favorite state into the API response."
+          },
+          {
+            "regionId": "region:callback:11676:11715",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects tags, author and favorite state into the API response."
+          },
+          {
+            "regionId": "region:statement:11767:11781",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects tags, author and favorite state into the API response."
+          },
+          {
+            "regionId": "region:function:11819:12726",
+            "responsibility": "business_logic",
+            "confidence": 0.9,
+            "explanation": "Coordinates removal of the favorite relation and response."
+          },
+          {
+            "regionId": "region:statement:11866:12436",
+            "responsibility": "external_io",
+            "confidence": 0.9,
+            "explanation": "Persists removal of the user favorite relation."
+          },
+          {
+            "regionId": "region:statement:12440:12706",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects the updated article and favorite state for the API."
+          },
+          {
+            "regionId": "region:callback:12554:12576",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects the updated article and favorite state for the API."
+          },
+          {
+            "regionId": "region:callback:12619:12658",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects the updated article and favorite state for the API."
+          },
+          {
+            "regionId": "region:statement:12710:12724",
+            "responsibility": "transformation",
+            "confidence": 0.9,
+            "explanation": "Projects the updated article and favorite state for the API."
+          }
+        ],
+        "lineOwners": []
+      }
+    }
+  ]
+}

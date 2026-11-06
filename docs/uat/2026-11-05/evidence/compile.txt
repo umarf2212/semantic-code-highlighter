@@ -1,0 +1,13 @@
+
+> semantic-code-highlighter@0.1.0 compile
+> npm run check && node esbuild.mjs
+
+
+> semantic-code-highlighter@0.1.0 check
+> tsc --noEmit
+
+
+  dist/extension.js      10.7mb ⚠️
+  dist/extension.js.map  17.5mb
+
+⚡ Done in 586ms

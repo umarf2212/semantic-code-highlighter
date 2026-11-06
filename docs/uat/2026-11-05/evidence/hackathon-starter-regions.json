@@ -1,0 +1,597 @@
+[
+  {
+    "id": "region:statement:0:39",
+    "type": "statement",
+    "name": "validator",
+    "start": 1,
+    "end": 1,
+    "source": "const validator = require('validator');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:40:97",
+    "type": "statement",
+    "name": "nodemailerConfig",
+    "start": 2,
+    "end": 2,
+    "source": "const nodemailerConfig = require('../config/nodemailer');",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:function:99:879",
+    "type": "function",
+    "name": "validateReCAPTCHA",
+    "start": 4,
+    "end": 27,
+    "source": "async function validateReCAPTCHA(token) {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:143:191",
+    "type": "statement",
+    "name": "projectId",
+    "parentId": "region:function:99:879",
+    "start": 5,
+    "end": 5,
+    "source": "const projectId = process.env.GOOGLE_PROJECT_ID;",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:194:248",
+    "type": "statement",
+    "name": "siteKey",
+    "parentId": "region:function:99:879",
+    "start": 6,
+    "end": 6,
+    "source": "const siteKey = process.env.GOOGLE_RECAPTCHA_SITE_KEY;",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:251:293",
+    "type": "statement",
+    "name": "apiKey",
+    "parentId": "region:function:99:879",
+    "start": 7,
+    "end": 7,
+    "source": "const apiKey = process.env.GOOGLE_API_KEY;",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:296:404",
+    "type": "statement",
+    "name": "url",
+    "parentId": "region:function:99:879",
+    "start": 8,
+    "end": 8,
+    "source": "const url = `https://recaptchaenterprise.googleapis.com/v1/projects/${projectId}/assessments?key=${apiKey}`;",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:407:474",
+    "type": "statement",
+    "name": "body",
+    "parentId": "region:function:99:879",
+    "start": 9,
+    "end": 14,
+    "source": "const body = {",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:477:619",
+    "type": "statement",
+    "name": "resp",
+    "parentId": "region:function:99:879",
+    "start": 15,
+    "end": 19,
+    "source": "const resp = await fetch(url, {",
+    "local": "external_io"
+  },
+  {
+    "id": "region:statement:622:653",
+    "type": "statement",
+    "name": "data",
+    "parentId": "region:function:99:879",
+    "start": 20,
+    "end": 20,
+    "source": "const data = await resp.json();",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:656:877",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:99:879",
+    "start": 21,
+    "end": 26,
+    "source": "return {",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:927:1423",
+    "type": "statement",
+    "name": "exports.getContact = (req, res) => { const un...",
+    "start": 33,
+    "end": 45,
+    "source": "exports.getContact = (req, res) => {",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:function:948:1422",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:927:1423",
+    "start": 33,
+    "end": 45,
+    "source": "(req, res) => {",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:966:996",
+    "type": "statement",
+    "name": "unknownUser",
+    "parentId": "region:function:948:1422",
+    "start": 34,
+    "end": 34,
+    "source": "const unknownUser = !req.user;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:1000:1253",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:948:1422",
+    "start": 36,
+    "end": 38,
+    "source": "if (!process.env.GOOGLE_RECAPTCHA_SITE_KEY) {",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:1050:1249",
+    "type": "statement",
+    "name": "console.warn('\\x1b[33mWARNING: GOOGLE_RECAPTC...",
+    "parentId": "region:if:1000:1253",
+    "start": 37,
+    "end": 37,
+    "source": "console.warn('\\x1b[33mWARNING: GOOGLE_RECAPTCHA_SITE_KEY is missing. Add a key to your .env, env variable, or use a WebApp Firewall with an interactive challenge before going to production.\\x1b[0m');",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:1257:1420",
+    "type": "statement",
+    "name": "res.render('contact', { title: 'Contact', sit...",
+    "parentId": "region:function:948:1422",
+    "start": 40,
+    "end": 44,
+    "source": "res.render('contact', {",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:1489:3765",
+    "type": "statement",
+    "name": "exports.postContact = async (req, res, next) ...",
+    "start": 51,
+    "end": 117,
+    "source": "exports.postContact = async (req, res, next) => {",
+    "local": "validation"
+  },
+  {
+    "id": "region:function:1511:3764",
+    "type": "function",
+    "name": "anonymous function",
+    "parentId": "region:statement:1489:3765",
+    "start": 51,
+    "end": 117,
+    "source": "async (req, res, next) => {",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:1541:1569",
+    "type": "statement",
+    "name": "validationErrors",
+    "parentId": "region:function:1511:3764",
+    "start": 52,
+    "end": 52,
+    "source": "const validationErrors = [];",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:1572:1585",
+    "type": "statement",
+    "name": "fromName",
+    "parentId": "region:function:1511:3764",
+    "start": 53,
+    "end": 53,
+    "source": "let fromName;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:1588:1602",
+    "type": "statement",
+    "name": "fromEmail",
+    "parentId": "region:function:1511:3764",
+    "start": 54,
+    "end": 54,
+    "source": "let fromEmail;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:1605:1840",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:1511:3764",
+    "start": 55,
+    "end": 58,
+    "source": "if (!req.user) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:if:1626:1721",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:if:1605:1840",
+    "start": 56,
+    "end": 56,
+    "source": "if (validator.isEmpty(req.body.name)) validationErrors.push({ msg: 'Please enter your name' });",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:1664:1721",
+    "type": "statement",
+    "name": "validationErrors.push({ msg: 'Please enter yo...",
+    "parentId": "region:if:1626:1721",
+    "start": 56,
+    "end": 56,
+    "source": "validationErrors.push({ msg: 'Please enter your name' });",
+    "local": "validation"
+  },
+  {
+    "id": "region:if:1726:1836",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:if:1605:1840",
+    "start": 57,
+    "end": 57,
+    "source": "if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:1766:1836",
+    "type": "statement",
+    "name": "validationErrors.push({ msg: 'Please enter a ...",
+    "parentId": "region:if:1726:1836",
+    "start": 57,
+    "end": 57,
+    "source": "validationErrors.push({ msg: 'Please enter a valid email address.' });",
+    "local": "validation"
+  },
+  {
+    "id": "region:if:1843:1945",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:1511:3764",
+    "start": 59,
+    "end": 59,
+    "source": "if (validator.isEmpty(req.body.message)) validationErrors.push({ msg: 'Please enter your message.' });",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:1884:1945",
+    "type": "statement",
+    "name": "validationErrors.push({ msg: 'Please enter yo...",
+    "parentId": "region:if:1843:1945",
+    "start": 59,
+    "end": 59,
+    "source": "validationErrors.push({ msg: 'Please enter your message.' });",
+    "local": "validation"
+  },
+  {
+    "id": "region:if:1949:2180",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:1511:3764",
+    "start": 61,
+    "end": 63,
+    "source": "if (!process.env.GOOGLE_RECAPTCHA_SITE_KEY) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:1999:2176",
+    "type": "statement",
+    "name": "console.warn('\\x1b[33mWARNING: GOOGLE_RECAPTC...",
+    "parentId": "region:if:1949:2180",
+    "start": 62,
+    "end": 62,
+    "source": "console.warn('\\x1b[33mWARNING: GOOGLE_RECAPTCHA_SITE_KEY is missing. Add a key to your .env or use a WebApp Firewall for CAPTCHA validation before going to production.\\x1b[0m');",
+    "local": "validation"
+  },
+  {
+    "id": "region:else:2186:2724",
+    "type": "else",
+    "name": "else",
+    "parentId": "region:if:1949:2180",
+    "start": 63,
+    "end": 75,
+    "source": "if (!validator.isEmpty(req.body['g-recaptcha-response'])) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:if:2186:2642",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:else:2186:2724",
+    "start": 63,
+    "end": 73,
+    "source": "if (!validator.isEmpty(req.body['g-recaptcha-response'])) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:try:2250:2470",
+    "type": "try",
+    "name": "try",
+    "parentId": "region:if:2186:2642",
+    "start": 64,
+    "end": 69,
+    "source": "try {",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:2262:2346",
+    "type": "statement",
+    "name": "reCAPTCHAResponse",
+    "parentId": "region:try:2250:2470",
+    "start": 65,
+    "end": 65,
+    "source": "const reCAPTCHAResponse = await validateReCAPTCHA(req.body['g-recaptcha-response']);",
+    "local": "validation"
+  },
+  {
+    "id": "region:if:2353:2464",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:try:2250:2470",
+    "start": 66,
+    "end": 68,
+    "source": "if (!reCAPTCHAResponse.valid) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:2393:2456",
+    "type": "statement",
+    "name": "validationErrors.push({ msg: 'reCAPTCHA valid...",
+    "parentId": "region:if:2353:2464",
+    "start": 67,
+    "end": 67,
+    "source": "validationErrors.push({ msg: 'reCAPTCHA validation failed.' });",
+    "local": "validation"
+  },
+  {
+    "id": "region:catch:2471:2638",
+    "type": "catch",
+    "name": "catch",
+    "parentId": "region:if:2186:2642",
+    "start": 69,
+    "end": 72,
+    "source": "catch (error) {",
+    "local": "mixed"
+  },
+  {
+    "id": "region:statement:2493:2545",
+    "type": "statement",
+    "name": "console.error('Error validating reCAPTCHA:', ...",
+    "parentId": "region:catch:2471:2638",
+    "start": 70,
+    "end": 70,
+    "source": "console.error('Error validating reCAPTCHA:', error);",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:2552:2632",
+    "type": "statement",
+    "name": "validationErrors.push({ msg: 'Error validatin...",
+    "parentId": "region:catch:2471:2638",
+    "start": 71,
+    "end": 71,
+    "source": "validationErrors.push({ msg: 'Error validating reCAPTCHA. Please try again.' });",
+    "local": "validation"
+  },
+  {
+    "id": "region:else:2648:2724",
+    "type": "else",
+    "name": "else",
+    "parentId": "region:if:2186:2642",
+    "start": 73,
+    "end": 75,
+    "source": "{",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:2654:2720",
+    "type": "statement",
+    "name": "validationErrors.push({ msg: 'reCAPTCHA respo...",
+    "parentId": "region:else:2648:2724",
+    "start": 74,
+    "end": 74,
+    "source": "validationErrors.push({ msg: 'reCAPTCHA response was missing.' });",
+    "local": "validation"
+  },
+  {
+    "id": "region:if:2728:2842",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:1511:3764",
+    "start": 77,
+    "end": 80,
+    "source": "if (validationErrors.length) {",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:2763:2801",
+    "type": "statement",
+    "name": "req.flash('errors', validationErrors)",
+    "parentId": "region:if:2728:2842",
+    "start": 78,
+    "end": 78,
+    "source": "req.flash('errors', validationErrors);",
+    "local": "validation"
+  },
+  {
+    "id": "region:statement:2806:2838",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:if:2728:2842",
+    "start": 79,
+    "end": 79,
+    "source": "return res.redirect('/contact');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:if:2846:2928",
+    "type": "if",
+    "name": "if",
+    "parentId": "region:function:1511:3764",
+    "start": 82,
+    "end": 85,
+    "source": "if (!req.user) {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:2867:2892",
+    "type": "statement",
+    "name": "fromName = req.body.name",
+    "parentId": "region:if:2846:2928",
+    "start": 83,
+    "end": 83,
+    "source": "fromName = req.body.name;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:2897:2924",
+    "type": "statement",
+    "name": "fromEmail = req.body.email",
+    "parentId": "region:if:2846:2928",
+    "start": 84,
+    "end": 84,
+    "source": "fromEmail = req.body.email;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:else:2934:3015",
+    "type": "else",
+    "name": "else",
+    "parentId": "region:if:2846:2928",
+    "start": 85,
+    "end": 88,
+    "source": "{",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:2940:2979",
+    "type": "statement",
+    "name": "fromName = req.user.profile.name || ''",
+    "parentId": "region:else:2934:3015",
+    "start": 86,
+    "end": 86,
+    "source": "fromName = req.user.profile.name || '';",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:2984:3011",
+    "type": "statement",
+    "name": "fromEmail = req.user.email",
+    "parentId": "region:else:2934:3015",
+    "start": 87,
+    "end": 87,
+    "source": "fromEmail = req.user.email;",
+    "local": "unknown"
+  },
+  {
+    "id": "region:function:3044:3651",
+    "type": "function",
+    "name": "sendContactEmail",
+    "parentId": "region:function:1511:3764",
+    "start": 90,
+    "end": 109,
+    "source": "async () => {",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:3062:3255",
+    "type": "statement",
+    "name": "mailOptions",
+    "parentId": "region:function:3044:3651",
+    "start": 91,
+    "end": 96,
+    "source": "const mailOptions = {",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:statement:3261:3594",
+    "type": "statement",
+    "name": "mailSettings",
+    "parentId": "region:function:3044:3651",
+    "start": 98,
+    "end": 106,
+    "source": "const mailSettings = {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3600:3647",
+    "type": "statement",
+    "name": "return",
+    "parentId": "region:function:3044:3651",
+    "start": 108,
+    "end": 108,
+    "source": "return nodemailerConfig.sendMail(mailSettings);",
+    "local": "infrastructure"
+  },
+  {
+    "id": "region:try:3656:3725",
+    "type": "try",
+    "name": "try",
+    "parentId": "region:function:1511:3764",
+    "start": 111,
+    "end": 114,
+    "source": "try {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3666:3691",
+    "type": "statement",
+    "name": "await sendContactEmail()",
+    "parentId": "region:try:3656:3725",
+    "start": 112,
+    "end": 112,
+    "source": "await sendContactEmail();",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3696:3721",
+    "type": "statement",
+    "name": "res.redirect('/contact')",
+    "parentId": "region:try:3656:3725",
+    "start": 113,
+    "end": 113,
+    "source": "res.redirect('/contact');",
+    "local": "unknown"
+  },
+  {
+    "id": "region:catch:3726:3762",
+    "type": "catch",
+    "name": "catch",
+    "parentId": "region:function:1511:3764",
+    "start": 114,
+    "end": 116,
+    "source": "catch (error) {",
+    "local": "unknown"
+  },
+  {
+    "id": "region:statement:3746:3758",
+    "type": "statement",
+    "name": "next(error)",
+    "parentId": "region:catch:3726:3762",
+    "start": 115,
+    "end": 115,
+    "source": "next(error);",
+    "local": "unknown"
+  }
+]

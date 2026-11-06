@@ -1,0 +1,130 @@
+
+> semantic-code-highlighter@0.1.0 eval:semantic
+> node scripts/evaluate-semantics.mjs --provider agent
+
+{
+  "classifier": "agent:1",
+  "minimumConfidence": 0.5,
+  "reports": [
+    {
+      "variant": "misleading-utils-path",
+      "accuracy": 1,
+      "knownLineCoverage": 1,
+      "renderedPrecision": 1,
+      "cases": [
+        {
+          "line": 1,
+          "expected": "data",
+          "actual": "data",
+          "correct": true,
+          "reason": "Declares a shape, regardless of the file's utils name."
+        },
+        {
+          "line": 6,
+          "expected": "infrastructure",
+          "actual": "infrastructure",
+          "correct": true,
+          "reason": "Handler registration dominates its inline parsing callback."
+        },
+        {
+          "line": 10,
+          "expected": "transformation",
+          "actual": "transformation",
+          "correct": true,
+          "reason": "Parsing converts representation; a type annotation is not runtime validation."
+        },
+        {
+          "line": 11,
+          "expected": "validation",
+          "actual": "validation",
+          "correct": true,
+          "reason": "Rejects inadmissible input."
+        },
+        {
+          "line": 12,
+          "expected": "business_logic",
+          "actual": "business_logic",
+          "correct": true,
+          "reason": "The later helper implementation calculates the member price."
+        },
+        {
+          "line": 13,
+          "expected": "transformation",
+          "actual": "transformation",
+          "correct": true,
+          "reason": "Projects identifiers and changes case."
+        },
+        {
+          "line": 14,
+          "expected": "external_io",
+          "actual": "external_io",
+          "correct": true,
+          "reason": "The same-file helper writes through a port; serialization is incidental."
+        },
+        {
+          "line": 15,
+          "expected": "transformation",
+          "actual": "transformation",
+          "correct": true,
+          "reason": "Serializes a response."
+        },
+        {
+          "line": 19,
+          "expected": "business_logic",
+          "actual": "business_logic",
+          "correct": true,
+          "reason": "reduce performs domain arithmetic, not representation conversion."
+        },
+        {
+          "line": 20,
+          "expected": "business_logic",
+          "actual": "business_logic",
+          "correct": true,
+          "reason": "Applies a membership discount."
+        },
+        {
+          "line": 23,
+          "expected": "data",
+          "actual": "data",
+          "correct": true,
+          "reason": "Declares stable domain values."
+        },
+        {
+          "line": 26,
+          "expected": "external_io",
+          "actual": "external_io",
+          "correct": true,
+          "reason": "Performs the write, despite an uninformative helper name."
+        },
+        {
+          "line": 30,
+          "expected": "transformation",
+          "actual": "transformation",
+          "correct": true,
+          "reason": "Parsing remains transformation inside a function that also validates."
+        },
+        {
+          "line": 31,
+          "expected": "validation",
+          "actual": "validation",
+          "correct": true,
+          "reason": "Rejects a value with the wrong shape."
+        },
+        {
+          "line": 36,
+          "expected": "utility",
+          "actual": "utility",
+          "correct": true,
+          "reason": "Generic delayed execution."
+        },
+        {
+          "line": 40,
+          "expected": "unknown",
+          "actual": "unknown",
+          "correct": true,
+          "reason": "No implementation or meaningful contract establishes the injected operation's purpose."
+        }
+      ]
+    }
+  ]
+}

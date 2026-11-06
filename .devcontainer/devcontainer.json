@@ -1,0 +1,20 @@
+{
+  "name": "Semantic Code Highlighter — repository showcase",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
+  "remoteUser": "node",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/demo",
+  "hostRequirements": {
+    "cpus": 2
+  },
+  "waitFor": "postCreateCommand",
+  "postCreateCommand": "npm --prefix .. ci && npm --prefix .. run demo:prepare && npm --prefix .. run package:vsix",
+  "postAttachCommand": "node ../scripts/install-codespaces-extension.mjs",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "workbench.startupEditor": "readme",
+        "extensions.ignoreRecommendations": true
+      }
+    }
+  }
+}

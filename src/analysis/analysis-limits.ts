@@ -1,6 +1,6 @@
 export function effectiveRegionLimit(
   configuredLimit: number,
-  provider: "local" | "openai"
+  provider: "agent" | "local" | "openai"
 ): number {
   return provider === "openai"
     ? Math.min(configuredLimit, 400)

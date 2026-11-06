@@ -3,6 +3,8 @@ dist/
 coverage/
 .vscode-test/
 .qa/
+/demo/examples/
+/demo/.semantic-code/
 artifacts/
 *.vsix
 *.log

@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { CLASSIFICATION_SCHEMA_VERSION } from "../analysis/classification-validator";
 
 import type {
   ClassificationRequest,
@@ -82,6 +83,7 @@ export function createAnalysisCacheKey(
         packageInfo: request.projectContext.packageInfo ?? null,
         projectInstructions: request.projectContext.projectInstructions ?? null,
         classifier,
+        classificationSchemaVersion: CLASSIFICATION_SCHEMA_VERSION,
         ontologyVersion: ONTOLOGY_VERSION,
         regionModelVersion: REGION_MODEL_VERSION,
         promptVersion: CLASSIFICATION_PROMPT_VERSION

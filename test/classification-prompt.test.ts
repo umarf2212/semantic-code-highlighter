@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { TypeScriptRegionExtractor } from "../src/analysis/region-extractor";
+import { findLineOwnershipChoices } from "../src/analysis/line-ownership";
 import type { ClassificationRequest } from "../src/domain/classification";
 import { buildClassificationMessages } from "../src/llm/classification-prompt";
 
@@ -32,6 +34,27 @@ describe("buildClassificationMessages", () => {
     expect(messages.user.match(/const total = calculateTotal/g)).toHaveLength(1);
     expect(messages.user).toContain("region-1");
     expect(messages.system).toContain("business_logic");
+  });
+
+  it("sends exact sub-line boundaries and bounded ownership choices without source snippets", () => {
+    const sourceCode = 'hooks.on("message", raw => JSON.parse(raw));';
+    const regions = new TypeScriptRegionExtractor().extract("utils.ts", sourceCode);
+    const messages = buildClassificationMessages({
+      filePath: "utils.ts", sourceCode, regions,
+      projectContext: { workspaceRoot: "/private/root", language: "typescript" }
+    });
+    const payload = JSON.parse(messages.user.split("\n\n")[1]!);
+    expect(payload.schemaVersion).toBe("2");
+    expect(payload.lineOwnershipChoices).toEqual(findLineOwnershipChoices(regions));
+    for (const [index, region] of regions.entries()) {
+      expect(payload.regions[index]).toMatchObject({
+        startOffset: region.startOffset, endOffset: region.endOffset
+      });
+      expect(payload.regions[index]).not.toHaveProperty("source");
+      expect(sourceCode.slice(payload.regions[index].startOffset, payload.regions[index].endOffset))
+        .toBe(region.source);
+    }
+    expect(payload.sourceCode).toBe(sourceCode);
   });
 });
 

@@ -14,6 +14,10 @@ The SHA-256 key includes:
 - Provider/model identity and classifier version
 - Ontology version
 - Region-model version
-- Prompt version
+- Prompt and classification-schema versions
 
 A change to any of those inputs produces a miss. A content edit also clears visible decorations immediately, so stale colors are never presented as current. Disabling caching bypasses both reads and writes. `Semantic Code: Clear Cached Analysis` clears persisted results and every in-memory map; `Clear Session Analysis` clears all in-memory maps and active lenses without deleting the v2 persisted cache.
+
+Validated model line ownership decisions (line numbers and region IDs only) are persisted with classifications. Prompt v2, schema v2, and region model v3 invalidate earlier keys; cache storage remains v2 because no new source-derived text is stored.
+
+The `agent` provider bypasses both cache reads and writes and reloads the user-owned artifact on analysis. Its source hash and version header protect against stale files and incompatible formats. A map-file watcher clears in-memory displays on creation, replacement, or deletion. Existing cache behavior applies to local and OpenAI classification.

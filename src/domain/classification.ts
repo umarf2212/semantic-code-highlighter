@@ -21,6 +21,8 @@ export interface ClassificationResult {
   filePath: string;
   regions: ClassifiedRegion[];
   classifierVersion: string;
+  /** Model-selected AST owner for each ambiguous single line; absent for local results. */
+  lineOwners?: { line: number; regionId: string }[];
 }
 
 export interface CodeClassifier {

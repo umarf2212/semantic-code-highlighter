@@ -1,0 +1,354 @@
+{
+  "formatVersion": "1",
+  "ontologyVersion": "1",
+  "regionModelVersion": "3",
+  "promptVersion": "2",
+  "schemaVersion": "2",
+  "files": [
+    {
+      "promptVersion": "2",
+      "schemaVersion": "2",
+      "lineOwnershipChoices": [
+        {
+          "line": 5,
+          "candidateRegionIds": [
+            "region:callback:297:319",
+            "region:statement:277:321"
+          ]
+        },
+        {
+          "line": 10,
+          "candidateRegionIds": [
+            "region:if:419:510",
+            "region:statement:480:510"
+          ]
+        },
+        {
+          "line": 12,
+          "candidateRegionIds": [
+            "region:callback:573:603",
+            "region:statement:545:605"
+          ]
+        },
+        {
+          "line": 18,
+          "candidateRegionIds": [
+            "region:callback:786:830",
+            "region:statement:750:835"
+          ]
+        },
+        {
+          "line": 30,
+          "candidateRegionIds": [
+            "region:if:1159:1245",
+            "region:statement:1210:1245"
+          ]
+        }
+      ],
+      "filePath": "utils.ts",
+      "language": "typescript",
+      "regions": [
+        {
+          "regionId": "region:type:0:88",
+          "type": "type",
+          "name": "Cart",
+          "startOffset": 0,
+          "endOffset": 88,
+          "startLine": 0,
+          "endLine": 0
+        },
+        {
+          "regionId": "region:type:89:154",
+          "type": "type",
+          "name": "Port",
+          "startOffset": 89,
+          "endOffset": 154,
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "regionId": "region:type:155:235",
+          "type": "type",
+          "name": "Hooks",
+          "startOffset": 155,
+          "endOffset": 235,
+          "startLine": 2,
+          "endLine": 2
+        },
+        {
+          "regionId": "region:function:237:323",
+          "type": "function",
+          "name": "setup",
+          "startOffset": 237,
+          "endOffset": 323,
+          "startLine": 4,
+          "endLine": 6
+        },
+        {
+          "regionId": "region:statement:277:321",
+          "type": "statement",
+          "name": "hooks.on(\"message\", raw => JSON.parse(raw))",
+          "startOffset": 277,
+          "endOffset": 321,
+          "startLine": 5,
+          "endLine": 5,
+          "parentId": "region:function:237:323"
+        },
+        {
+          "regionId": "region:callback:297:319",
+          "type": "callback",
+          "name": "callback",
+          "startOffset": 297,
+          "endOffset": 319,
+          "startLine": 5,
+          "endLine": 5,
+          "parentId": "region:statement:277:321"
+        },
+        {
+          "regionId": "region:function:325:715",
+          "type": "function",
+          "name": "run",
+          "startOffset": 325,
+          "endOffset": 715,
+          "startLine": 8,
+          "endLine": 15
+        },
+        {
+          "regionId": "region:statement:380:416",
+          "type": "statement",
+          "name": "input",
+          "startOffset": 380,
+          "endOffset": 416,
+          "startLine": 9,
+          "endLine": 9,
+          "parentId": "region:function:325:715"
+        },
+        {
+          "regionId": "region:if:419:510",
+          "type": "if",
+          "name": "if",
+          "startOffset": 419,
+          "endOffset": 510,
+          "startLine": 10,
+          "endLine": 10,
+          "parentId": "region:function:325:715"
+        },
+        {
+          "regionId": "region:statement:480:510",
+          "type": "statement",
+          "name": "throw",
+          "startOffset": 480,
+          "endOffset": 510,
+          "startLine": 10,
+          "endLine": 10,
+          "parentId": "region:if:419:510"
+        },
+        {
+          "regionId": "region:statement:513:542",
+          "type": "statement",
+          "name": "amount",
+          "startOffset": 513,
+          "endOffset": 542,
+          "startLine": 11,
+          "endLine": 11,
+          "parentId": "region:function:325:715"
+        },
+        {
+          "regionId": "region:statement:545:605",
+          "type": "statement",
+          "name": "ids",
+          "startOffset": 545,
+          "endOffset": 605,
+          "startLine": 12,
+          "endLine": 12,
+          "parentId": "region:function:325:715"
+        },
+        {
+          "regionId": "region:callback:573:603",
+          "type": "callback",
+          "name": "callback",
+          "startOffset": 573,
+          "endOffset": 603,
+          "startLine": 12,
+          "endLine": 12,
+          "parentId": "region:statement:545:605"
+        },
+        {
+          "regionId": "region:statement:608:660",
+          "type": "statement",
+          "name": "await helper(port, JSON.stringify({ ids, amou...",
+          "startOffset": 608,
+          "endOffset": 660,
+          "startLine": 13,
+          "endLine": 13,
+          "parentId": "region:function:325:715"
+        },
+        {
+          "regionId": "region:statement:663:713",
+          "type": "statement",
+          "name": "return",
+          "startOffset": 663,
+          "endOffset": 713,
+          "startLine": 14,
+          "endLine": 14,
+          "parentId": "region:function:325:715"
+        },
+        {
+          "regionId": "region:function:717:900",
+          "type": "function",
+          "name": "format",
+          "startOffset": 717,
+          "endOffset": 900,
+          "startLine": 17,
+          "endLine": 20
+        },
+        {
+          "regionId": "region:statement:750:835",
+          "type": "statement",
+          "name": "subtotal",
+          "startOffset": 750,
+          "endOffset": 835,
+          "startLine": 18,
+          "endLine": 18,
+          "parentId": "region:function:717:900"
+        },
+        {
+          "regionId": "region:callback:786:830",
+          "type": "callback",
+          "name": "callback",
+          "startOffset": 786,
+          "endOffset": 830,
+          "startLine": 18,
+          "endLine": 18,
+          "parentId": "region:statement:750:835"
+        },
+        {
+          "regionId": "region:statement:838:898",
+          "type": "statement",
+          "name": "return",
+          "startOffset": 838,
+          "endOffset": 898,
+          "startLine": 19,
+          "endLine": 19,
+          "parentId": "region:function:717:900"
+        },
+        {
+          "regionId": "region:statement:902:961",
+          "type": "statement",
+          "name": "STATUS",
+          "startOffset": 902,
+          "endOffset": 961,
+          "startLine": 22,
+          "endLine": 22
+        },
+        {
+          "regionId": "region:function:963:1073",
+          "type": "function",
+          "name": "helper",
+          "startOffset": 963,
+          "endOffset": 1073,
+          "startLine": 24,
+          "endLine": 26
+        },
+        {
+          "regionId": "region:statement:1022:1071",
+          "type": "statement",
+          "name": "await destination.writeFile(\"orders.json\", text)",
+          "startOffset": 1022,
+          "endOffset": 1071,
+          "startLine": 25,
+          "endLine": 25,
+          "parentId": "region:function:963:1073"
+        },
+        {
+          "regionId": "region:function:1075:1264",
+          "type": "function",
+          "name": "inspect",
+          "startOffset": 1075,
+          "endOffset": 1264,
+          "startLine": 28,
+          "endLine": 32
+        },
+        {
+          "regionId": "region:statement:1116:1156",
+          "type": "statement",
+          "name": "parsed",
+          "startOffset": 1116,
+          "endOffset": 1156,
+          "startLine": 29,
+          "endLine": 29,
+          "parentId": "region:function:1075:1264"
+        },
+        {
+          "regionId": "region:if:1159:1245",
+          "type": "if",
+          "name": "if",
+          "startOffset": 1159,
+          "endOffset": 1245,
+          "startLine": 30,
+          "endLine": 30,
+          "parentId": "region:function:1075:1264"
+        },
+        {
+          "regionId": "region:statement:1210:1245",
+          "type": "statement",
+          "name": "throw",
+          "startOffset": 1210,
+          "endOffset": 1245,
+          "startLine": 30,
+          "endLine": 30,
+          "parentId": "region:if:1159:1245"
+        },
+        {
+          "regionId": "region:statement:1248:1262",
+          "type": "statement",
+          "name": "return",
+          "startOffset": 1248,
+          "endOffset": 1262,
+          "startLine": 31,
+          "endLine": 31,
+          "parentId": "region:function:1075:1264"
+        },
+        {
+          "regionId": "region:function:1266:1372",
+          "type": "function",
+          "name": "later",
+          "startOffset": 1266,
+          "endOffset": 1372,
+          "startLine": 34,
+          "endLine": 36
+        },
+        {
+          "regionId": "region:statement:1332:1370",
+          "type": "statement",
+          "name": "return",
+          "startOffset": 1332,
+          "endOffset": 1370,
+          "startLine": 35,
+          "endLine": 35,
+          "parentId": "region:function:1266:1372"
+        },
+        {
+          "regionId": "region:function:1374:1477",
+          "type": "function",
+          "name": "opaque",
+          "startOffset": 1374,
+          "endOffset": 1477,
+          "startLine": 38,
+          "endLine": 40
+        },
+        {
+          "regionId": "region:statement:1454:1475",
+          "type": "statement",
+          "name": "return",
+          "startOffset": 1454,
+          "endOffset": 1475,
+          "startLine": 39,
+          "endLine": 39,
+          "parentId": "region:function:1374:1477"
+        }
+      ],
+      "sourceHash": "8c53c0f787b4278835d24eb1c1090465e97110c27a2f659954879b43195fab4b"
+    }
+  ]
+}

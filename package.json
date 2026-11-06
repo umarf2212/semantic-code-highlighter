@@ -44,6 +44,9 @@
     "code navigation"
   ],
   "main": "./dist/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
   "activationEvents": [
     "onLanguage:javascript",
     "onLanguage:javascriptreact",
@@ -57,10 +60,15 @@
     "onCommand:semanticCode.showResponsibilitySummary",
     "onCommand:semanticCode.toggleVisualization",
     "onCommand:semanticCode.setOpenAIKey",
-    "onCommand:semanticCode.forgetOpenAIKey"
+    "onCommand:semanticCode.forgetOpenAIKey",
+    "onCommand:semanticCode.prepareAgentAnalysis"
   ],
   "contributes": {
     "commands": [
+      {
+        "command": "semanticCode.prepareAgentAnalysis",
+        "title": "Semantic Code: Prepare Agent Analysis"
+      },
       {
         "command": "semanticCode.analyzeCurrentFile",
         "title": "Semantic Code: Analyze Current File",
@@ -132,14 +140,16 @@
         "semanticCode.provider": {
           "type": "string",
           "enum": [
+            "agent",
             "local",
             "openai"
           ],
           "enumDescriptions": [
+            "Load .semantic-code/map.json written by your coding agent. No API key or model call from the extension.",
             "Immediate, private, deterministic heuristics with lower semantic accuracy.",
             "Opt-in cloud classification using structured outputs and a key held in VS Code SecretStorage."
           ],
-          "default": "local",
+          "default": "agent",
           "scope": "resource",
           "description": "Classifier used for manual analysis and opt-in automatic analysis."
         },
@@ -240,7 +250,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "package": "node esbuild.mjs --production",
-    "package:vsix": "npm run package && node -e \"require('node:fs').mkdirSync('artifacts', { recursive: true })\" && vsce package --pre-release --out artifacts/semantic-code-highlighter.vsix"
+    "package:vsix": "npm run package && node -e \"require('node:fs').mkdirSync('artifacts', { recursive: true })\" && vsce package --pre-release --out artifacts/semantic-code-highlighter.vsix",
+    "eval:semantic": "node scripts/evaluate-semantics.mjs",
+    "prepare:agent": "node scripts/prepare-agent.mjs",
+    "demo:prepare": "node scripts/codespaces-demo.mjs",
+    "demo:verify": "node scripts/codespaces-demo.mjs --verify"
   },
   "dependencies": {
     "openai": "^7.4.0",

@@ -22,3 +22,7 @@ jobs:
       - run: npm test
       - run: npm run compile
       - run: npm run package:vsix
+      - name: Prepare pinned Codespaces examples
+        run: npm run demo:prepare
+      - name: Verify all showcase maps through the agent loader
+        run: npm run demo:verify

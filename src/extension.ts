@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { AGENT_MAP_VERSION, AgentMapClassifier, prepareAgentAnalysis } from "./analysis/agent-map";
 
 import { LocalHeuristicClassifier } from "./analysis/local-classifier";
 import { TypeScriptRegionExtractor } from "./analysis/region-extractor";
@@ -60,7 +61,7 @@ interface ResponsibilitySummaryQuickPickItem extends vscode.QuickPickItem {
 }
 
 interface FrozenClassifierPlan {
-  provider: "local" | "openai";
+  provider: "agent" | "local" | "openai";
   model: string;
 }
 
@@ -164,9 +165,11 @@ export function activate(context: vscode.ExtensionContext): void {
   };
 
   const classifierFor = async (
-    provider: "local" | "openai",
-    model: string
+    provider: "agent" | "local" | "openai",
+    model: string,
+    workspaceRoot = ""
   ): Promise<CodeClassifier> => {
+    if (provider === "agent") return new AgentMapClassifier(workspaceRoot);
     if (provider === "local") {
       return localClassifier;
     }
@@ -244,10 +247,16 @@ export function activate(context: vscode.ExtensionContext): void {
     );
     const provider =
       frozenClassifierPlan?.provider ??
-      configuration.get<"local" | "openai">("provider", "local");
+      configuration.get<"agent" | "local" | "openai">("provider", "agent");
     const model =
       frozenClassifierPlan?.model ??
       configuration.get<string>("model", "gpt-5.4-nano");
+    if (provider === "agent") {
+      analyses.delete(uriKey);
+      for (const editor of vscode.window.visibleTextEditors) {
+        if (editor.document.uri.toString() === uriKey) decorations.clear(editor);
+      }
+    }
     const sourceCode = document.getText();
     const maxFileSizeKb = configuration.get<number>("maxFileSizeKb", 256);
     const sourceDecision = new DefaultSourceFilter(maxFileSizeKb * 1024).evaluate(
@@ -325,9 +334,9 @@ export function activate(context: vscode.ExtensionContext): void {
     const identity =
       provider === "openai"
         ? { id: OpenAIClassifier.idFor(model), version: CLASSIFICATION_PROMPT_VERSION }
-        : localClassifier;
+        : provider === "agent" ? { id: "agent", version: AGENT_MAP_VERSION } : localClassifier;
     const cacheKey = createAnalysisCacheKey(request, identity);
-    const cacheEnabled = configuration.get<boolean>("cacheEnabled", true);
+    const cacheEnabled = provider !== "agent" && configuration.get<boolean>("cacheEnabled", true);
     let result = cacheEnabled ? await cache.get(cacheKey) : undefined;
     const cacheHit = result !== undefined;
 
@@ -337,8 +346,8 @@ export function activate(context: vscode.ExtensionContext): void {
           return;
         }
       }
-      progress.report({ message: provider === "openai" ? "Classifying with OpenAI…" : "Classifying locally…" });
-      const classifier = await classifierFor(provider, model);
+      progress.report({ message: provider === "openai" ? "Classifying with OpenAI…" : provider === "agent" ? "Loading agent-generated map…" : "Classifying locally…" });
+      const classifier = await classifierFor(provider, model, workspaceFolder?.uri.fsPath);
       result = await classifier.classify(request);
       signal.throwIfAborted();
       if (
@@ -367,7 +376,7 @@ export function activate(context: vscode.ExtensionContext): void {
     ) {
       return;
     }
-    const providerLabel = provider === "openai" ? `OpenAI · ${model}` : "Local";
+    const providerLabel = provider === "openai" ? `OpenAI · ${model}` : provider === "agent" ? "Agent map" : "Local";
     if (!analyses.has(uriKey) && analyses.size >= 200) {
       const oldestKey = analyses.keys().next().value as string | undefined;
       if (oldestKey !== undefined) {
@@ -482,7 +491,7 @@ export function activate(context: vscode.ExtensionContext): void {
       document.uri
     );
     const existing = currentAnalysisFor(document);
-    const provider = configuration.get<"local" | "openai">("provider", "local");
+    const provider = configuration.get<"agent" | "local" | "openai">("provider", "agent");
     if (
       !shouldAnalyzeAutomatically({
         enabled: configuration.get<boolean>("analyzeOnOpen", false),
@@ -541,6 +550,33 @@ export function activate(context: vscode.ExtensionContext): void {
     mapStatus,
     lensStatus,
     { dispose: abortAllAnalyses },
+    vscode.commands.registerCommand("semanticCode.prepareAgentAnalysis", async () => {
+      if (!vscode.workspace.isTrusted) return;
+      const folders = vscode.workspace.workspaceFolders;
+      const folder = folders?.length === 1 ? folders[0] : await vscode.window.showWorkspaceFolderPick();
+      if (!folder) return;
+      try {
+        const configuration = vscode.workspace.getConfiguration("semanticCode", folder.uri);
+        const maximumFiles = configuration.get<number>("maxWorkspaceFiles", 50);
+        const uris = await vscode.workspace.findFiles(
+          new vscode.RelativePattern(folder, "**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}"),
+          "**/{node_modules,bower_components,vendor,dist,build,out,coverage,.git,.next,.nuxt,generated,.qa,.semantic-code}/**"
+        );
+        const prepared = await vscode.window.withProgress({
+          location: vscode.ProgressLocation.Notification, title: "Preparing coding-agent specification"
+        }, () => prepareAgentAnalysis(folder.uri.fsPath, uris.map((uri) => uri.fsPath), {
+          maximumFiles,
+          maximumBytes: configuration.get<number>("maxFileSizeKb", 256) * 1024,
+          maximumRegions: configuration.get<number>("maxRegions", 220)
+        }));
+        await vscode.window.showTextDocument(vscode.Uri.joinPath(folder.uri, ".semantic-code", "SPEC.md"));
+        await vscode.window.showInformationMessage(
+          `Prepared ${prepared.fileCount} files; ${prepared.skipped} excluded or over limits. Ask your coding agent to follow .semantic-code/SPEC.md and create map.json, then use the agent provider to load it.`
+        );
+      } catch (error) {
+        await vscode.window.showErrorMessage(`Agent preparation failed: ${error instanceof Error ? error.message : String(error)}`);
+      }
+    }),
     vscode.commands.registerCommand("semanticCode.analyzeCurrentFile", async () => {
       cancelAutomaticAnalysis();
       const editor = vscode.window.activeTextEditor;
@@ -633,7 +669,7 @@ export function activate(context: vscode.ExtensionContext): void {
         return;
       }
 
-      const provider = configuration.get<"local" | "openai">("provider", "local");
+      const provider = configuration.get<"agent" | "local" | "openai">("provider", "agent");
       const model = configuration.get<string>("model", "gpt-5.4-nano");
       const scopeText = capped
         ? `the first ${uris.length} files (more were found)`
@@ -656,7 +692,7 @@ export function activate(context: vscode.ExtensionContext): void {
         const detail =
           provider === "openai"
             ? `Analyze ${scopeText} with OpenAI? Each cache miss sends one filtered source file and may incur API usage.`
-            : `Analyze ${scopeText} locally? Cached unchanged files will be reused.`;
+            : provider === "agent" ? `Load agent-generated mappings for ${scopeText}? No model is called.` : `Analyze ${scopeText} locally? Cached unchanged files will be reused.`;
         const action = await vscode.window.showWarningMessage(
           detail,
           { modal: true },
@@ -1011,6 +1047,22 @@ export function activate(context: vscode.ExtensionContext): void {
       applyToVisibleEditors();
     })
   );
+
+  const agentMapWatcher = vscode.workspace.createFileSystemWatcher("**/.semantic-code/map.json");
+  const invalidateAgentMaps = (): void => {
+    abortAllAnalyses();
+    globalEpoch += 1;
+    analyses.clear();
+    focusedResponsibilities.clear();
+    decorations.clearAll();
+    updateStatusBars();
+    const document = vscode.window.activeTextEditor?.document;
+    if (document) scheduleAutomaticAnalysis(document);
+  };
+  context.subscriptions.push(agentMapWatcher,
+    agentMapWatcher.onDidCreate(invalidateAgentMaps),
+    agentMapWatcher.onDidChange(invalidateAgentMaps),
+    agentMapWatcher.onDidDelete(invalidateAgentMaps));
 
   const activeDocument = vscode.window.activeTextEditor?.document;
   updateStatusBars();

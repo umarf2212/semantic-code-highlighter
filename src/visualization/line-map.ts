@@ -1,3 +1,5 @@
+import { findLineOwnershipChoices } from "../analysis/line-ownership";
+
 import type { ClassificationResult } from "../domain/classification";
 import type { CodeRegion, CodeRegionType } from "../domain/code-region";
 import type { Responsibility } from "../domain/responsibility";
@@ -54,11 +56,17 @@ export function buildResponsibilitySpans(
     }
   }
 
+  const allowedOwners = new Map(findLineOwnershipChoices(regions)
+    .map((choice) => [choice.line, choice.candidateRegionIds]));
+  const modelOwners = new Map(result.lineOwners?.map((owner) => [owner.line, owner.regionId]));
   const winners = [...candidatesByLine.entries()]
     .sort(([left], [right]) => left - right)
     .map(([line, candidates]) => ({
       line,
-      winner: pickWinner(candidates, regionById)
+      winner: candidates.find((candidate) =>
+        candidate.regionId === modelOwners.get(line) &&
+        allowedOwners.get(line)?.includes(candidate.regionId)
+      ) ?? pickWinner(candidates, regionById)
     }));
 
   const spans: ResponsibilitySpan[] = [];

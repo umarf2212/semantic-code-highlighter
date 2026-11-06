@@ -2,7 +2,7 @@ import type { ClassificationResult } from "../domain/classification";
 
 export function resultForPersistentCache(
   result: ClassificationResult,
-  provider: "local" | "openai"
+  provider: "agent" | "local" | "openai"
 ): ClassificationResult {
   if (provider === "local") {
     return result;

@@ -7,7 +7,7 @@
       "request": "launch",
       "args": [
         "--extensionDevelopmentPath=${workspaceFolder}",
-        "${workspaceFolder}/test/fixtures/demo-workspace"
+        "${workspaceFolder}/test/fixtures/tangled-workspace"
       ],
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"

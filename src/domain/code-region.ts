@@ -1,4 +1,4 @@
-export const REGION_MODEL_VERSION = "2";
+export const REGION_MODEL_VERSION = "3";
 
 export const CODE_REGION_TYPES = [
   "imports",

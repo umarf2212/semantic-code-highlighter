@@ -4,7 +4,7 @@ export interface AutomaticAnalysisCandidate {
   languageId: string;
   isDirty: boolean;
   hasCurrentAnalysis: boolean;
-  provider: "local" | "openai";
+  provider: "agent" | "local" | "openai";
   openAIDisclosureAccepted: boolean;
 }
 

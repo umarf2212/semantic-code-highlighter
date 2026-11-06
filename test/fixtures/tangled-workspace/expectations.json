@@ -1,0 +1,18 @@
+[
+  { "text": "type Cart =", "responsibility": "data", "reason": "Declares a shape, regardless of the file's utils name." },
+  { "text": "hooks.on(\"message\"", "responsibility": "infrastructure", "reason": "Handler registration dominates its inline parsing callback." },
+  { "text": "const input: Cart = JSON.parse(raw);", "responsibility": "transformation", "reason": "Parsing converts representation; a type annotation is not runtime validation." },
+  { "text": "if (!Array.isArray(input.items)", "responsibility": "validation", "reason": "Rejects inadmissible input." },
+  { "text": "const amount = format(input);", "responsibility": "business_logic", "reason": "The later helper implementation calculates the member price." },
+  { "text": "const ids = input.items.map", "responsibility": "transformation", "reason": "Projects identifiers and changes case." },
+  { "text": "await helper(port,", "responsibility": "external_io", "reason": "The same-file helper writes through a port; serialization is incidental." },
+  { "text": "return JSON.stringify({ accepted:", "responsibility": "transformation", "reason": "Serializes a response." },
+  { "text": "const subtotal = value.items.reduce", "responsibility": "business_logic", "reason": "reduce performs domain arithmetic, not representation conversion." },
+  { "text": "return value.member ?", "responsibility": "business_logic", "reason": "Applies a membership discount." },
+  { "text": "export const STATUS", "responsibility": "data", "reason": "Declares stable domain values." },
+  { "text": "await destination.writeFile(", "responsibility": "external_io", "reason": "Performs the write, despite an uninformative helper name." },
+  { "text": "const parsed: unknown = JSON.parse(raw);", "responsibility": "transformation", "reason": "Parsing remains transformation inside a function that also validates." },
+  { "text": "if (typeof parsed", "responsibility": "validation", "reason": "Rejects a value with the wrong shape." },
+  { "text": "return setTimeout(work, milliseconds);", "responsibility": "utility", "reason": "Generic delayed execution." },
+  { "text": "return plugin(value);", "responsibility": "unknown", "reason": "No implementation or meaningful contract establishes the injected operation's purpose." }
+]

@@ -1,0 +1,225 @@
+{
+  "formatVersion": "1",
+  "ontologyVersion": "1",
+  "regionModelVersion": "3",
+  "promptVersion": "2",
+  "schemaVersion": "2",
+  "files": [
+    {
+      "filePath": "utils.ts",
+      "sourceHash": "8c53c0f787b4278835d24eb1c1090465e97110c27a2f659954879b43195fab4b",
+      "classification": {
+        "regions": [
+          {
+            "regionId": "region:type:0:88",
+            "responsibility": "data",
+            "confidence": 0.99,
+            "explanation": "Declares the cart representation."
+          },
+          {
+            "regionId": "region:type:89:154",
+            "responsibility": "data",
+            "confidence": 0.99,
+            "explanation": "Defines a filesystem write capability type."
+          },
+          {
+            "regionId": "region:type:155:235",
+            "responsibility": "data",
+            "confidence": 0.99,
+            "explanation": "Defines an event-registration contract."
+          },
+          {
+            "regionId": "region:function:237:323",
+            "responsibility": "infrastructure",
+            "confidence": 0.94,
+            "explanation": "Wires a message handler."
+          },
+          {
+            "regionId": "region:statement:277:321",
+            "responsibility": "infrastructure",
+            "confidence": 0.94,
+            "explanation": "Registers a handler; parsing is its deferred callback behavior."
+          },
+          {
+            "regionId": "region:callback:297:319",
+            "responsibility": "transformation",
+            "confidence": 0.99,
+            "explanation": "Parses the incoming JSON representation."
+          },
+          {
+            "regionId": "region:function:325:715",
+            "responsibility": "business_logic",
+            "confidence": 0.88,
+            "explanation": "Coordinates cart acceptance, pricing, and persistence as a checkout workflow."
+          },
+          {
+            "regionId": "region:statement:380:416",
+            "responsibility": "transformation",
+            "confidence": 0.99,
+            "explanation": "Parses the cart JSON; the annotation does not validate it."
+          },
+          {
+            "regionId": "region:if:419:510",
+            "responsibility": "validation",
+            "confidence": 0.99,
+            "explanation": "Rejects a missing or empty item array."
+          },
+          {
+            "regionId": "region:statement:480:510",
+            "responsibility": "validation",
+            "confidence": 0.99,
+            "explanation": "Rejects the inadmissible cart identified by the guard."
+          },
+          {
+            "regionId": "region:statement:513:542",
+            "responsibility": "business_logic",
+            "confidence": 0.97,
+            "explanation": "Calls the same-file helper that totals items and applies a membership discount."
+          },
+          {
+            "regionId": "region:statement:545:605",
+            "responsibility": "transformation",
+            "confidence": 0.98,
+            "explanation": "Projects and normalizes item identifiers."
+          },
+          {
+            "regionId": "region:callback:573:603",
+            "responsibility": "transformation",
+            "confidence": 0.98,
+            "explanation": "Converts an item to its uppercase identifier."
+          },
+          {
+            "regionId": "region:statement:608:660",
+            "responsibility": "external_io",
+            "confidence": 0.97,
+            "explanation": "Calls the same-file helper that writes the serialized order to a file."
+          },
+          {
+            "regionId": "region:statement:663:713",
+            "responsibility": "transformation",
+            "confidence": 0.99,
+            "explanation": "Serializes the acceptance response."
+          },
+          {
+            "regionId": "region:function:717:900",
+            "responsibility": "business_logic",
+            "confidence": 0.99,
+            "explanation": "Calculates cart pricing and applies membership policy."
+          },
+          {
+            "regionId": "region:statement:750:835",
+            "responsibility": "business_logic",
+            "confidence": 0.99,
+            "explanation": "Totals item price times quantity."
+          },
+          {
+            "regionId": "region:callback:786:830",
+            "responsibility": "business_logic",
+            "confidence": 0.99,
+            "explanation": "Accumulates each item contribution to the cart price."
+          },
+          {
+            "regionId": "region:statement:838:898",
+            "responsibility": "business_logic",
+            "confidence": 0.99,
+            "explanation": "Applies the ten-percent membership discount."
+          },
+          {
+            "regionId": "region:statement:902:961",
+            "responsibility": "data",
+            "confidence": 0.99,
+            "explanation": "Declares stable status values."
+          },
+          {
+            "regionId": "region:function:963:1073",
+            "responsibility": "external_io",
+            "confidence": 0.99,
+            "explanation": "Writes text through the filesystem capability."
+          },
+          {
+            "regionId": "region:statement:1022:1071",
+            "responsibility": "external_io",
+            "confidence": 0.99,
+            "explanation": "Writes the order file using the filesystem port."
+          },
+          {
+            "regionId": "region:function:1075:1264",
+            "responsibility": "validation",
+            "confidence": 0.91,
+            "explanation": "Parses input and checks that it is a non-null object."
+          },
+          {
+            "regionId": "region:statement:1116:1156",
+            "responsibility": "transformation",
+            "confidence": 0.99,
+            "explanation": "Parses JSON before the separate shape check."
+          },
+          {
+            "regionId": "region:if:1159:1245",
+            "responsibility": "validation",
+            "confidence": 0.99,
+            "explanation": "Rejects non-object or null input."
+          },
+          {
+            "regionId": "region:statement:1210:1245",
+            "responsibility": "validation",
+            "confidence": 0.99,
+            "explanation": "Signals failure of the enclosing object check."
+          },
+          {
+            "regionId": "region:statement:1248:1262",
+            "responsibility": "validation",
+            "confidence": 0.85,
+            "explanation": "Returns the value established by the preceding object precondition."
+          },
+          {
+            "regionId": "region:function:1266:1372",
+            "responsibility": "utility",
+            "confidence": 0.97,
+            "explanation": "Provides generic deferred execution."
+          },
+          {
+            "regionId": "region:statement:1332:1370",
+            "responsibility": "utility",
+            "confidence": 0.98,
+            "explanation": "Schedules supplied work after the requested delay."
+          },
+          {
+            "regionId": "region:function:1374:1477",
+            "responsibility": "unknown",
+            "confidence": 0.25,
+            "explanation": "Delegates to an injected operation whose semantics are unspecified."
+          },
+          {
+            "regionId": "region:statement:1454:1475",
+            "responsibility": "unknown",
+            "confidence": 0.25,
+            "explanation": "The injected function has no visible implementation or semantic contract."
+          }
+        ],
+        "lineOwners": [
+          {
+            "line": 5,
+            "regionId": "region:statement:277:321"
+          },
+          {
+            "line": 10,
+            "regionId": "region:if:419:510"
+          },
+          {
+            "line": 12,
+            "regionId": "region:statement:545:605"
+          },
+          {
+            "line": 18,
+            "regionId": "region:statement:750:835"
+          },
+          {
+            "line": 30,
+            "regionId": "region:if:1159:1245"
+          }
+        ]
+      }
+    }
+  ]
+}

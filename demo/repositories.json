@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "repositories": [
+    {
+      "id": "hackathon-starter",
+      "url": "https://github.com/sahat/hackathon-starter.git",
+      "commit": "fb53b17c28c99e6fbcd78106930c6e9b403eb9ec",
+      "file": "controllers/contact.js",
+      "map": "docs/uat/2026-11-05/maps/hackathon-starter.json"
+    },
+    {
+      "id": "realworld",
+      "url": "https://github.com/gothinkster/node-express-realworld-example-app.git",
+      "commit": "30b68e1e881462b2f4164ea09ab4c4f5699c7b0b",
+      "file": "src/app/routes/article/article.service.ts",
+      "map": "docs/uat/2026-11-05/maps/realworld.json"
+    },
+    {
+      "id": "express",
+      "url": "https://github.com/expressjs/express.git",
+      "commit": "43fca52d28a422c8be48fd489cbd4f2d6152bab6",
+      "file": "lib/utils.js",
+      "map": "docs/uat/2026-11-05/maps/express.json"
+    },
+    {
+      "id": "nodebb",
+      "url": "https://github.com/NodeBB/NodeBB.git",
+      "commit": "2f5e2f04508a54e7ad329ad4c881a98a036c808f",
+      "file": "src/posts/create.js",
+      "map": "docs/uat/2026-11-05/maps/nodebb.json"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "semanticCode.provider": "agent",
+  "semanticCode.analyzeOnOpen": true,
+  "semanticCode.opacity": 0.12,
+  "semanticCode.minimumConfidence": 0.5,
+  "editor.fontSize": 14,
+  "editor.minimap.enabled": false,
+  "editor.stickyScroll.enabled": false,
+  "editor.wordWrap": "on",
+  "workbench.colorTheme": "Default Dark Modern",
+  "workbench.startupEditor": "readme",
+  "files.autoSave": "off",
+  "typescript.validate.enable": false,
+  "javascript.validate.enable": false,
+  "files.exclude": {
+    "**/.git": true
+  }
+}

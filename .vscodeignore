@@ -1,4 +1,6 @@
 .github/**
+.devcontainer/**
+demo/**
 .vscode/**
 coverage/**
 docs/**
@@ -15,3 +17,4 @@ package-lock.json
 esbuild.mjs
 tsconfig.json
 vitest.config.mts
+scripts/**

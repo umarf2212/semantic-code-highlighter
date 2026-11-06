@@ -37,6 +37,7 @@ describe("validateClassificationPayload", () => {
   it("accepts one valid result for every known region", () => {
     const result = validateClassificationPayload(
       {
+        lineOwners: [],
         regions: [
           {
             regionId: "region-1",
@@ -56,22 +57,25 @@ describe("validateClassificationPayload", () => {
     {
       name: "arbitrary categories",
       value: {
-        regions: [{ regionId: "region-1", responsibility: "controller", confidence: 0.8 }]
+        lineOwners: [],
+        regions: [{ regionId: "region-1", responsibility: "controller", confidence: 0.8, explanation: "Evidence." }]
       }
     },
     {
       name: "out-of-range confidence",
       value: {
+        lineOwners: [],
         regions: [
-          { regionId: "region-1", responsibility: "business_logic", confidence: 1.5 }
+          { regionId: "region-1", responsibility: "business_logic", confidence: 1.5, explanation: "Evidence." }
         ]
       }
     },
-    { name: "missing regions", value: { regions: [] } },
+    { name: "missing regions", value: { lineOwners: [], regions: [] } },
     {
       name: "unknown ids",
       value: {
-        regions: [{ regionId: "other", responsibility: "utility", confidence: 0.8 }]
+        lineOwners: [],
+        regions: [{ regionId: "other", responsibility: "utility", confidence: 0.8, explanation: "Evidence." }]
       }
     }
   ])("rejects $name", ({ value }) => {

@@ -1,13 +1,21 @@
 import { z } from "zod";
 
+import { findLineOwnershipChoices } from "./line-ownership";
+
 import type {
   ClassificationRequest,
   ClassificationResult
 } from "../domain/classification";
 import { RESPONSIBILITIES } from "../domain/responsibility";
 
+export const CLASSIFICATION_SCHEMA_VERSION = "2";
+
 export const classificationPayloadSchema = z
   .object({
+    lineOwners: z.array(z.object({
+      line: z.number().int().min(0),
+      regionId: z.string().min(1)
+    }).strict()).max(400),
     regions: z
       .array(
         z
@@ -23,6 +31,12 @@ export const classificationPayloadSchema = z
   })
   .strict();
 
+// Offline coding agents can cover larger files without the API response cap.
+export const agentClassificationPayloadSchema = classificationPayloadSchema.extend({
+  regions: z.array(classificationPayloadSchema.shape.regions.element).max(10_000),
+  lineOwners: z.array(classificationPayloadSchema.shape.lineOwners.element).max(10_000)
+});
+
 export type ClassificationPayload = z.infer<typeof classificationPayloadSchema>;
 
 export class ClassificationValidationError extends Error {
@@ -32,9 +46,10 @@ export class ClassificationValidationError extends Error {
 export function validateClassificationPayload(
   value: unknown,
   request: ClassificationRequest,
-  classifierVersion: string
+  classifierVersion: string,
+  schema = classificationPayloadSchema
 ): ClassificationResult {
-  const parsed = classificationPayloadSchema.safeParse(value);
+  const parsed = schema.safeParse(value);
   if (!parsed.success) {
     throw new ClassificationValidationError(
       `Classifier returned invalid structured output: ${z.prettifyError(parsed.error)}`
@@ -64,7 +79,23 @@ export function validateClassificationPayload(
     );
   }
 
+  const choices = new Map(findLineOwnershipChoices(request.regions)
+    .map((choice) => [choice.line, choice.candidateRegionIds]));
+  const ownedLines = new Set<number>();
+  for (const owner of parsed.data.lineOwners) {
+    if (ownedLines.has(owner.line) || !choices.get(owner.line)?.includes(owner.regionId)) {
+      throw new ClassificationValidationError(
+        `Invalid or duplicate line owner at line ${owner.line}; choose one supplied candidate per ambiguous line.`
+      );
+    }
+    ownedLines.add(owner.line);
+  }
+  if (ownedLines.size !== choices.size) {
+    throw new ClassificationValidationError("Classifier omitted ambiguous line ownership decisions.");
+  }
+
   return {
+    lineOwners: parsed.data.lineOwners,
     filePath: request.filePath,
     classifierVersion,
     regions: parsed.data.regions.map((classified) => ({

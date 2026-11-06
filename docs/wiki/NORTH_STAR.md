@@ -15,7 +15,7 @@ The extension classifies responsibility, not syntax. It never edits source, inse
 ## Product invariants
 
 - Background bands are whole-line, subtle, stable, and mutually exclusive.
-- A specific child region wins over a broad parent on shared lines.
+- A specific child region wins over a broad parent on shared lines; the model may arbitrate between AST candidates occupying one indivisible line.
 - Ordinary statements may be semantic regions; blocks alone cannot reveal I/O and transformations inside a function.
 - Manual current-file analysis works before codebase-wide features are considered complete.
 - The editor remains fully useful when classification fails or is disabled.

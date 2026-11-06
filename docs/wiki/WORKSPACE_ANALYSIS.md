@@ -6,4 +6,6 @@ Workspace analysis is an explicit batch convenience, not a daemon.
 
 Local classification defaults to two concurrent files and is configurable up to four. OpenAI classification is always sequential to reduce rate and cost surprises. The operation reports the current file, is cancellable, reuses unchanged cache entries, counts filtered and failed files separately, and keeps bounded content-hash-validated results available when those files are later opened. One file failure does not falsely stop sibling work.
 
-There is no background watcher and no automatic workspace scan.
+There is no automatic workspace scan. A watcher for `.semantic-code/map.json` invalidates visible maps when the artifact changes.
+
+With the default agent provider, Analyze Workspace loads existing mappings rather than invoking a model. Prepare Agent Analysis exports metadata for a chosen root; it does not generate labels. A separate coding-agent session inspects the codebase and authors the map. Agent map loading shares the configured local concurrency and uses source validation rather than cached classifications.

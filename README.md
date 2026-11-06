@@ -4,19 +4,30 @@ Semantic Code Highlighter turns a JavaScript or TypeScript file into a subtle, r
 
 Install the pre-release from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=umarf2212.semantic-code-highlighter), or search for **Semantic Code Highlighter** in VS Code Extensions.
 
+## Try it in GitHub Codespaces
+
+[**Open the demo in GitHub Codespaces →**](https://codespaces.new/umarf2212/semantic-code-highlighter/tree/codex/codespaces-demo?quickstart=1)
+
+The demo branch prepares Hackathon Starter, RealWorld, Express and NodeBB at the commits used in our UAT, builds and installs this development extension, and opens a [guided demo workspace](demo/README.md). Four curated files load responsibility bands automatically without an API key or a model call. Only those four files have prepared agent maps; other files can be explored with the optional local provider.
+
+Use the two-core machine for this reading demo. Codespaces usage follows your GitHub account's quota and budget; the setup does not change billing settings, request secrets, or publish ports. Stop the codespace when finished. See [Codespaces setup and troubleshooting](docs/wiki/CODESPACES.md).
+
 ![VS Code editor showing semantic responsibility bands](docs/images/semantic-map.png)
 
 The source is never modified. Ambiguous or low-confidence code stays uncolored instead of receiving a persuasive guess.
 
-## Get a useful map in one minute
+## Generate a map with your coding agent
 
-1. Install the extension or [run it from source](#run-from-source).
-2. Open a saved `.js`, `.jsx`, `.ts`, or `.tsx` file.
-3. Run **Semantic Code: Analyze Current File** from the Command Palette or click the color-map icon in the editor title.
-4. Scan the background bands. Hover a band for its responsibility, qualitative confidence, rationale, and structural breadcrumb. Privacy-safe cached OpenAI results omit the prior model rationale.
-5. Click **Semantic: Local** in the status bar to hide or restore the map instantly.
+1. Open the codebase in VS Code and run **Semantic Code: Prepare Agent Analysis**.
+2. In your normal Codex, Claude Code, or other coding-agent session, ask: **“Read `.semantic-code/SPEC.md`, inspect the codebase, and write `.semantic-code/map.json`.”**
+3. Keep `semanticCode.provider` set to `agent` (the default). Open a supported file and run **Semantic Code: Analyze Current File**, or use **Analyze Workspace** to load a batch.
+4. Scan the bands and hover for the model's explanation. The status bar identifies the provider as **Agent map**.
 
-The local classifier is the zero-setup default. It is deliberately conservative and leaves code uncolored when naming, paths, and syntax do not provide enough evidence.
+The extension makes no model call in this workflow. Your coding agent uses its own session and can inspect related implementations across the repository. The extension supplies exact AST boundaries and validates the JSON against the current source. After source changes, prepare the metadata again and ask the agent to update the map. Preparation preserves an existing `map.json`.
+
+From this development repository, preparation can also run as `npm run prepare:agent -- /path/to/codebase`. The CLI exports up to 500 eligible files, 256 KB each, with up to 10,000 regions per file. The VS Code command respects the configured workspace/file/region limits (defaults: 50 files, 256 KB, 220 regions). Both report excluded or over-limit files. See [the agent workflow](docs/wiki/AGENT_WORKFLOW.md).
+
+For an immediate offline heuristic preview, explicitly select the `local` provider.
 
 ## Real-repository UAT
 
@@ -50,9 +61,9 @@ Colors and opacity are configurable. One eligible region owns each colored line,
 - Stable cache: classifications are reused only while source, provider, model, prompt, ontology, classifier, and relevant project context still match.
 - Visible status: the status bar shows the provider, whether the map is visible, and any active lens during the current session.
 
-## Local and OpenAI providers
+## Optional local and OpenAI providers
 
-`semanticCode.provider` defaults to `local`, which is private, deterministic, immediate, and requires no credentials. Its semantic reach is intentionally narrower.
+The `local` provider is private, deterministic, immediate, and requires no credentials. Its semantic reach is intentionally narrower than a coding agent that reads implementations.
 
 The optional `openai` provider uses the Responses API with strict structured output for model-based, advisory responsibility classification. To use it:
 
@@ -66,7 +77,8 @@ On an OpenAI cache miss, the extension sends the current source, a workspace-rel
 
 | Command | Purpose |
 | --- | --- |
-| Analyze Current File | Classify and render the active supported file |
+| Prepare Agent Analysis | Export the coding-agent spec, region metadata, and JSON schema |
+| Analyze Current File | Load or classify and render the active supported file |
 | Analyze Workspace | Analyze a chosen workspace root within configured limits |
 | Focus Responsibility Lens | Show all responsibilities or one category present in the file |
 | Show Responsibility Summary | Show proportions and navigate by responsibility |
@@ -108,3 +120,17 @@ Architecture maps, dependency graphs, smells, Git/test/runtime overlays, custom 
 [`llms.txt`](llms.txt) and the version-controlled [`docs/wiki/`](docs/wiki/README.md) capture the north star, ontology, region ownership, prompt/schema versions, privacy, cache identity, UX decisions, QA, roadmap, and architecture decisions. Documentation describes shipped behavior, not speculative machinery.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development expectations. Licensed under [MIT](LICENSE).
+
+## Semantic quality on tangled code
+
+The OpenAI prompt follows implementations and data flow within the supplied file, treats names and paths as hints, and chooses one dominant responsibility. For competing inline regions, the model now decides which region best describes the whole line; the chosen region supplies the color and hover. Multi-line uncertainty still shields parent colors.
+
+Try `test/fixtures/tangled-workspace/utils.ts` with the OpenAI provider. This synthetic example interleaves parsing, guards, domain pricing hidden behind misleading helper names, file writes, and handler registration. A separate benchmark checks 16 selected lines across three path/name variants:
+
+```sh
+npm run eval:semantic
+# With OPENAI_API_KEY already set in your environment:
+npm run eval:semantic -- --provider openai --model YOUR_MODEL
+```
+
+The default evaluation is local and offline. OpenAI evaluation sends three variants of the synthetic fixture and may make one repair retry per variant. It does not read your application code or the extension's stored key. See [evaluation methodology and limitations](docs/wiki/SEMANTIC_EVALUATION.md).

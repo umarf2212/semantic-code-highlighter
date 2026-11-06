@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "formatVersion": {
+      "type": "string",
+      "const": "1"
+    },
+    "ontologyVersion": {
+      "type": "string",
+      "const": "1"
+    },
+    "regionModelVersion": {
+      "type": "string",
+      "const": "3"
+    },
+    "promptVersion": {
+      "type": "string",
+      "const": "2"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "const": "2"
+    },
+    "files": {
+      "maxItems": 500,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "filePath": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "classification": {
+            "type": "object",
+            "properties": {
+              "lineOwners": {
+                "maxItems": 10000,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "line": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "regionId": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "line",
+                    "regionId"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "regions": {
+                "maxItems": 10000,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "regionId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "responsibility": {
+                      "type": "string",
+                      "enum": [
+                        "business_logic",
+                        "validation",
+                        "utility",
+                        "data",
+                        "infrastructure",
+                        "external_io",
+                        "transformation",
+                        "mixed",
+                        "unknown"
+                      ]
+                    },
+                    "confidence": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "explanation": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 240
+                    }
+                  },
+                  "required": [
+                    "regionId",
+                    "responsibility",
+                    "confidence",
+                    "explanation"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "lineOwners",
+              "regions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "filePath",
+          "sourceHash",
+          "classification"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "formatVersion",
+    "ontologyVersion",
+    "regionModelVersion",
+    "promptVersion",
+    "schemaVersion",
+    "files"
+  ],
+  "additionalProperties": false
+}

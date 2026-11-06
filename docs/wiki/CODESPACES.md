@@ -50,3 +50,15 @@ Close compute with **Codespaces: Stop Codespace** or GitHub's Codespaces page. C
 ## Verification
 
 Automated coverage checks path rewriting, repeated offline preparation, edited-source preservation, mismatched revisions, symlink rejection and manifest path/identity validation. CI prepares fresh pinned clones and loads each map through the real agent classifier after the normal check/test/compile/package steps. Creating and viewing a live Codespace requires separate Codespaces access; local setup checks alone do not prove the browser extension installed successfully.
+
+### Live browser acceptance — 2026-11-07
+
+Tested branch revision `2d2d85f33f7aa1ada0d58f0dcc54d8b4673a05e8` in a newly created two-core GitHub Codespace in Southeast Asia, using the browser editor:
+
+- The container opened the intended `demo` workspace with all four example repositories and the generated agent map present.
+- The post-attach terminal reported that `semantic-code.semantic-code-highlighter` installed successfully from the packaged VSIX.
+- Opening the linked RealWorld `article.service.ts` activated the extension, displayed **Semantic: Agent map**, and rendered whole-line responsibility bands.
+- The responsibility picker showed the mapped categories and line counts. Selecting **External I/O** activated the lens and its status-bar indicator.
+- [GitHub Actions run 42276180328](https://github.com/umarf2212/semantic-code-highlighter/actions/runs/42276180328) passed the quality checks, VSIX packaging, fresh example preparation and verification of all 340 regions.
+
+This browser smoke test covers installation, opening a prepared file, decoration rendering and lens selection. The broader desktop usability evidence, including screenshots, remains in the [real-repository UAT report](../uat/2026-11-05/README.md). Prepared classifications do not establish repository-wide coverage or independent semantic accuracy.
